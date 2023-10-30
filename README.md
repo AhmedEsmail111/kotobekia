@@ -4,13 +4,10 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+this is the link of the project on Figma 
 
-A few resources to get you started if this is your first Flutter project:
+https://www.figma.com/file/1BpQFDqtZ4dMLvjAsqebeo/Kotobekia-draft?type=design&node-id=76%3A3259&mode=design&t=8QddbzJ9WnAg2nOd-1
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+this the Trelo link
+https://trello.com/b/z7elIftj/kotobekia-flutter
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
