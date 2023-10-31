@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 const primaryColor = Color(0xFF28D8AE);
@@ -13,4 +14,5 @@ const dangerColor = Color(0xFFFA5057);
 const whiteColor = Color(0xFFFFFFFF);
 const midGrayColor = Color(0xFFEFEFEF);
 const iconColor=Color(0xFF1C274C);
-const scaffolBackground = Color(0xFFE5E5E5);
+const scaffoldBackgroundColor = Color(0xFFE5E5E5);
+
