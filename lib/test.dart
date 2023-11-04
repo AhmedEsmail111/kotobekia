@@ -1,76 +1,118 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:kotobekia/shared/components/components.dart';
+import 'package:kotobekia/shared/styles/colors.dart';
 
-class Screen extends StatelessWidget {
+class Screen extends StatefulWidget {
   const Screen({super.key});
 
   @override
+  State<Screen> createState() => _ScreenState();
+}
+
+class _ScreenState extends State<Screen> {
+  @override
   Widget build(BuildContext context) {
+    var text = '';
+    final _formKey = GlobalKey<FormState>();
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(28.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('إختر لغتك المفضلة',
-                style: Theme.of(context).textTheme.bodyLarge),
-            SizedBox(
-              height: 20,
-            ),
-            Text('إبتدائي', style: Theme.of(context).textTheme.
-            bodyLarge),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('العربية', style: Theme.of(context)
-                    .textTheme.titleMedium),
-                SizedBox(
-                  width: 20,
-                ),
-                Text('English', style: Theme.of(context).textTheme
-                    .titleMedium),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-                'يعتقد البعض أن عدد الأحرف هو إجمالي عدد الأحرف في النص. على الرغم من ذلك، إلا أنه يمثل العدد الإجمالي لجميع الأحرف، بما في ذلك المسافات. غالبًا ما تكون عدد الأحرف مطلوبة عندما تكون هناك ضرورة إلى  ',
-                style: Theme.of(context).textTheme.bodyMedium),
-            SizedBox(
-              height: 20,
-            ),
-            Text('إعلاناتي', style: Theme.of(context).textTheme.titleSmall!),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('ض',
-                    style: Theme.of(context).textTheme.titleSmall!
-                        .copyWith(fontSize: 32,color: Color(0xFF28D8AE))),
-                SizedBox(
-                  width: 20,
-                ),
-                Text('Aa',
-                  style: Theme.of(context).textTheme.titleSmall!.
-                  copyWith(fontSize: 32,color: Color(0xFF28D8AE)))
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-            'المرحلة التعليمية',
-                style: Theme.of(context).textTheme.displayLarge),
-          ],
-              )
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(top: 100),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  LanguageColum(containerText: 'ض', languageText: 'العربية'),
+                  LanguageColum(containerText: 'Aa', languageText: 'English'),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      DefaultTextField(
+                        aboveFieldText: 'Full Name',
+                        onSaved: (newValue) {
+                          if (newValue != null) {
+                            print(newValue);
+                          }
+                        },
+                        inputType: TextInputType.name,
+                        hintText: 'name',
+                        onValidate: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'please enter a valid ';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      DefaultTextField(
+                        aboveFieldText: 'Email Address',
+                        onSaved: (newValue) {},
+                        inputType: TextInputType.name,
+                        hintText: 'email',
+                        onValidate: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'please enter a valid ';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      DefaultTextField(
+                        aboveFieldText: 'Password',
+                        onSaved: (newValue) {},
+                        inputType: TextInputType.visiblePassword,
+                        hintText: 'password',
+                        isObscured: true,
+                        onValidate: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'please enter a valid ';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  )),
+              const SizedBox(
+                height: 10,
+              ),
+              DefaultButton(
+                elevation: 4,
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    print(text);
+                  }
+                },
+                text: 'Register',
+                color: primaryColor,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              IconTextButton(
+                elevation: 2,
+                onTap: () {},
+                text: 'Register with Google Account',
+                icon: FontAwesomeIcons.google,
+                iconColor: iconColor,
+              ),
+            ],
+          ),
         ),
-     
+      ),
     );
   }
 }

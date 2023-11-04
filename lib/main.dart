@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:kotobekia/shared/styles/styles.dart';
 import 'package:kotobekia/test.dart';
 
