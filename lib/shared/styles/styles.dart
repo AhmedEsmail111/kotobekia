@@ -9,7 +9,7 @@ ThemeData lightTheme({required double width, required double height}) =>
         displayLarge: TextStyle(
             fontFamily: 'NotoSansArabic-SemiBold',
             fontSize: width/28,
-        color: detailsColor,
+        color: primaryColor,
         fontWeight: FontWeight.w800),
         bodyLarge: TextStyle(
             fontFamily: 'NotoSansArabic-SemiBold',
@@ -21,6 +21,10 @@ ThemeData lightTheme({required double width, required double height}) =>
         ),
         titleMedium: TextStyle(
           fontFamily: 'NotoSansArabic-Medium',
+          fontSize: width/22.8,
+        ),
+        displayMedium:  TextStyle(
+          fontFamily: 'NotoSansArabic-Regular',
           fontSize: width/22.8,
         ),
         titleLarge: TextStyle(

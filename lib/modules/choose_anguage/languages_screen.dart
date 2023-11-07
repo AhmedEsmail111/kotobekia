@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kotobekia/shared/components/components.dart';
-import 'package:kotobekia/shared/styles/colors.dart';
+import 'package:kotobekia/modules/get_start/get_start_screen.dart';
+import '../../shared/component/authentication/default_button_in_app.dart';
+import '../../shared/component/language_column_in_boarding_screen.dart';
+import '../../shared/constants/images/images_constant.dart';
+import '../../shared/navigation/push_and_pop_all_previous.dart';
+import '../../shared/styles/colors.dart';
+
 
 class LanguageScreen extends StatelessWidget {
   const LanguageScreen({super.key});
@@ -15,7 +20,7 @@ class LanguageScreen extends StatelessWidget {
         padding: EdgeInsets.only(top: h / 7.2, left: 16, right: 16),
         child: Column(
           children: [
-            Image.asset('assets/images/logo.png'),
+            Image.asset(logoImage),
             SizedBox(
               height: w / 7,
             ),
@@ -47,7 +52,8 @@ class LanguageScreen extends StatelessWidget {
             ),
             buildDefaultButton(
                 onTap: (){
-
+                  pushAndPopAllScreens(context: context,
+                      screen: const GetStartScreen());
                 },
                 text: 'متابعة',
                 color: primaryColor,
