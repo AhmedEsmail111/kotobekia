@@ -34,7 +34,8 @@ class CreateAccountScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Center(
             child: Padding(
-              padding: EdgeInsets.only(top: h / 7.8, left: w / 25, right: w / 25),
+              padding:
+                  EdgeInsets.only(top: h / 7.8, left: w / 25, right: w / 25),
               child: Column(
                 children: [
                   Text(
@@ -54,7 +55,7 @@ class CreateAccountScreen extends StatelessWidget {
                   SizedBox(
                     height: h / 26,
                   ),
-                  buildButtonAuthServices(
+                  BuildButtonAuthServices(
                       onTap: () {},
                       text: 'التسجيل باستخدام حساب فيسبوك',
                       buttonColor: midGrayColor,
@@ -64,7 +65,7 @@ class CreateAccountScreen extends StatelessWidget {
                   SizedBox(
                     height: h / 55,
                   ),
-                  buildButtonAuthServices(
+                  BuildButtonAuthServices(
                       onTap: () {},
                       text: 'التسجيل باستخدام حساب جوجل',
                       buttonColor: midGrayColor,
@@ -74,11 +75,12 @@ class CreateAccountScreen extends StatelessWidget {
                   SizedBox(
                     height: h / 35,
                   ),
-                  buildTowLineRowInAuth(context: context),
+                  BuildTowLineRowInAuth(context: context),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildDefaultTextField(
+                      BuildDefaultTextField(
+                          isObscured: false,
                           inputType: TextInputType.name,
                           hintText: 'احمد محمد عبدالعال',
                           aboveFieldText: 'الاسم بالكامل',
@@ -86,7 +88,8 @@ class CreateAccountScreen extends StatelessWidget {
                       SizedBox(
                         height: h / 52,
                       ),
-                      buildDefaultTextField(
+                      BuildDefaultTextField(
+                          isObscured: false,
                           inputType: TextInputType.emailAddress,
                           hintText: 'Ahmed@gmail.com',
                           aboveFieldText: 'البريد الالكتروني',
@@ -94,7 +97,7 @@ class CreateAccountScreen extends StatelessWidget {
                       SizedBox(
                         height: h / 52,
                       ),
-                      buildDefaultTextField(
+                      BuildDefaultTextField(
                           inputType: TextInputType.text,
                           hintText: '*****************',
                           isObscured: true,
@@ -103,7 +106,7 @@ class CreateAccountScreen extends StatelessWidget {
                       SizedBox(
                         height: h / 52,
                       ),
-                      buildDefaultTextField(
+                      BuildDefaultTextField(
                           inputType: TextInputType.text,
                           hintText: '*****************',
                           isObscured: true,
@@ -114,21 +117,23 @@ class CreateAccountScreen extends StatelessWidget {
                       ),
                       Text(
                         'الجنس',
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              fontSize: MediaQuery.of(context).size.width / 25.5,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width / 25.5,
+                                ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          buildGenderRow(
+                          BuildGenderRow(
                               context: context,
                               text: 'ذكر',
                               character: gender.Male),
                           SizedBox(
                             width: w / 20,
                           ),
-                          buildGenderRow(
+                          BuildGenderRow(
                               context: context,
                               text: 'أنثى',
                               character: gender.Female)
@@ -137,10 +142,10 @@ class CreateAccountScreen extends StatelessWidget {
                       SizedBox(
                         height: h / 28,
                       ),
-                      buildDefaultButton(
+                      BuildDefaultButton(
                           onTap: () {
-                            pushToNextScreen(context: context,
-                                screen: const OtpScreen());
+                            pushToNextScreen(
+                                context: context, screen: const OtpScreen());
                           },
                           text: 'إنشاء حساب',
                           color: primaryColor,
@@ -149,11 +154,11 @@ class CreateAccountScreen extends StatelessWidget {
                       SizedBox(
                         height: h / 30,
                       ),
-                      buildRowTextAndLink(
-                        onTap: () {
-                          pushToNextScreen(context: context,
-                              screen: const LoginScreen());
-                        },
+                      BuildRowTextAndLink(
+                          onTap: () {
+                            pushToNextScreen(
+                                context: context, screen: const LoginScreen());
+                          },
                           text: 'لديك حساب؟',
                           textLink: 'تسجيل الدخول',
                           context: context),

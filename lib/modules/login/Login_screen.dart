@@ -52,7 +52,8 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                         height: h / 55,
                       ),
-                      buildDefaultTextField(
+                      BuildDefaultTextField(
+                          isObscured: false,
                           inputType: TextInputType.emailAddress,
                           hintText: 'Ahmed@gmail.com',
                           aboveFieldText: 'البريد الالكتروني',
@@ -60,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                         height: h / 52,
                       ),
-                      buildDefaultTextField(
+                      BuildDefaultTextField(
                           inputType: TextInputType.text,
                           hintText: '*****************',
                           isObscured: true,
@@ -69,7 +70,7 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                         height: h / 28,
                       ),
-                      buildDefaultButton(
+                      BuildDefaultButton(
                           onTap: () {},
                           text: 'تسجيل الدخول',
                           color: primaryColor,
@@ -94,11 +95,11 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                         height: h/55,
                       ),
-                      buildTowLineRowInAuth(context: context),
+                      BuildTowLineRowInAuth(context: context),
                       SizedBox(
                         height: h/55,
                       ),
-                      buildButtonAuthServices(
+                      BuildButtonAuthServices(
                           onTap: () {},
                           text: 'التسجيل باستخدام حساب فيسبوك',
                           buttonColor: midGrayColor,
@@ -108,7 +109,7 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                         height: h/55,
                       ),
-                      buildButtonAuthServices(
+                     BuildButtonAuthServices(
                           onTap: () {},
                           text: 'التسجيل باستخدام حساب جوجل',
                           buttonColor: midGrayColor,
@@ -118,7 +119,7 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                         height: h / 35,
                       ),
-                      buildRowTextAndLink(
+                      BuildRowTextAndLink(
                           onTap: () {
                             popCurrentScreen(context: context);
                           },

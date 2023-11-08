@@ -72,7 +72,7 @@ class GetStartScreen extends StatelessWidget {
           Padding(
             padding:
                 EdgeInsets.only(top: h / 17.5, left: w / 22.5, right: w / 22.5),
-            child: buildDefaultButton(
+            child: BuildDefaultButton(
                 onTap: () {
                   pushAndPopAllScreens(context: context,
                       screen: const CreateAccountScreen());

@@ -34,14 +34,14 @@ class LanguageScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                buildLanguageColumn(
+                BuildLanguageColumn(
                     containerText: 'Aa',
                     languageText: 'English',
                     context: context),
                 SizedBox(
                   width: w / 6.5,
                 ),
-                buildLanguageColumn(
+                BuildLanguageColumn(
                     containerText: 'ض',
                     languageText: 'العربية',
                     context: context)
@@ -50,7 +50,7 @@ class LanguageScreen extends StatelessWidget {
             SizedBox(
               height: 92,
             ),
-            buildDefaultButton(
+            BuildDefaultButton(
                 onTap: (){
                   pushAndPopAllScreens(context: context,
                       screen: const GetStartScreen());
