@@ -7,7 +7,7 @@ import '../../styles/colors.dart';
 // Default Button in my app
 
 class BuildDefaultButton extends StatelessWidget {
-  final VoidCallback onTap;
+  final VoidCallback ?onTap;
   final String text;
   final Color color;
   final double elevation;

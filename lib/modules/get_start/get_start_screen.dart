@@ -2,14 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kotobekia/modules/login/Login_screen.dart';
 import 'package:kotobekia/modules/create_account/create_account_screen.dart';
-
 import '../../shared/component/authentication/default_button_in_app.dart';
 import '../../shared/constants/app/app_constant.dart';
 import '../../shared/constants/images/images_constant.dart';
-import '../../shared/navigation/push_and_pop_all_previous.dart';
 import '../../shared/styles/colors.dart';
 
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class GetStartScreen extends StatelessWidget {
   const GetStartScreen({super.key});
 
@@ -18,7 +16,7 @@ class GetStartScreen extends StatelessWidget {
     double w = MediaQuery.sizeOf(context).width;
     double h = MediaQuery.sizeOf(context).height;
     return Directionality(
-      textDirection: directionalityApp,
+      textDirection: AppConstant.directionalityApp,
       child: Scaffold(
           body: Column(
         children: [
@@ -28,7 +26,7 @@ class GetStartScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Image.asset(
-                  getStartImage,
+                  ImageConstant.getStartImage,
                   width: w/1.21,
                   height: h/2.7,
                 ),
@@ -74,10 +72,9 @@ class GetStartScreen extends StatelessWidget {
                 EdgeInsets.only(top: h / 17.5, left: w / 22.5, right: w / 22.5),
             child: BuildDefaultButton(
                 onTap: () {
-                  pushAndPopAllScreens(context: context,
-                      screen: const CreateAccountScreen());
+                  Navigator.pushReplacementNamed( context,'createAccount');
                 },
-                text: 'تسجيل حساب جديد',
+                text: AppLocalizations.of(context)!.register,
                 color: primaryColor,
                 elevation: 0,
                 context: context),
@@ -85,11 +82,10 @@ class GetStartScreen extends StatelessWidget {
           SizedBox(height: h/38,),
           InkWell(
             onTap: () {
-              pushAndPopAllScreens(context: context,
-                  screen: const LoginScreen());
+              Navigator.pushReplacementNamed( context,'login');
             },
             child: Text(
-              'تسجيل الدخول',
+              AppLocalizations.of(context)!.login,
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontSize: w/22.5, decoration: TextDecoration.underline),
             ),

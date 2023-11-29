@@ -22,6 +22,7 @@ ThemeData lightTheme({required double width, required double height}) =>
         titleMedium: TextStyle(
           fontFamily: 'NotoSansArabic-Medium',
           fontSize: width/22.8,
+          fontWeight: FontWeight.w500
         ),
         displayMedium:  TextStyle(
           fontFamily: 'NotoSansArabic-Regular',

@@ -1,3 +1,7 @@
 import 'dart:ui';
 
-const directionalityApp=TextDirection.rtl;
+import 'package:flutter/cupertino.dart';
+
+class AppConstant{
+  static TextDirection directionalityApp=TextDirection.rtl;
+}

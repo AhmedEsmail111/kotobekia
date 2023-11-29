@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kotobekia/shared/styles/colors.dart';
 
 // ignore: camel_case_types, constant_identifier_names
 enum gender { Female, Male }
@@ -10,11 +11,15 @@ class BuildGenderRow extends StatelessWidget {
   final BuildContext context;
   final String text;
   final gender character;
+  final gender genderValue;
+  final void Function(gender?) onChange;
 
   const BuildGenderRow(
       {super.key,
+      required this.onChange,
       required this.context,
       required this.text,
+      required this.genderValue,
       required this.character});
 
   @override
@@ -23,9 +28,10 @@ class BuildGenderRow extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Radio<gender>(
-          value: gender.Male,
+          value: genderValue,
           groupValue: character,
-          onChanged: (gender? value) {},
+          onChanged: onChange,
+          activeColor: primaryColor,
         ),
         Text(
           text,

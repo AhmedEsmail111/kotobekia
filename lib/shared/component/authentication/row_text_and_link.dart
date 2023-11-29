@@ -10,10 +10,12 @@ class BuildRowTextAndLink extends StatelessWidget {
   final String textLink;
   final BuildContext context;
   final VoidCallback onTap;
+  final double fontSize;
 
   const BuildRowTextAndLink(
       {super.key,
       required this.text,
+      required this.fontSize,
       required this.textLink,
       required this.context,
       required this.onTap});
@@ -26,7 +28,7 @@ class BuildRowTextAndLink extends StatelessWidget {
         Text(
           text,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                fontSize: MediaQuery.sizeOf(context).width / 30,
+                fontSize: fontSize,
                 fontWeight: FontWeight.w500,
               ),
         ),
@@ -38,9 +40,9 @@ class BuildRowTextAndLink extends StatelessWidget {
           child: Text(
             textLink,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontSize: MediaQuery.sizeOf(context).width / 30,
+                  fontSize: fontSize,
                   color: primaryColor,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w700,
                   decoration: TextDecoration.underline,
                 ),
           ),
@@ -49,4 +51,3 @@ class BuildRowTextAndLink extends StatelessWidget {
     );
   }
 }
-
