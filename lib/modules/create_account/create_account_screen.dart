@@ -43,6 +43,7 @@ class CreateAccountScreen extends StatelessWidget {
         if (state is SuccessUserCreateAccountState) {
           if(state.userModel.token==null){
             snakBarMessage(
+              snackbarState: SnackbarState.error,
                 context: context,
                 message: state.userModel.message.toString());
           }else {
@@ -50,6 +51,7 @@ class CreateAccountScreen extends StatelessWidget {
           }
         } else if (state is FailedUserCreateAccountState) {
           snakBarMessage(
+              snackbarState: SnackbarState.error,
               context: context,
               message: state.error);
         }
@@ -60,6 +62,7 @@ class CreateAccountScreen extends StatelessWidget {
           textDirection: AppConstant.directionalityApp,
           child: Scaffold(
             body: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
               child: Center(
                 child: Padding(
                   padding: EdgeInsets.only(

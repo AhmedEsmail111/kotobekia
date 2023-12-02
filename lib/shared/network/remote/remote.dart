@@ -5,7 +5,7 @@ import '../../constants/api/api_constant.dart';
 
 class DioHelper{
   static Dio ?dio;
-  static Init(){
+  static init(){
     dio=Dio(
         BaseOptions(
           baseUrl: ApiConstant.baseurl,
@@ -13,7 +13,7 @@ class DioHelper{
         )
     );
   }
-  static Future<Response> GetData({
+  static Future<Response> getData({
     required url,
     Map<String, dynamic>? query,
     String lang = 'ar',
@@ -27,7 +27,7 @@ class DioHelper{
     return await dio!.get(url, queryParameters: query);
   }
 
-  static Future<Response> PostData({
+  static Future<Response> postData({
     required url,
     required Map<String,dynamic> data,
     String lang='en',
@@ -42,7 +42,7 @@ class DioHelper{
   }
 
 
-  static Future<Response> PutData({
+  static Future<Response> putData({
     required url,
     required Map<String,dynamic> data,
     String lang='en',

@@ -31,6 +31,7 @@ class LoginScreen extends StatelessWidget {
           textDirection: AppConstant.directionalityApp,
           child: Scaffold(
             body: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
               child: Center(
                 child: Padding(
                   padding: EdgeInsets.only(
@@ -195,6 +196,7 @@ class LoginScreen extends StatelessWidget {
         if (state is SuccessUserLoginState) {
           if(state.userModel.token==null){
             snakBarMessage(
+                snackbarState: SnackbarState.error,
                 context: context,
                 message: state.userModel.message.toString());
           }else {
@@ -202,6 +204,7 @@ class LoginScreen extends StatelessWidget {
           }
         } else if (state is FailedUserLoginState) {
           snakBarMessage(
+              snackbarState: SnackbarState.error,
               context: context,
               message: state.error);
         }

@@ -31,11 +31,11 @@ class OtpScreen extends StatelessWidget {
     cubit.fourNumberController.clear();
     return BlocConsumer<OtpCubit, OtpState>(
       builder: (context, state) {
-        print(email);
         return Directionality(
           textDirection: AppConstant.directionalityApp,
           child: Scaffold(
             body: SingleChildScrollView(
+              physics:const  BouncingScrollPhysics(),
               child: Padding(
                 padding:
                     EdgeInsets.only(top: h / 13, left: w / 25, right: w / 25),
@@ -162,7 +162,7 @@ class OtpScreen extends StatelessWidget {
                           ),
                           state is! LoadingVerifyOtpState
                               ? BuildDefaultButton(
-                                  onTap: cubit.otpResult.length == 4 && cubit.enableResend
+                                  onTap: cubit.otpResult.length == 4
                                       ? () {
                                           cubit.verifyOtp(
                                               email: email,
@@ -182,14 +182,16 @@ class OtpScreen extends StatelessWidget {
                           SizedBox(
                             height: h / 26,
                           ),
-                          cubit.enableResend?BuildRowTextAndLink(
+                         BuildRowTextAndLink(
+                           cubit: cubit,
                               fontSize: w / 25.5,
                               text: 'لم  تتلقى رمز  OTP ؟',
                               textLink: ' إعادة إرسال الكود',
                               context: context,
                               onTap: () {
-                                cubit.resendOtp();
-                              }):Text('${cubit.secondsRemaining}ارسل بعد '),
+                                cubit.resendOtp(email: email.toString());
+                                cubit.resendOtpTimer();
+                              }),
                           SizedBox(
                             height: h / 6,
                           )
@@ -205,9 +207,18 @@ class OtpScreen extends StatelessWidget {
       },
       listener: (context, state) {
         if (state is SuccessVerifyOtpState) {
-          //Navigator.pushReplacementNamed(context, 'verifiedEmail');
+          if(state.otpModel.message=='OTP Verified Successfully'){
+            Navigator.pushReplacementNamed(context, 'verifiedEmail');
+          }else{
+            snakBarMessage(
+                snackbarState: SnackbarState.error,
+                context: context,
+                message: state.otpModel.message.toString());
+          }
+
         }else if (state is FailedVerifyOtpState){
           snakBarMessage(
+              snackbarState: SnackbarState.error,
               context: context,
               message: state.error);
         }

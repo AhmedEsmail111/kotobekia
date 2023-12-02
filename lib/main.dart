@@ -29,7 +29,7 @@ import 'modules/message_screen/message_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DioHelper.Init();
+  await DioHelper.init();
   //await CacheHelper.Init();
   Bloc.observer = MyBlocObserver();
   runApp(const MyApp());

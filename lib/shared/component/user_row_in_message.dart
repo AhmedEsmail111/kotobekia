@@ -5,7 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
-import 'constants/images/images_constant.dart';
+import '../constants/images/images_constant.dart';
 
 class BuildUserRowInMessage extends StatelessWidget {
   final TextTheme font;

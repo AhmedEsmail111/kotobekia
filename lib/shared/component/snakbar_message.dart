@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:kotobekia/shared/styles/colors.dart';
+
+enum SnackbarState { success, error}
 
 void snakBarMessage({required BuildContext context,
-  required String message}) {
+  required String message, required SnackbarState snackbarState }) {
   final snackbar = SnackBar(
-    backgroundColor: Colors.red,
+    backgroundColor:snackbarState==SnackbarState.error? Colors.red:Colors.green,
     content: Text(message, style: Theme
         .of(context)
         .textTheme

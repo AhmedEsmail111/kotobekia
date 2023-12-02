@@ -17,7 +17,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(AuthenticationInitial());
 
   UserModel? userModel;
-  ErrorUserModel? errorUserModel;
   final dio = Dio();
 
   void userCreateAccount({
@@ -30,16 +29,16 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(LoadingUserCreateAccountState());
 
     try {
-      final Response response = await dio.post(
-        ApiConstant.userCreateAccountUrl,
+
+      final Response response = await DioHelper.postData(
+        url: ApiConstant.userCreateAccountUrl,
         data: {
           'fullName': name,
           'email': email,
           'password': password,
           'gender': gender,
           'birthDate': birthDate,
-        },
-      );
+        },);
 
       print(response.data.toString());
       Map<String, dynamic> responseData = response.data;
@@ -67,10 +66,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(LoadingUserLoginState());
 
     try {
-      final Response response = await dio.post(
-          ApiConstant.userLoginUrl,
-          data: {'email': email, 'password': password}
-      );
+      final Response response = await DioHelper.postData(
+        url: ApiConstant.userLoginUrl,
+        data: {'email': email, 'password': password},);
+
 
       print(response.data.toString());
       Map<String, dynamic> responseData = response.data;

@@ -1,9 +1,3 @@
-class ErrorUserModel{
-  String? message;
-  ErrorUserModel.fromJson(Map<String,dynamic> json) {
-    message = json['msgError'];
-  }
-}
 
 class UserModel {
   String? message;

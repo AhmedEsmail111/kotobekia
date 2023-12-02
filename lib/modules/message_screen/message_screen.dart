@@ -9,7 +9,7 @@ import 'package:kotobekia/shared/constants/images/images_constant.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
-import '../../shared/user_row_in_message.dart';
+import '../../shared/component/user_row_in_message.dart';
 
 class MessageScreen extends StatelessWidget {
   const MessageScreen({super.key});
@@ -53,9 +53,6 @@ class MessageScreen extends StatelessWidget {
             ],
           ),
         ),
-
-
-
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
