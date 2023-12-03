@@ -640,7 +640,7 @@ class _HomeLayoutState extends State<HomeLayout> {
         bookEdition: enteredBookEdition,
         numberOfBooks: enteredBooksCount,
       );
+      Navigator.pop(context);
     }
-    Navigator.pop(context);
   }
 }
