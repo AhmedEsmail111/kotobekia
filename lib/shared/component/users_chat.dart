@@ -36,7 +36,7 @@ class BuildUsersChat extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 2.h, left: 2.w),
               child: CircleAvatar(
                 radius: 5.r,
-                backgroundColor: primaryColor,
+                backgroundColor: ColorConstant.primaryColor,
               ),
             )
           ],

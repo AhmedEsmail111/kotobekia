@@ -19,7 +19,7 @@ class buildRowTextSecurity extends StatelessWidget {
       children: [
        const CircleAvatar(
           radius: 2.5,
-          backgroundColor: primaryColor,
+          backgroundColor: ColorConstant.primaryColor,
         ),
          SizedBox(
           width: w/65,
@@ -30,7 +30,7 @@ class buildRowTextSecurity extends StatelessWidget {
         )
         ,
         if(withIcon)
-          Icon(SolarIconsOutline.shieldUser ,color: primaryColor,size: 15.w,)
+          Icon(SolarIconsOutline.shieldUser ,color: ColorConstant.primaryColor,size: 15.w,)
       ],
     );
   }

@@ -43,7 +43,7 @@ class BuildDefaultButton extends StatelessWidget {
               .textTheme
               .bodyLarge!
               .copyWith(
-            color: foregroundColor,
+            color: ColorConstant.foregroundColor,
             fontWeight: FontWeight.w500,
             fontSize: MediaQuery
                 .of(context)

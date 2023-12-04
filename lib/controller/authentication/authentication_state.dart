@@ -19,7 +19,6 @@ class FailedUserCreateAccountState extends AuthenticationState {
   FailedUserCreateAccountState(this.error);
 }
 
-
 class LoadingUserLoginState extends AuthenticationState {}
 
 class SuccessUserLoginState extends AuthenticationState {
@@ -32,10 +31,12 @@ class FailedUserLoginState extends AuthenticationState {
   final String error;
 
   FailedUserLoginState(this.error);
-
 }
+
 class SuccessChangeGenderState extends AuthenticationState {}
 
-class SuccessChangeCheckLangaugeState extends AuthenticationState {}
+class SuccessChangeCheckLanguageState extends AuthenticationState {}
 
-class SuccessChangeVisiabilityPasswordState extends AuthenticationState {}
+class SuccessChangeVisibilityPasswordState extends AuthenticationState {}
+
+class ChangeDefaultLanguageAuthenticationState extends AuthenticationState {}

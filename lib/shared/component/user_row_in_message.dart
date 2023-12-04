@@ -19,7 +19,7 @@ class BuildUserRowInMessage extends StatelessWidget {
         Icon(
           SolarIconsOutline.shieldUser,
           size: 28.w,
-          color: primaryColor,
+          color: ColorConstant.primaryColor,
         ),
         SizedBox(
           width: 40.w,
@@ -70,7 +70,7 @@ class BuildUserRowInMessage extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 2.h, left: 2.w),
               child: CircleAvatar(
                 radius: 5.r,
-                backgroundColor: primaryColor,
+                backgroundColor: ColorConstant.primaryColor,
               ),
             )
           ],

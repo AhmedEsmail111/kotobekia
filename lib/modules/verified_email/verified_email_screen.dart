@@ -23,46 +23,43 @@ class VerifiedEmailScreen extends StatelessWidget {
             Navigator.pushNamed(context, '');
           });
         }
-        return Directionality(
-          textDirection: AppConstant.directionalityApp,
-          child: Scaffold(
-            body: Padding(
-              padding:  EdgeInsets.only(top: h/16),
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'تم التحقق',
-                      style: font.bodyLarge,
-                    ),
-                    SizedBox(
-                      height: 37.h,
-                    ),
-                    Image.asset(
-                      ImageConstant.doneVerifiedEmailImage,
-                      width: w/1,
-                      height: h/3.15,
-                    ),
-                    SizedBox(
-                      height: h/18,
-                    ),
-                    Text(
-                      'تم تأكيد البريد اﻷلكتروني بنجاح',
-                      style: font.bodyLarge,
-                    ),
-                    SizedBox(
-                      height: h/62,
-                    ),
-                    Text(
-                      'جاري تحويلك للصفحه الرئيسية ...',
-                      style: font.titleMedium!.copyWith(
-                          color: primaryColor,
-                          fontWeight: FontWeight.w500,
-                          fontSize: w/25.5),
-                    )
-                  ],
-                ),
+        return Scaffold(
+          body: Padding(
+            padding:  EdgeInsets.only(top: h/16),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'تم التحقق',
+                    style: font.bodyLarge,
+                  ),
+                  SizedBox(
+                    height: 37.h,
+                  ),
+                  Image.asset(
+                    ImageConstant.doneVerifiedEmailImage,
+                    width: w/1,
+                    height: h/3.15,
+                  ),
+                  SizedBox(
+                    height: h/18,
+                  ),
+                  Text(
+                    'تم تأكيد البريد اﻷلكتروني بنجاح',
+                    style: font.bodyLarge,
+                  ),
+                  SizedBox(
+                    height: h/62,
+                  ),
+                  Text(
+                    'جاري تحويلك للصفحه الرئيسية ...',
+                    style: font.titleMedium!.copyWith(
+                        color: ColorConstant.primaryColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: w/25.5),
+                  )
+                ],
               ),
             ),
           ),

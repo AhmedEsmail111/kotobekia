@@ -19,7 +19,7 @@ class BuildSecurityGuideLines extends StatelessWidget {
       padding: EdgeInsets.only(bottom: h / 60),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: midGrayColor,
+        color: ColorConstant.midGrayColor,
         borderRadius: BorderRadius.circular(w / 30),
       ),
       child: Padding(
@@ -30,7 +30,7 @@ class BuildSecurityGuideLines extends StatelessWidget {
               children: [
                 Icon(
                   SolarIconsOutline.shieldCheck,
-                  color: primaryColor,
+                  color: ColorConstant.primaryColor,
                   size: h / 40,
                 ),
                 SizedBox(

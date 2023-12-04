@@ -28,7 +28,7 @@ class BuildLanguageColumn extends StatelessWidget {
           child: Card(
             shape: RoundedRectangleBorder(
                 side: check
-                    ? const BorderSide(color: primaryColor)
+                    ? const BorderSide(color: ColorConstant.primaryColor)
                     : const BorderSide(color: Colors.white),
                 borderRadius: BorderRadius.circular(16)),
             elevation: 4,

@@ -5,4 +5,6 @@ class ImageConstant{
  static const String messageImage='assets/images/message 2.png';
  static const String doneVerifiedEmailImage='assets/images/rafiki.png';
  static const String userDefaultImage='assets/images/man .png';
+ static const String palestineImage='assets/images/palestine.png';
+ static const String palestineMapImage='assets/images/palestine _map.png';
 }

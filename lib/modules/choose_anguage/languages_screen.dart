@@ -71,7 +71,7 @@ class LanguageScreen extends StatelessWidget {
                       Navigator.pushNamed(context, 'getStart');
                     }:null,
                     text: 'متابعة',
-                    color: primaryColor,
+                    color: ColorConstant.primaryColor,
                     elevation: 4,
                     context: context)
               ],

@@ -9,6 +9,6 @@ class BuildDividerLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Divider(
-        color: midGrayColor, thickness: 1);
+        color: ColorConstant.midGrayColor, thickness: 1);
   }
 }

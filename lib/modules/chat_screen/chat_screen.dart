@@ -27,135 +27,132 @@ class ChatScreen extends StatelessWidget {
     return BlocConsumer<ChatCubit, ChatState>(
       builder: (context, state) {
         var cubit = context.read<ChatCubit>();
-        return Directionality(
-          textDirection: AppConstant.directionalityApp,
-          child: Scaffold(
-            body: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Padding(
-                padding:
-                    EdgeInsets.only(left: w / 26, right: w / 26, top: h / 14),
-                child: Column(
-                  children: [
-                    Text(
-                      'المحادثات',
-                      style: font.titleMedium!.copyWith(fontSize: w / 21),
-                    ),
-                    SizedBox(
-                      height: h / 21,
-                    ),
-                    BuildDefaultTextField(
-                        prefixIcons: const Icon(Icons.search),
-                        backGroundColor: foregroundColor,
-                        inputType: TextInputType.text,
-                        withText: false,
-                        hintText: 'بحث بالاسم',
-                        context: context,
-                        controller: searchController,
-                        width: double.infinity,
-                        height: h / 16.8,
-                        maxLenght: 225,
-                        isObscured: false),
-                    SizedBox(
-                      height: h / 58,
-                    ),
-                    BuildSecurityGuideLines(h: h, w: w, font: font),
-                    SizedBox(
-                      height: h / 48,
-                    ),
-                    Container(
+        return Scaffold(
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding:
+                  EdgeInsets.only(left: w / 26, right: w / 26, top: h / 14),
+              child: Column(
+                children: [
+                  Text(
+                    'المحادثات',
+                    style: font.titleMedium!.copyWith(fontSize: w / 21),
+                  ),
+                  SizedBox(
+                    height: h / 21,
+                  ),
+                  BuildDefaultTextField(
+                      prefixIcons: const Icon(Icons.search),
+                      backGroundColor: ColorConstant.foregroundColor,
+                      inputType: TextInputType.text,
+                      withText: false,
+                      hintText: 'بحث بالاسم',
+                      context: context,
+                      controller: searchController,
                       width: double.infinity,
-                      padding: EdgeInsets.all(18.h),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(w / 30),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              BuildCheckTypeChat(
-                                  cubit: cubit,
-                                  numberOfChecked: 1,
-                                  h: h,
-                                  w: w,
-                                  font: font,
-                                  text: 'الكل',
-                                  numberOfMessage:20),
-                              BuildCheckTypeChat(
+                      height: h / 16.8,
+                      maxLenght: 225,
+                      isObscured: false),
+                  SizedBox(
+                    height: h / 58,
+                  ),
+                  BuildSecurityGuideLines(h: h, w: w, font: font),
+                  SizedBox(
+                    height: h / 48,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(18.h),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(w / 30),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            BuildCheckTypeChat(
                                 cubit: cubit,
-                                numberOfChecked: 2,
+                                numberOfChecked: 1,
                                 h: h,
                                 w: w,
                                 font: font,
-                                text: 'مطلوب',
-                                numberOfMessage:3,
-                              ),
-                              BuildCheckTypeChat(
-                                cubit: cubit,
-                                numberOfChecked: 3,
-                                h: h,
-                                w: w,
-                                font: font,
-                                text: 'معروض',
-                                numberOfMessage: 0,
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 6.h,
-                          ),
-                          const Divider(color: midGrayColor, thickness: 1),
-                          if (cubit.checkedTypeChat == 1)
-                            ListView.separated(
-                                padding: EdgeInsets.only(top: 6.h),
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(context, 'message');
-                                    },
-                                    child: BuildUsersChat(font: font,
-                                        image: ImageConstant.userDefaultImage,name: 'محمد احمد ',
-                                    lastMessage: 'بكام لو سمحت',
-                                    status: 'منذ يومان',),
-                                  );
-                                },
-                                separatorBuilder: (context, index) =>
-                                const BuildDividerLine(),
-                                itemCount: 20),
-                          if (cubit.checkedTypeChat == 2)
-                            ListView.separated(
-                                padding: EdgeInsets.only(top: 6.h),
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return BuildUsersChat(font: font,
-                                    image: ImageConstant.userDefaultImage,name: 'توينكز',
-                                    lastMessage: 'انا عايز واحد من ده',
-                                    status: 'الان',);
-                                },
-                                separatorBuilder: (context, index) =>
-                                const BuildDividerLine(),
-                                itemCount: 3),
-                          if (cubit.checkedTypeChat == 3)
-                            Container(
-                              alignment: Alignment.center,
-                              width: double.infinity,
-                              height: 200,
-                              child: Text(
-                                'NO Users',
-                                style:
-                                    font.headlineMedium!.copyWith(fontSize: 20),
-                              ),
+                                text: 'الكل',
+                                numberOfMessage:20),
+                            BuildCheckTypeChat(
+                              cubit: cubit,
+                              numberOfChecked: 2,
+                              h: h,
+                              w: w,
+                              font: font,
+                              text: 'مطلوب',
+                              numberOfMessage:3,
                             ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                            BuildCheckTypeChat(
+                              cubit: cubit,
+                              numberOfChecked: 3,
+                              h: h,
+                              w: w,
+                              font: font,
+                              text: 'معروض',
+                              numberOfMessage: 0,
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 6.h,
+                        ),
+                        const Divider(color: ColorConstant.midGrayColor, thickness: 1),
+                        if (cubit.checkedTypeChat == 1)
+                          ListView.separated(
+                              padding: EdgeInsets.only(top: 6.h),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, 'message');
+                                  },
+                                  child: BuildUsersChat(font: font,
+                                      image: ImageConstant.userDefaultImage,name: 'محمد احمد ',
+                                  lastMessage: 'بكام لو سمحت',
+                                  status: 'منذ يومان',),
+                                );
+                              },
+                              separatorBuilder: (context, index) =>
+                              const BuildDividerLine(),
+                              itemCount: 20),
+                        if (cubit.checkedTypeChat == 2)
+                          ListView.separated(
+                              padding: EdgeInsets.only(top: 6.h),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return BuildUsersChat(font: font,
+                                  image: ImageConstant.userDefaultImage,name: 'توينكز',
+                                  lastMessage: 'انا عايز واحد من ده',
+                                  status: 'الان',);
+                              },
+                              separatorBuilder: (context, index) =>
+                              const BuildDividerLine(),
+                              itemCount: 3),
+                        if (cubit.checkedTypeChat == 3)
+                          Container(
+                            alignment: Alignment.center,
+                            width: double.infinity,
+                            height: 200,
+                            child: Text(
+                              'NO Users',
+                              style:
+                                  font.headlineMedium!.copyWith(fontSize: 20),
+                            ),
+                          ),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
           ),

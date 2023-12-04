@@ -45,7 +45,7 @@ class BuildCheckTypeChat extends StatelessWidget {
                     width:14.w,
                     height:14.h,
                     decoration: BoxDecoration(
-                        color: primaryColor,
+                        color: ColorConstant.primaryColor,
                         borderRadius: BorderRadius.circular(w / 90)),
                     child: Text('${numberOfMessage>9?'9+':numberOfMessage}',
                         style: font.titleSmall!
@@ -61,7 +61,7 @@ class BuildCheckTypeChat extends StatelessWidget {
                 Container(
                   width: 42.w,
                   height: 3.h,
-                  color: primaryColor,
+                  color: ColorConstant.primaryColor,
                 )
 
             ],

@@ -22,7 +22,7 @@ class BuildTowLineRowInAuth extends StatelessWidget {
         Container(
           height: MediaQuery.sizeOf(context).height / 390,
           width: MediaQuery.sizeOf(context).width / 2.85,
-          color: strieghtLineColor.withOpacity(0.5),
+          color: ColorConstant.strieghtLineColor.withOpacity(0.5),
         ),
         SizedBox(
           width: MediaQuery.sizeOf(context).width / 13.5,
@@ -31,7 +31,7 @@ class BuildTowLineRowInAuth extends StatelessWidget {
           'أو',
           style: Theme.of(context).textTheme.titleMedium!.copyWith(
               fontSize: MediaQuery.sizeOf(context).width / 20.5,
-              color: strieghtLineColor),
+              color: ColorConstant.strieghtLineColor),
         ),
         SizedBox(
           width: MediaQuery.sizeOf(context).width / 13.5,
@@ -39,7 +39,7 @@ class BuildTowLineRowInAuth extends StatelessWidget {
         Container(
           height: MediaQuery.sizeOf(context).height / 390,
           width: MediaQuery.sizeOf(context).width / 2.85,
-          color: strieghtLineColor.withOpacity(0.5),
+          color: ColorConstant.strieghtLineColor.withOpacity(0.5),
         ),
       ],
     );

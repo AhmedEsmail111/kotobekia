@@ -47,7 +47,7 @@ class BuildRowTextAndLink extends StatelessWidget {
                       textLink,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontSize: fontSize,
-                            color: primaryColor,
+                            color: ColorConstant.primaryColor,
                             fontWeight: FontWeight.w700,
                             decoration: TextDecoration.underline,
                           ),
@@ -84,7 +84,7 @@ class BuildRowTextAndLink extends StatelessWidget {
                   textLink,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontSize: fontSize,
-                        color: primaryColor,
+                        color: ColorConstant.primaryColor,
                         fontWeight: FontWeight.w700,
                         decoration: TextDecoration.underline,
                       ),

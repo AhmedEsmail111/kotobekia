@@ -28,7 +28,7 @@ class BuildOtpContainer extends StatelessWidget {
           .size
           .width / 5.2,
       decoration: BoxDecoration(
-        color: midGrayColor,
+        color: ColorConstant.midGrayColor,
         borderRadius:
         BorderRadius.circular(MediaQuery
             .of(context)
@@ -54,7 +54,7 @@ class BuildOtpContainer extends StatelessWidget {
         maxLength: 1,
         decoration: InputDecoration(
           filled: true,
-          fillColor: midGrayColor,
+          fillColor: ColorConstant.midGrayColor,
           border: OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(

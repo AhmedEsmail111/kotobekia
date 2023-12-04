@@ -27,164 +27,161 @@ class LoginScreen extends StatelessWidget {
     return BlocConsumer<AuthenticationCubit, AuthenticationState>(
       builder: (context, state) {
         var cubit = context.read<AuthenticationCubit>();
-        return Directionality(
-          textDirection: AppConstant.directionalityApp,
-          child: Scaffold(
-            body: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Center(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      top: h / 12.5, left: w / 25, right: w / 25),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      children: [
-                        Text(
-                          'تسجيل الدخول',
-                          style: font.bodyLarge,
-                        ),
-                        SizedBox(
-                          height: h / 55,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'مرحبا بعودتك يا صديقي.',
-                              style: font.bodyLarge,
-                            ),
-                            Text(
-                              'يلا بينا نبدأ خير جديد ؟',
-                              style: font.titleMedium,
-                            ),
-                            SizedBox(
-                              height: h / 55,
-                            ),
-                            BuildDefaultTextField(
-                                backGroundColor: Colors.white,
-                                maxLenght: 320,
-                                controller: emailController,
-                                width: double.infinity,
-                                height: h / 16.8,
-                                withText: true,
-                                isObscured: false,
-                                inputType: TextInputType.emailAddress,
-                                hintText: 'Ahmed@gmail.com',
-                                onValidate: (value) {
-                                  if (value!.isEmpty) {
-                                    return "الرجاء إدخال البريد الإلكتروني.";
-                                  } else if (!RegExp(
-                                      r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
-                                      .hasMatch(value)) {
-                                    return "البريد الإلكتروني غير صالح. يرجى إدخال عنوان بريد إلكتروني صحيح.";
-                                  }
-                                  return null;
-                                },
-                                aboveFieldText: 'البريد الالكتروني',
-                                context: context),
-                            SizedBox(
-                              height: h / 52,
-                            ),
-                            BuildDefaultTextField(
-                                backGroundColor: Colors.white,
-                                maxLenght: 128,
-                                controller: passwordController,
-                                width: double.infinity,
-                                height: h / 16.8,
-                                withText: true,
-                                cubit: cubit,
-                                inputType: TextInputType.text,
-                                hintText: '*****************',
-                                onValidate: (value) {
-                                  if (value!.isEmpty) {
-                                    return "الرجاء إدخال كلمة المرور.";
-                                  } else if (value.length < 6) {
-                                    return "يجب أن تكون كلمة المرور على الأقل 6 أحرف.";
-                                  }
-                                  return null;
-                                },
-                                numberOfFormPass: 1,
-                                isObscured: true,
-                                aboveFieldText: 'الرقم السري',
-                                context: context),
-                            SizedBox(
-                              height: h / 28,
-                            ),
-                            state is! LoadingUserLoginState
-                                ? BuildDefaultButton(
-                                    onTap: () {
-                                      if(formKey.currentState!.validate()){
-                                        cubit.userLogin(
-                                            email: emailController.text,
-                                            password: passwordController.text);
-                                      }
-                                    },
-                                    text: 'تسجيل الدخول',
-                                    color: primaryColor,
-                                    elevation: 4,
-                                    context: context)
-                                :  const Center(
-                                  child: CircularProgressIndicator(
-                                    color: primaryColor,
-                                  ),
+        return Scaffold(
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: h / 12.5, left: w / 25, right: w / 25),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      Text(
+                        'تسجيل الدخول',
+                        style: font.bodyLarge,
+                      ),
+                      SizedBox(
+                        height: h / 55,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'مرحبا بعودتك يا صديقي.',
+                            style: font.bodyLarge,
+                          ),
+                          Text(
+                            'يلا بينا نبدأ خير جديد ؟',
+                            style: font.titleMedium,
+                          ),
+                          SizedBox(
+                            height: h / 55,
+                          ),
+                          BuildDefaultTextField(
+                              backGroundColor: Colors.white,
+                              maxLenght: 320,
+                              controller: emailController,
+                              width: double.infinity,
+                              height: h / 16.8,
+                              withText: true,
+                              isObscured: false,
+                              inputType: TextInputType.emailAddress,
+                              hintText: 'Ahmed@gmail.com',
+                              onValidate: (value) {
+                                if (value!.isEmpty) {
+                                  return "الرجاء إدخال البريد الإلكتروني.";
+                                } else if (!RegExp(
+                                    r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
+                                    .hasMatch(value)) {
+                                  return "البريد الإلكتروني غير صالح. يرجى إدخال عنوان بريد إلكتروني صحيح.";
+                                }
+                                return null;
+                              },
+                              aboveFieldText: 'البريد الالكتروني',
+                              context: context),
+                          SizedBox(
+                            height: h / 52,
+                          ),
+                          BuildDefaultTextField(
+                              backGroundColor: Colors.white,
+                              maxLenght: 128,
+                              controller: passwordController,
+                              width: double.infinity,
+                              height: h / 16.8,
+                              withText: true,
+                              cubit: cubit,
+                              inputType: TextInputType.text,
+                              hintText: '*****************',
+                              onValidate: (value) {
+                                if (value!.isEmpty) {
+                                  return "الرجاء إدخال كلمة المرور.";
+                                } else if (value.length < 6) {
+                                  return "يجب أن تكون كلمة المرور على الأقل 6 أحرف.";
+                                }
+                                return null;
+                              },
+                              numberOfFormPass: 1,
+                              isObscured: true,
+                              aboveFieldText: 'الرقم السري',
+                              context: context),
+                          SizedBox(
+                            height: h / 28,
+                          ),
+                          state is! LoadingUserLoginState
+                              ? BuildDefaultButton(
+                                  onTap: () {
+                                    if(formKey.currentState!.validate()){
+                                      cubit.userLogin(
+                                          email: emailController.text,
+                                          password: passwordController.text);
+                                    }
+                                  },
+                                  text: 'تسجيل الدخول',
+                                  color: ColorConstant.primaryColor,
+                                  elevation: 4,
+                                  context: context)
+                              :  const Center(
+                                child: CircularProgressIndicator(
+                                  color: ColorConstant.primaryColor,
                                 ),
-                            SizedBox(
-                              height: h / 50,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'هل نسيت الرقم السري ؟',
-                                  style: font.displayMedium!.copyWith(
-                                      fontWeight: FontWeight.w600, fontSize: 14),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: h / 55,
-                            ),
-                            BuildTowLineRowInAuth(context: context),
-                            SizedBox(
-                              height: h / 55,
-                            ),
-                            BuildButtonAuthServices(
-                                onTap: () {},
-                                text: 'التسجيل باستخدام حساب فيسبوك',
-                                buttonColor: midGrayColor,
-                                iconImage: IconConstant.facebookIcon,
-                                elevation: 0,
-                                context: context),
-                            SizedBox(
-                              height: h / 55,
-                            ),
-                            BuildButtonAuthServices(
-                                onTap: () {},
-                                text: 'التسجيل باستخدام حساب جوجل',
-                                buttonColor: midGrayColor,
-                                iconImage: IconConstant.googleIcon,
-                                elevation: 0,
-                                context: context),
-                            SizedBox(
-                              height: h / 35,
-                            ),
-                            BuildRowTextAndLink(
-                                fontSize: w / 30,
-                                onTap: () {
-                                  Navigator.pushNamed(context,
-                                      'createAccount');
-                                },
-                                text: 'ليس لديك حساب؟',
-                                textLink: 'سجل الأن',
-                                context: context),
-                            SizedBox(
-                              height: h / 8,
-                            )
-                          ],
-                        )
-                      ],
-                    ),
+                              ),
+                          SizedBox(
+                            height: h / 50,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'هل نسيت الرقم السري ؟',
+                                style: font.displayMedium!.copyWith(
+                                    fontWeight: FontWeight.w600, fontSize: 14),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: h / 55,
+                          ),
+                          BuildTowLineRowInAuth(context: context),
+                          SizedBox(
+                            height: h / 55,
+                          ),
+                          BuildButtonAuthServices(
+                              onTap: () {},
+                              text: 'التسجيل باستخدام حساب فيسبوك',
+                              buttonColor: ColorConstant.midGrayColor,
+                              iconImage: IconConstant.facebookIcon,
+                              elevation: 0,
+                              context: context),
+                          SizedBox(
+                            height: h / 55,
+                          ),
+                          BuildButtonAuthServices(
+                              onTap: () {},
+                              text: 'التسجيل باستخدام حساب جوجل',
+                              buttonColor: ColorConstant.midGrayColor,
+                              iconImage: IconConstant.googleIcon,
+                              elevation: 0,
+                              context: context),
+                          SizedBox(
+                            height: h / 35,
+                          ),
+                          BuildRowTextAndLink(
+                              fontSize: w / 30,
+                              onTap: () {
+                                Navigator.pushNamed(context,
+                                    'createAccount');
+                              },
+                              text: 'ليس لديك حساب؟',
+                              textLink: 'سجل الأن',
+                              context: context),
+                          SizedBox(
+                            height: h / 8,
+                          )
+                        ],
+                      )
+                    ],
                   ),
                 ),
               ),

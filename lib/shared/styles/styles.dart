@@ -9,7 +9,7 @@ ThemeData lightTheme({required double width, required double height}) =>
         displayLarge: TextStyle(
             fontFamily: 'NotoSansArabic-SemiBold',
             fontSize: width/28,
-        color: primaryColor,
+        color: ColorConstant.primaryColor,
         fontWeight: FontWeight.w800),
         bodyLarge: TextStyle(
             fontFamily: 'NotoSansArabic-SemiBold',
@@ -31,16 +31,16 @@ ThemeData lightTheme({required double width, required double height}) =>
         titleLarge: TextStyle(
           fontFamily: 'Amaranth-Bold',
           fontSize: width/12.5,
-          color: primaryColor,
+          color: ColorConstant.primaryColor,
           fontWeight: FontWeight.bold
         ),
       ),
-      scaffoldBackgroundColor: backgroundColor,
+      scaffoldBackgroundColor: ColorConstant.backgroundColor,
       appBarTheme:  AppBarTheme(
           systemOverlayStyle:const SystemUiOverlayStyle(
-              statusBarColor: scaffoldBackgroundColor,
+              statusBarColor: ColorConstant.scaffoldBackgroundColor,
               statusBarIconBrightness: Brightness.dark),
           backgroundColor: Colors.transparent,
           elevation: 0,
-          iconTheme: IconThemeData(color: iconColor, size: width / 18,)),
+          iconTheme: IconThemeData(color: ColorConstant.iconColor, size: width / 18,)),
     );

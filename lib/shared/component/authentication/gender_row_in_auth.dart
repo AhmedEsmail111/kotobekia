@@ -31,7 +31,7 @@ class BuildGenderRow extends StatelessWidget {
           value: genderValue,
           groupValue: character,
           onChanged: onChange,
-          activeColor: primaryColor,
+          activeColor: ColorConstant.primaryColor,
         ),
         Text(
           text,
