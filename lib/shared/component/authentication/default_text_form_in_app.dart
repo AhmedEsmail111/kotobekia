@@ -61,14 +61,14 @@ class BuildDefaultTextField extends StatelessWidget {
           child: Container(
               width: width,
               decoration: BoxDecoration(
-                  color: backgroundColor,
+                  color: ColorConstant.backgroundColor,
                   borderRadius: BorderRadius.circular(15)),
               child: TextFormField(
 
                   maxLength: maxLenght,
                   controller: controller,
                   style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                        color: blackColor,
+                        color: ColorConstant.blackColor,
                         fontWeight: FontWeight.w300,
                       ),
                   obscureText: isObscured?

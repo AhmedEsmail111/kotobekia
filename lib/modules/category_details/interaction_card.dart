@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
-class InteractionCard extends StatelessWidget {
-  const InteractionCard({super.key});
+class BuildInteractionCard extends StatelessWidget {
+  const BuildInteractionCard({super.key});
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context);
     return Container(
       height: 100.h,
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
-        color: foregroundColor,
+        color: ColorConstant.foregroundColor,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,37 +36,37 @@ class InteractionCard extends StatelessWidget {
               TextButton.icon(
                 onPressed: () {},
                 label: Text(
-                  'حفظ',
+                  locale!.save,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 icon: Icon(
                   SolarIconsOutline.heart,
                   size: 20.h,
-                  color: iconColor,
+                  color: ColorConstant.iconColor,
                 ),
               ),
               TextButton.icon(
                 onPressed: () {},
                 label: Text(
-                  'تبليغ',
+                  locale.report,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 icon: Icon(
                   SolarIconsBold.shieldUser,
                   size: 20.h,
-                  color: iconColor,
+                  color: ColorConstant.iconColor,
                 ),
               ),
               TextButton.icon(
                 onPressed: () {},
                 label: Text(
-                  'مشاركة',
+                  locale.share,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 icon: Icon(
                   SolarIconsBold.forward,
                   size: 20.h,
-                  color: iconColor,
+                  color: ColorConstant.iconColor,
                 ),
               ),
             ],

@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kotobekia/controller/home_layout_cubit/cubit.dart';
-import 'package:kotobekia/controller/home_layout_cubit/states.dart';
-import 'package:kotobekia/models/post.dart';
-import 'package:kotobekia/modules/category_books/category_books_screen.dart';
+import 'package:kotobekia/controller/home/home_cubit.dart';
+import 'package:kotobekia/controller/home/home_state.dart';
+import 'package:kotobekia/models/post_model/post_model.dart';
+import 'package:kotobekia/modules/category_book/category_book_screen.dart';
 import 'package:kotobekia/modules/category_details/category_details_screen.dart';
-import 'package:kotobekia/modules/main_page/row_above_card.dart';
-import 'package:kotobekia/shared/component/home/adds_section.dart';
+import 'package:kotobekia/shared/component/home/add_section.dart';
 import 'package:kotobekia/shared/component/home/card_to_posts.dart';
 import 'package:kotobekia/shared/component/home/dignity_flag.dart';
+import 'package:kotobekia/shared/component/home/row_above_card.dart';
 import 'package:solar_icons/solar_icons.dart';
 
-class MainCategoriesPage extends StatelessWidget {
-  const MainCategoriesPage({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context);
@@ -23,7 +23,6 @@ class MainCategoriesPage extends StatelessWidget {
 
     // final r = w / 1.32;
     // print(r);
-
     return Scaffold(
         appBar: AppBar(
           bottom: PreferredSize(
@@ -65,7 +64,7 @@ class MainCategoriesPage extends StatelessWidget {
                 hintStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeight.w400,
                     ),
-                hintText: 'بحث',
+                hintText: locale!.search,
                 prefixIcon: Icon(
                   SolarIconsOutline.magnifier,
                   size: 15.w,
@@ -85,23 +84,23 @@ class MainCategoriesPage extends StatelessWidget {
               final generalPosts = homeCubit.generalPosts;
 
               return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    const BuildPalestine(
-                        text: 'لا بلد بعد فلسطين ولا عاصمة بعد القدس'),
+                    BuildPalestine(text: locale.palestine),
                     const BuildAddsSection(
                       imageUrl:
                           'https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg',
                     ),
                     BuildRowAboveCard(
-                      title: locale!.kindergarten,
+                      title: locale.kindergarten,
                       numberOfBooks: 100,
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (ctx) => CategoryBooksScreen(
                                   data: kinderGatenPosts,
-                                  category: 'حضانة',
+                                  category: locale.kindergarten,
                                 )),
                       ),
                     ),
@@ -173,7 +172,7 @@ class MainCategoriesPage extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (ctx) => CategoryBooksScreen(
                                   data: primaryPosts,
-                                  category: 'إبتدائي',
+                                  category: locale.primary,
                                 )),
                       ),
                     ),
@@ -242,7 +241,7 @@ class MainCategoriesPage extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (ctx) => CategoryBooksScreen(
                                   data: preparatoryPosts,
-                                  category: 'إعدادي',
+                                  category: locale.preparatory,
                                 )),
                       ),
                     ),
@@ -314,7 +313,7 @@ class MainCategoriesPage extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (ctx) => CategoryBooksScreen(
                                   data: secondaryPosts,
-                                  category: 'ثانوي',
+                                  category: locale.secondary,
                                 )),
                       ),
                     ),
@@ -388,7 +387,7 @@ class MainCategoriesPage extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (ctx) => CategoryBooksScreen(
                                   data: generalPosts,
-                                  category: 'عام',
+                                  category: locale.general,
                                 )),
                       ),
                     ),

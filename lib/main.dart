@@ -6,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/authentication/authentication_cubit.dart';
 import 'package:kotobekia/controller/chat/chat_cubit.dart';
-import 'package:kotobekia/controller/home_layout_cubit/cubit.dart';
+import 'package:kotobekia/controller/home/home_cubit.dart';
 import 'package:kotobekia/controller/otp/otp_cubit.dart';
 import 'package:kotobekia/l10n/l10n.dart';
 import 'package:kotobekia/layout/home_layout.dart';
@@ -19,7 +19,6 @@ import 'package:kotobekia/shared/constants/app/app_constant.dart';
 import 'package:kotobekia/shared/constants/images/images_constant.dart';
 import 'package:kotobekia/shared/network/local/local.dart';
 import 'package:kotobekia/shared/network/remote/remote.dart';
-import 'package:kotobekia/shared/observer.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:kotobekia/shared/styles/styles.dart';
 import 'package:page_transition/page_transition.dart';
@@ -27,6 +26,7 @@ import 'package:page_transition/page_transition.dart';
 import 'modules/chat_screen/chat_screen.dart';
 import 'modules/choose_anguage/languages_screen.dart';
 import 'modules/message_screen/message_screen.dart';
+import 'shared/helper/bloc_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
               final authenticationCubit = AuthenticationCubit.get(_);
               return MaterialApp(
                 routes: {
-                  'homeLayout': (context) => const HomeLayout(),
+                  'homeLayout': (context) => LayoutScreen(),
                   'getStart': (context) => const GetStartScreen(),
                   'createAccount': (context) => const CreateAccountScreen(),
                   'login': (context) => const LoginScreen(),
@@ -95,11 +95,11 @@ class MyApp extends StatelessWidget {
                   nextScreen:
                       CacheHelper.getData(key: AppConstant.languageKey) == null
                           ? const LanguageScreen()
-                          : const HomeLayout(),
+                          : LayoutScreen(),
                   duration: 3500,
                   splashIconSize: width / 0.7,
                   pageTransitionType: PageTransitionType.fade,
-                  backgroundColor: backgroundColor,
+                  backgroundColor: ColorConstant.backgroundColor,
                   splash: ImageConstant.splashAnimationImage,
                   splashTransition: SplashTransition.fadeTransition,
                 ),

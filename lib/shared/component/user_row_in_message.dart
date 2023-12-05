@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kotobekia/shared/constants/images/images_constant.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
+
+import '../constants/images/images_constant.dart';
 
 class BuildUserRowInMessage extends StatelessWidget {
   final TextTheme font;
@@ -12,12 +14,13 @@ class BuildUserRowInMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context);
     return Row(
       children: [
         Icon(
           SolarIconsOutline.shieldUser,
           size: 28.w,
-          color: primaryColor,
+          color: ColorConstant.primaryColor,
         ),
         SizedBox(
           width: 40.w,
@@ -43,7 +46,7 @@ class BuildUserRowInMessage extends StatelessWidget {
                   width: 2.w,
                 ),
                 Text(
-                  'يكتب...',
+                  locale!.typing,
                   style: font.displayMedium!
                       .copyWith(fontSize: 12.sp, fontWeight: FontWeight.bold),
                 )
@@ -67,7 +70,7 @@ class BuildUserRowInMessage extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 2.h, left: 2.w),
               child: CircleAvatar(
                 radius: 5.r,
-                backgroundColor: primaryColor,
+                backgroundColor: ColorConstant.primaryColor,
               ),
             )
           ],

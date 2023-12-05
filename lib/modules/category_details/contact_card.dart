@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kotobekia/shared/constants/images/images_constant.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
-class ContactCard extends StatelessWidget {
+class BuildContactCard extends StatelessWidget {
   final String name;
 
-  const ContactCard({
+  const BuildContactCard({
     super.key,
     required this.name,
   });
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context);
     return Material(
       clipBehavior: Clip.hardEdge,
-      color: whiteColor,
+      color: ColorConstant.whiteColor,
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       child: Container(
@@ -22,7 +25,7 @@ class ContactCard extends StatelessWidget {
         padding: EdgeInsets.all(8.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14),
-          color: whiteColor,
+          color: ColorConstant.whiteColor,
         ),
         width: double.infinity,
         height: 80.h,
@@ -38,14 +41,14 @@ class ContactCard extends StatelessWidget {
                     children: [
                       Icon(
                         SolarIconsOutline.phoneRounded,
-                        color: primaryColor,
+                        color: ColorConstant.primaryColor,
                         size: 18.w,
                       ),
                       SizedBox(
                         width: 5.w,
                       ),
                       Text(
-                        'مكالمة',
+                        locale!.call,
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                                   fontSize: 14.sp,
@@ -61,14 +64,14 @@ class ContactCard extends StatelessWidget {
                     children: [
                       Icon(
                         SolarIconsOutline.letter,
-                        color: secondaryColor,
+                        color: ColorConstant.secondaryColor,
                         size: 18.w,
                       ),
                       SizedBox(
                         width: 5.w,
                       ),
                       Text(
-                        'رسالة',
+                        locale.chat,
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                                   fontSize: 14.sp,
@@ -83,50 +86,52 @@ class ContactCard extends StatelessWidget {
             Container(
               height: double.infinity,
               width: 2.w,
-              color: midGrayColor,
+              color: ColorConstant.midGrayColor,
             ),
             SizedBox(
-              // alignment: Alignment.center,
               width: 60.w,
               height: 60.w,
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  ClipRRect(
-                    clipBehavior: Clip.hardEdge,
-                    borderRadius: BorderRadius.circular(14),
-                    child: Image.asset('assets/images/man.jpg'),
+                  CircleAvatar(
+                    backgroundColor: ColorConstant.whiteColor,
+                    child: Image.asset(
+                      ImageConstant.userDefaultImage,
+                      fit: BoxFit.cover,
+                      width: 60,
+                      height: 60,
+                    ),
                   ),
                   const Positioned(
                     right: 0,
                     bottom: 0,
                     child: Icon(
-                      Icons.task_alt_rounded,
+                      SolarIconsBold.verifiedCheck,
                       color: Color(0xFF08B1E7),
                     ),
                   ),
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(right: 16.w),
-              child: Column(
-                children: [
-                  Text(
-                    name,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                      'عرض الملف الشخصي',
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  name,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    locale.view_profile,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontSize: 10.sp,
-                          decoration: TextDecoration.underline),
-                    ),
+                          decoration: TextDecoration.underline,
+                        ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

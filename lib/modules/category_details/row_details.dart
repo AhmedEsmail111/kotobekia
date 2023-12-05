@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class RowDetails extends StatelessWidget {
+class BuildRowDetails extends StatelessWidget {
   final bool? isFirst;
   final bool? isLast;
   final String firstText;
   final String secondText;
 
-  const RowDetails({
+  const BuildRowDetails({
     super.key,
     this.isFirst,
     required this.firstText,
@@ -19,14 +20,12 @@ class RowDetails extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (isFirst != null)
-            Container(
-              alignment: Alignment.centerRight,
-              child: Text(
-                'تفاصيل الكتاب',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
+            Text(
+              AppLocalizations.of(context)!.book_details,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           Row(
             children: [
@@ -38,9 +37,6 @@ class RowDetails extends StatelessWidget {
                     .copyWith(color: const Color(0xFF939393), fontSize: 14.sp),
               ),
               const Spacer(),
-              // SizedBox(
-              //   width: 4.w,
-              // ),
               Text(
                 secondText,
                 style: Theme.of(context)

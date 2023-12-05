@@ -46,10 +46,10 @@ class BuildDropDownButton extends StatelessWidget {
             icon: Icon(
               SolarIconsOutline.altArrowDown,
               size: 16.h,
-              color: iconColor,
+              color: ColorConstant.iconColor,
             ),
             decoration: const InputDecoration(
-              fillColor: whiteColor,
+              fillColor: ColorConstant.whiteColor,
               filled: true,
               border: InputBorder.none,
             ),

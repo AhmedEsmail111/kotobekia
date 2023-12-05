@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kotobekia/controller/home_layout_cubit/states.dart';
-import 'package:kotobekia/models/post.dart';
+import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/shared/constants/api/api_constant.dart';
 import 'package:kotobekia/shared/network/remote/remote.dart';
 
@@ -180,12 +181,14 @@ class HomeCubit extends Cubit<HomeStates> {
       if (response.statusCode == 200) {
         print('Data and images sent successfully');
         print(response.data);
+        print(response.statusCode);
       } else {
         print('Error sending data and images: ${response.statusCode}');
         // Print response data for more details
         print(response.data);
       }
     } catch (error) {
+      isAddingPost = false;
       print('Error sending data and images: ${error.toString()}');
     }
   }
@@ -200,6 +203,35 @@ class HomeCubit extends Cubit<HomeStates> {
   //     return;
   //   }
   // }
+
+  Future<void> pickImages(context) async {
+    final imagePicker = ImagePicker();
+    List<File> images = [];
+    final pickedImages = await imagePicker.pickMultiImage(
+      imageQuality: 40,
+    );
+
+    if (pickedImages.isEmpty) {
+      return;
+    }
+    if (pickedImages.length > 5) {
+      if (context.mounted) {
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   const SnackBar(
+        //       content: Text(
+        //     'من فضلك قم بإختيار 5 صور فقط',
+        //     textAlign: TextAlign.center,
+        //   )),
+        // );
+      }
+    }
+
+    images = [];
+    for (int i = 0; i < pickedImages.length; i++) {
+      images.add(File(pickedImages[i].path));
+    }
+    changeSelectedImages(images);
+  }
 
   void changeModalBottomSheet() {
     emit(ChangeModalBottomSheetHomeState());

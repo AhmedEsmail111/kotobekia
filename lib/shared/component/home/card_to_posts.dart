@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
 
@@ -49,6 +50,7 @@ class BuildPosts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context);
     return Card(
       elevation: cardElevation,
       shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -56,7 +58,7 @@ class BuildPosts extends StatelessWidget {
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-            color: backgroundColor,
+            color: ColorConstant.backgroundColor,
             borderRadius: borderRadius,
             border: cardBorder,
           ),
@@ -75,7 +77,7 @@ class BuildPosts extends StatelessWidget {
                     width: imageWidth,
                     height: imageHeight,
                     fit: BoxFit.cover,
-                    'https://kotobekia-backend.onrender.com/$image',
+                    'https://img.freepik.com/free-vector/hand-drawn-flat-design-stack-books-illustration_23-2149341898.jpg?w=740&t=st=1701695516~exp=1701696116~hmac=1ee8abb2afd856098988ec791155a2d564f92a9222648a3278485002899c990e',
                   ),
                 ),
                 Positioned(
@@ -84,24 +86,22 @@ class BuildPosts extends StatelessWidget {
                     child: IconButton(
                       icon: const Icon(
                         SolarIconsOutline.heart,
-                        color: whiteColor,
+                        color: ColorConstant.whiteColor,
                       ),
                       onPressed: () {},
                     ))
               ]),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      title,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                    ),
+                  Text(
+                    title,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
                   ),
                   Text(
                     overflow: TextOverflow.ellipsis,
@@ -153,19 +153,21 @@ class BuildPosts extends StatelessWidget {
                         height: 20.h,
                         decoration: BoxDecoration(
                             color: price == 0
-                                ? primaryColor.withOpacity(0.2)
+                                ? ColorConstant.primaryColor.withOpacity(0.2)
                                 : const Color(0xFFD0E6F3),
                             borderRadius: BorderRadius.circular(
                                 MediaQuery.sizeOf(context).width / 30)),
                         child: Text(
-                          price == 0 ? 'مجاناً' : '$price ج',
+                          price == 0
+                              ? locale!.free
+                              : '$price ${locale!.currency}',
                           style:
                               Theme.of(context).textTheme.titleLarge!.copyWith(
                                     // textBaseline: TextBaseline.alphabetic,
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w400,
                                     color: price == 0
-                                        ? primaryColor
+                                        ? ColorConstant.primaryColor
                                         : const Color(0xFF1077FB),
                                   ),
                         ),

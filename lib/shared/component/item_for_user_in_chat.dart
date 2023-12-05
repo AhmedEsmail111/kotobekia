@@ -26,7 +26,7 @@ class BuildItemForUserInChat extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-              color: midGrayColor, borderRadius: BorderRadius.circular(8.r)),
+              color: ColorConstant.midGrayColor, borderRadius: BorderRadius.circular(8.r)),
           width: 39.w,
           height: 39.w,
           child: ClipRRect(
@@ -56,7 +56,7 @@ class BuildItemForUserInChat extends StatelessWidget {
                   width: MediaQuery.sizeOf(context).width / 10,
                   height: MediaQuery.sizeOf(context).height / 39,
                   decoration: BoxDecoration(
-                      color: primaryColor.withOpacity(0.2),
+                      color: ColorConstant.primaryColor.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(
                           MediaQuery.sizeOf(context).width / 30)),
                   child: Text(

@@ -43,7 +43,7 @@ class BuildButtonAuthServices extends StatelessWidget {
             Text(
               text,
               style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                color: blackColor,
+                color: ColorConstant.blackColor,
                 fontSize: 18,
                 fontWeight: FontWeight.w400,
               ),

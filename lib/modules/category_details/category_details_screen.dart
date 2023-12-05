@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kotobekia/models/post.dart';
+import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/modules/category_details/contact_card.dart';
 import 'package:kotobekia/modules/category_details/details_card.dart';
-import 'package:kotobekia/modules/category_details/interaction_card.dart';
-import 'package:kotobekia/modules/category_details/row_details.dart';
-import 'package:kotobekia/shared/component/home/adds_section.dart';
+import 'package:kotobekia/shared/component/back_button.dart';
+import 'package:kotobekia/shared/component/home/add_section.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
+
+import 'interaction_card.dart';
+import 'row_details.dart';
 
 class CategoryDetailsScreen extends StatelessWidget {
   const CategoryDetailsScreen({super.key, required this.postDetails});
   final Post postDetails;
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: ColorConstant.backgroundColor,
       appBar: AppBar(
-          title: Container(
-        alignment: Alignment.topRight,
-        child: Text(
-          postDetails.title,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-      )),
+          leading: const BuildBackButton(),
+          title: Text(
+            postDetails.title,
+            style: Theme.of(context).textTheme.bodyLarge,
+          )),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -38,26 +40,26 @@ class CategoryDetailsScreen extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   Image.network(
-                    'https://kotobekia-backend.onrender.com/${postDetails.images[0]}',
+                    'https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg',
                     fit: BoxFit.cover,
                   ),
                   Positioned(
                     left: 0,
                     bottom: 0,
                     width: 70.w,
-                    height: 50.h,
+                    height: 45.h,
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: const Color(0xFFD7D7D8)
                           //  const Color.fromARGB(210, 243, 243, 239),
                           ),
-                      margin: EdgeInsets.all(8.w),
+                      margin: EdgeInsets.all(4.w),
                       width: 42.w,
                       height: 30.h,
                       alignment: Alignment.center,
                       child: Text(
-                        '${postDetails.images.length} صور',
+                        '${postDetails.images.length} ${locale!.images}',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w900,
@@ -104,51 +106,51 @@ class CategoryDetailsScreen extends StatelessWidget {
                   width: 85.h,
                   margin: EdgeInsets.symmetric(horizontal: 4.w),
                   child: Image.network(
-                    'https://kotobekia-backend.onrender.com/${postDetails.images[index]}',
+                    'https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg',
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
-            CardDetails(
+            BuildCardDetails(
               description: postDetails.description,
               location: postDetails.location,
               price: postDetails.price,
               timeSince: postDetails.createdSince,
               title: postDetails.title,
             ),
-            RowDetails(
+            BuildRowDetails(
               isLast: false,
               isFirst: true,
-              firstText: 'المرحلة التعليمية',
+              firstText: locale.education_level,
               secondText: reversedLevels[postDetails.educationLevel]!,
             ),
-            RowDetails(
+            BuildRowDetails(
               isLast: false,
-              firstText: 'الصف',
+              firstText: locale.grade,
               secondText: postDetails.grade,
             ),
-            RowDetails(
+            BuildRowDetails(
               isLast: false,
-              firstText: 'نوع التعليم',
+              firstText: locale.education_type,
               secondText: postDetails.educationType,
             ),
-            RowDetails(
+            BuildRowDetails(
               isLast: false,
-              firstText: 'السنة الدراسية',
+              firstText: locale.education_year,
               secondText: postDetails.bookEdition,
             ),
-            RowDetails(
-              firstText: 'التيرم',
+            BuildRowDetails(
+              firstText: locale.term,
               secondText: postDetails.semester,
             ),
             SizedBox(
               height: 4.h,
             ),
-            const InteractionCard(),
+            const BuildInteractionCard(),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-              child: const ContactCard(name: 'أمجد حسام الدين'),
+              child: const BuildContactCard(name: 'أمجد حسام الدين'),
             ),
             const BuildAddsSection(
               imageUrl:

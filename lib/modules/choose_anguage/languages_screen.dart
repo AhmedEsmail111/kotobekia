@@ -31,7 +31,7 @@ class LanguageScreen extends StatelessWidget {
                   height: w / 7,
                 ),
                 Text(
-                  'إختر لغتك المفضلة',
+                  locale!.choose_language,
                   style: font.bodyLarge,
                 ),
                 SizedBox(
@@ -45,8 +45,8 @@ class LanguageScreen extends StatelessWidget {
                           cubit.changeLanguage(false);
                         },
                         check: cubit.index == 0 ? true : false,
-                        containerText: 'Aa',
-                        languageText: 'English',
+                        containerText: locale.language_code,
+                        languageText: locale.language,
                         context: context),
                     SizedBox(
                       width: w / 6.5,
@@ -56,8 +56,8 @@ class LanguageScreen extends StatelessWidget {
                           cubit.changeLanguage(true);
                         },
                         check: cubit.index == 1 ? true : false,
-                        containerText: 'ض',
-                        languageText: 'العربية',
+                        containerText: locale.language_code,
+                        languageText: locale.language,
                         context: context)
                   ],
                 ),
@@ -71,8 +71,8 @@ class LanguageScreen extends StatelessWidget {
                                 context, 'homeLayout');
                           }
                         : null,
-                    text: locale!.go_on,
-                    color: primaryColor,
+                    text: locale.go_on,
+                    color: ColorConstant.primaryColor,
                     elevation: 4,
                     context: context)
               ],

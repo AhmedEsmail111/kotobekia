@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kotobekia/shared/component/row_in_securiy_rules.dart';
 import 'package:solar_icons/solar_icons.dart';
 
@@ -15,11 +15,12 @@ class BuildSecurityGuideLines extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context);
     return Container(
       padding: EdgeInsets.only(bottom: h / 60),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: midGrayColor,
+        color: ColorConstant.midGrayColor,
         borderRadius: BorderRadius.circular(w / 30),
       ),
       child: Padding(
@@ -30,37 +31,42 @@ class BuildSecurityGuideLines extends StatelessWidget {
               children: [
                 Icon(
                   SolarIconsOutline.shieldCheck,
-                  color: primaryColor,
+                  color: ColorConstant.primaryColor,
                   size: h / 40,
                 ),
                 SizedBox(
                   width: w / 65,
                 ),
                 Text(
-                  'سلامتك تهمنا',
+                  locale!.your_security,
                   style: font.titleMedium,
                 )
               ],
             ),
             Padding(
               padding: EdgeInsets.only(right: w / 30, top: w / 80),
-              child: const Column(
+              child: Column(
                 children: [
-                  buildRowTextSecurity(
-                      withIcon: false,
-                      text:
-                          'لو واجهت أي إسائه ما تترددش في انك تبلغ عن اللي بيكلمك . '),
-                  buildRowTextSecurity(
-                      withIcon: true,
-                      text: 'تقدر تبلغ عن اي اسائة من خلال الايقون دي '),
-                  buildRowTextSecurity(
-                      withIcon: false,
-                      text:
-                          ' هتلاقيها في اكترمن مكان في التطبيق حسب انت عايز تبلغ عن ايه '),
-                  buildRowTextSecurity(
-                      withIcon: false,
-                      text:
-                          'وانت بتستلم الكتاب حاول تكون في مكان عام ويفضل ما تروحش لوحدك'),
+                  BuildRowTextSecurity(
+                    withCircleAvatar: true,
+                    withIcon: false,
+                    text: locale.abuse_advice1,
+                  ),
+                  BuildRowTextSecurity(
+                    withIcon: true,
+                    text: locale.abuse_advice2,
+                    withCircleAvatar: true,
+                  ),
+                  BuildRowTextSecurity(
+                    withIcon: false,
+                    text: locale.abuse_advice3,
+                    withCircleAvatar: false,
+                  ),
+                  BuildRowTextSecurity(
+                    withIcon: false,
+                    text: locale.abuse_advice4,
+                    withCircleAvatar: true,
+                  ),
                 ],
               ),
             )

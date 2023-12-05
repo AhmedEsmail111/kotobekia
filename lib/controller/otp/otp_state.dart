@@ -7,13 +7,12 @@ class OtpInitial extends OtpState {}
 
 class OtpCollectResultState extends OtpState {}
 
-
 class LoadingVerifyOtpState extends OtpState {}
 
 class SuccessVerifyOtpState extends OtpState {
-  final String error;
+  final OtpModel otpModel;
 
-  SuccessVerifyOtpState(this.error);
+  SuccessVerifyOtpState(this.otpModel);
 }
 
 class FailedVerifyOtpState extends OtpState {
@@ -22,4 +21,16 @@ class FailedVerifyOtpState extends OtpState {
   FailedVerifyOtpState(this.error);
 }
 
-class SuccessResendOtpState extends OtpState {}
+class SuccessResendOtpAndStartTimerState extends OtpState {}
+
+class FailedResendOtpState extends OtpState {
+  final String error;
+
+  FailedResendOtpState(this.error);
+}
+
+class SuccessResendOtpState extends OtpState {
+  final OtpModel otpModel;
+
+  SuccessResendOtpState(this.otpModel);
+}

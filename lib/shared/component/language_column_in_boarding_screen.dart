@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 
@@ -27,7 +28,7 @@ class BuildLanguageColumn extends StatelessWidget {
           child: Card(
             shape: RoundedRectangleBorder(
                 side: check
-                    ? const BorderSide(color: primaryColor)
+                    ? const BorderSide(color: ColorConstant.primaryColor)
                     : const BorderSide(color: Colors.white),
                 borderRadius: BorderRadius.circular(16)),
             elevation: 4,

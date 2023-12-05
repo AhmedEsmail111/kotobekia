@@ -1,14 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
 
 import '../styles/colors.dart';
 
-class buildRowTextSecurity extends StatelessWidget {
+class BuildRowTextSecurity extends StatelessWidget {
   final String text;
   final bool withIcon;
-  const buildRowTextSecurity({super.key, required this.text,required this.withIcon});
+  final withCircleAvatar;
+
+  const BuildRowTextSecurity(
+      {super.key,
+      required this.text,
+      required this.withIcon,
+      this.withCircleAvatar});
 
   @override
   Widget build(BuildContext context) {
@@ -17,20 +22,31 @@ class buildRowTextSecurity extends StatelessWidget {
     double h = MediaQuery.sizeOf(context).height;
     return Row(
       children: [
-       const CircleAvatar(
-          radius: 2.5,
-          backgroundColor: primaryColor,
+        if (withCircleAvatar)
+          const CircleAvatar(
+            radius: 2.5,
+            backgroundColor: ColorConstant.primaryColor,
+          ),
+        SizedBox(
+          width: w / 65,
         ),
-         SizedBox(
-          width: w/65,
+        Flexible(
+          child: Text(
+            text,
+            style: font.titleMedium!.copyWith(fontSize: w / 39),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+          ),
         ),
-        Text(
-          text,
-          style: font.titleMedium!.copyWith(fontSize: w/39),
-        )
-        ,
-        if(withIcon)
-          Icon(SolarIconsOutline.shieldUser ,color: primaryColor,size: 15.w,)
+        SizedBox(
+          width: 4.w,
+        ),
+        if (withIcon)
+          Icon(
+            SolarIconsOutline.shieldUser,
+            color: ColorConstant.primaryColor,
+            size: 15.w,
+          )
       ],
     );
   }

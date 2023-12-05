@@ -16,7 +16,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(AuthenticationInitial());
 
   UserModel? userModel;
-  ErrorUserModel? errorUserModel;
   final dio = Dio();
   static AuthenticationCubit get(context) => BlocProvider.of(context);
 
@@ -109,8 +108,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(SuccessChangeGenderState());
   }
 
-  Locale locale =
-      Locale(CacheHelper.getData(key: AppConstant.languageKey) ?? 'ar');
+  Locale locale = Locale(CacheHelper.getData(key: AppConstant.languageKey) ?? 'ar');
 
   void changeDefaultLanguage(String languageCode) async {
     locale = Locale(languageCode);

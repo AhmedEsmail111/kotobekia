@@ -22,7 +22,7 @@ class BuildTextMessage extends StatelessWidget {
         child: Container(
             padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 10.h),
             decoration: BoxDecoration(
-                color: sender?primaryColor:foregroundColor,
+                color: sender?ColorConstant.primaryColor:ColorConstant.foregroundColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.r),
                   topRight: Radius.circular(20.r),

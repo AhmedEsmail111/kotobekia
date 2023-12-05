@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kotobekia/models/post.dart';
-import 'package:kotobekia/modules/category_books/list.dart';
-import 'package:kotobekia/shared/component/home/adds_section.dart';
+import 'package:kotobekia/models/post_model/post_model.dart';
+import 'package:kotobekia/modules/category_book/list.dart';
 import 'package:kotobekia/shared/component/home/dignity_flag.dart';
+import 'package:kotobekia/shared/constants/app/app_constant.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
 import 'package:solar_icons/solar_icons.dart';
 
 class CategoryBooksScreen extends StatelessWidget {
@@ -14,8 +16,19 @@ class CategoryBooksScreen extends StatelessWidget {
   final String category;
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context);
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              CacheHelper.getData(key: AppConstant.languageKey) == 'ar'
+                  ? SolarIconsOutline.altArrowRight
+                  : SolarIconsOutline.altArrowLeft,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
           bottom: PreferredSize(
               preferredSize: const Size.fromHeight(5), child: Container()),
           actions: [
@@ -55,7 +68,7 @@ class CategoryBooksScreen extends StatelessWidget {
                 hintStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeight.w400,
                     ),
-                hintText: 'بحث',
+                hintText: locale!.search,
                 prefixIcon: Icon(
                   SolarIconsOutline.magnifier,
                   size: 15.w,
@@ -67,6 +80,7 @@ class CategoryBooksScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
+              BuildPalestine(text: locale!.palestine_2),
               Container(
                   margin: EdgeInsets.symmetric(
                     horizontal: 16.w,
@@ -86,11 +100,6 @@ class CategoryBooksScreen extends StatelessWidget {
                           ))
                     ],
                   )),
-              const BuildPalestine(text: 'القدس هي عاصمة فلسطين اﻷبديه'),
-              const BuildAddsSection(
-                imageUrl:
-                    "https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg",
-              ),
               BuildList(
                 data: data,
               ),

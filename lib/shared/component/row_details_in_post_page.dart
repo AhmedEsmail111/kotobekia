@@ -22,7 +22,7 @@ class BuildRowDetialsPostPage extends StatelessWidget {
           firstText,
           style: Theme.of(context).textTheme.displayLarge,
         ),
-        Spacer(),
+       const Spacer(),
         Text(
           lastText,
           style: Theme.of(context)

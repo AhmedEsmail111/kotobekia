@@ -40,7 +40,7 @@ class BuildAddsSection extends StatelessWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: whiteColor,
+                color: ColorConstant.whiteColor,
               ),
               width: 25.h,
               height: 25.h,

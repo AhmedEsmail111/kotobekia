@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BuildRowAboveCard extends StatelessWidget {
@@ -14,6 +15,7 @@ class BuildRowAboveCard extends StatelessWidget {
   final void Function() onTap;
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context);
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
     return Container(
@@ -38,7 +40,7 @@ class BuildRowAboveCard extends StatelessWidget {
           GestureDetector(
             onTap: onTap,
             child: Text(
-              'عرض المزيد',
+              locale!.show_more,
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w400,
