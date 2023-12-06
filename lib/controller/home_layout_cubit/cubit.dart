@@ -14,11 +14,6 @@ class HomeCubit extends Cubit<HomeStates> {
 
   static HomeCubit get(context) => BlocProvider.of(context);
   var currentIndex = 0;
-  List<Post> kindergartenPosts = [];
-  List<Post> primaryPosts = [];
-  List<Post> preparatoryPosts = [];
-  List<Post> secondaryPosts = [];
-  List<Post> generalPosts = [];
 
   void changeBottomNavBarIndex(index) {
     currentIndex = index;
@@ -32,117 +27,9 @@ class HomeCubit extends Cubit<HomeStates> {
         methodUrl: ApiConstant.getHomePostMethodUrl);
     if (response.data == null) {
       emit(GetHomeDataFailureHomeState());
-      return;
+    }else{
+
     }
-
-    final List<dynamic> kindergartenData = response.data['result'][0]['posts'];
-    kindergartenPosts = kindergartenData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-
-    final List<dynamic> primaryData = response.data['result'][1]['posts'];
-    primaryPosts = primaryData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-    final List<dynamic> preparatoryData = response.data['result'][2]['posts'];
-
-    preparatoryPosts = preparatoryData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-    final List<dynamic> secondaryData = response.data['result'][3]['posts'];
-
-    secondaryPosts = secondaryData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-    final List<dynamic> generalData = response.data['result'][4]['posts'];
-    generalPosts = generalData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-    // print(kindergartenPosts[0].images[0]);
-    // print(primaryPosts[1].images[0]);
-    // print(preparatoryPosts[2].images[0]);
-    // print(secondaryPosts[1].images[0]);
-    // print(generalPosts[3].images[0]);
     emit(GetHomeDataSuccessHomeState());
   }
 

@@ -8,7 +8,7 @@ import 'package:solar_icons/solar_icons.dart';
 class BuildRectangleCardPost extends StatelessWidget {
   final String title;
   final String description;
-  final int price;
+  final double price;
   final String image;
   final String educationLevel;
   final String location;
@@ -116,7 +116,7 @@ class BuildRectangleCardPost extends StatelessWidget {
                     height: 5.h,
                   ),
                   Text(
-                    reversedLevels[educationLevel]!,
+                 "   reversedLevels[educationLevel]!",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontSize: 10.sp,
                           fontWeight: FontWeight.w600,

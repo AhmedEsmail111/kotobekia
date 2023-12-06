@@ -32,6 +32,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DioHelper.init();
   await CacheHelper.init();
+  // await CacheHelper.deleteAllData();
   Bloc.observer = MyBlocObserver();
 
   runApp(const MyApp());
@@ -80,7 +81,7 @@ class MyApp extends StatelessWidget {
                   'message': (context) => const MessageScreen(),
                   'chat': (context) => const ChatScreen(),
                 },
-                locale: authenticationCubit.locale,
+                locale:authenticationCubit.locale ,
                 localizationsDelegates: const [
                   AppLocalizations.delegate,
                   GlobalMaterialLocalizations.delegate,

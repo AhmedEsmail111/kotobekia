@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,138 +28,38 @@ class HomeCubit extends Cubit<HomeStates> {
     const ProfileScreen(),
   ];
   var currentIndex = 0;
-  List<Post> kindergartenPosts = [];
-  List<Post> primaryPosts = [];
-  List<Post> preparatoryPosts = [];
-  List<Post> secondaryPosts = [];
-  List<Post> generalPosts = [];
 
   void changeBottomNavBarIndex(index) {
     currentIndex = index;
     print('current $index');
     emit(ChangeBottomNavBarHomeState());
   }
-
+  PostModel? postModel;
   void getHomePosts() async {
     emit(GetHomeDataLoadingHomeState());
-    final response = await DioHelper.getHomePostsData(
-        methodUrl: ApiConstant.getHomePostMethodUrl);
-    if (response.data == null) {
-      emit(GetHomeDataFailureHomeState());
-      return;
+    try{
+      final response = await DioHelper.getData(
+        url: ApiConstant.getHomePostMethodUrl
+      );
+      Map<String, dynamic> responseData = response.data;
+      postModel = PostModel.fromJson(responseData);
+      //print(postModel!.result![1].posts![4].title!);
+      emit(GetHomeDataSuccessHomeState(postModel!));
+      if (response.data == null) {
+        emit(GetHomeDataFailureHomeState());
+      }
+    }catch(error){
+      if (error is DioError) {
+        Map<String, dynamic> responseData = error.response!.data;
+        postModel = PostModel.fromJson(responseData);
+        print(error.response!.data.toString());
+        emit(GetHomeDataSuccessHomeState(postModel!));
+      } else {
+        print(error.toString());
+        emit(GetHomeDataFailureHomeState());
+      }
     }
-
-    final List<dynamic> kindergartenData = response.data['result'][0]['posts'];
-    kindergartenPosts = kindergartenData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-
-    final List<dynamic> primaryData = response.data['result'][1]['posts'];
-    primaryPosts = primaryData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-    final List<dynamic> preparatoryData = response.data['result'][2]['posts'];
-
-    preparatoryPosts = preparatoryData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-
-    final List<dynamic> secondaryData = response.data['result'][3]['posts'];
-    secondaryPosts = secondaryData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-    final List<dynamic> generalData = response.data['result'][4]['posts'];
-    generalPosts = generalData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-    // print(kindergartenPosts[0].images[0]);
-    // print(primaryPosts[1].images[0]);
-    // print(preparatoryPosts[2].images[0]);
-    // print(secondaryPosts[1].images[0]);
-    // print(generalPosts[3].images[0]);
-    emit(GetHomeDataSuccessHomeState());
   }
-
   bool isAddingPost = false;
   void sendNewPost({
     required String title,
@@ -206,17 +106,6 @@ class HomeCubit extends Cubit<HomeStates> {
       print('Error sending data and images: ${error.toString()}');
     }
   }
-  // void getSpecificCategory({required String level}) async {
-  //   emit(GetSpecificCategoryLoadingHomeState());
-
-  //   final response = await DioHelper.getSpecificCategory(
-  //       methodUrl: 'api/v1/levels/specific/$level');
-
-  //   if (response.data == null) {
-  //     emit(GetSpecificCategoryFailureHomeState());
-  //     return;
-  //   }
-  // }
 
   Future<void> pickImages(context) async {
     final imagePicker = ImagePicker();

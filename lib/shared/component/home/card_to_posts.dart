@@ -10,7 +10,7 @@ import '../../styles/colors.dart';
 class BuildPosts extends StatelessWidget {
   final String title;
   final String description;
-  final int price;
+  final String price;
   final String image;
   final String educationLevel;
   final String location;

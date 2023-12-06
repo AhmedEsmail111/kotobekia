@@ -6,7 +6,7 @@ import 'package:solar_icons/solar_icons.dart';
 
 class BuildCardDetails extends StatelessWidget {
   final String title;
-  final int price;
+  final double  price;
   final String description;
 
   final String location;
@@ -20,6 +20,7 @@ class BuildCardDetails extends StatelessWidget {
     required this.location,
     required this.timeSince,
   });
+
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context);
@@ -33,7 +34,6 @@ class BuildCardDetails extends StatelessWidget {
         horizontal: 16.w,
         vertical: 8.h,
       ),
-      height: 240.h,
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -54,10 +54,8 @@ class BuildCardDetails extends StatelessWidget {
                 .displayMedium!
                 .copyWith(fontWeight: FontWeight.w400, color: Colors.black),
             textAlign: TextAlign.start,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
           ),
-          const Spacer(),
+          SizedBox(height: 16.h,),
           Row(
             children: [
               const Icon(
@@ -116,14 +114,17 @@ class BuildCardDetails extends StatelessWidget {
               Icon(
                 SolarIconsOutline.clockCircle,
                 color: const Color(0xFF747474),
-                size: 14.sp,
+                size: 10.sp,
               ),
               SizedBox(
                 width: 4.w,
               ),
               Text(
                 timeSince,
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontSize: 10.sp),
               ),
             ],
           )

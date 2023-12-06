@@ -19,7 +19,7 @@ class BuildRowAboveCard extends StatelessWidget {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
     return Container(
-      margin: EdgeInsets.only(bottom: 16.h, left: 8.w, top: 8.h, right: 16.w),
+      margin: EdgeInsets.only(bottom: 16.h, left: 16.w, top: 8.h, right: 16.w),
       child: Row(
         children: [
           Text(

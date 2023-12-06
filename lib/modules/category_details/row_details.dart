@@ -34,7 +34,8 @@ class BuildRowDetails extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
-                    .copyWith(color: const Color(0xFF939393), fontSize: 14.sp),
+                    .copyWith(color: const Color(0xFF939393),
+                    fontSize: 14.sp),
               ),
               const Spacer(),
               Text(
@@ -51,26 +52,7 @@ class BuildRowDetails extends StatelessWidget {
               thickness: 1.5,
             )
 
-          // Row(
-          //   children: [
-          //     Text(
-          //       'الصف',
-          //       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-          //           color: const Color(0xFF939393), fontSize: 14.sp),
-          //     ),
-          //     const Spacer(),
-          //     SizedBox(
-          //       width: 4.w,
-          //     ),
-          //     Text(
-          //       grade,
-          //       style: Theme.of(context)
-          //           .textTheme
-          //           .titleMedium!
-          //           .copyWith(fontSize: 14.sp),
-          //     ),
-          //   ],
-          // ),
+
         ],
       ),
     );
