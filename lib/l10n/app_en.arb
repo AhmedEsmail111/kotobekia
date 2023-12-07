@@ -99,7 +99,7 @@
   "books_count": "BooksCount",
   "location_on_map": "Your location on the map",
   "submit": "submit",
-  "advice_for_price":"the purpose of the app is spreading knowledge for free. Be part of it.",
+  "advice_for_price":"the purpose of the app is spreading knowledge for free. Be a part of it.",
   "welcome": "welcome to",
   "kotobekia":"Kotobekia.", 
   "slogan":"where good nerver ends.",
@@ -138,7 +138,15 @@
   "abuse_advice2":"You can report any abuse using this icon",
   "abuse_advice3":"You'll find it in many parts of the app depending on what do you want to report",
   "abuse_advice4":"Try to be in a public place when you're delivering or taking the books, it's also better to not go alone",
-  "all":"All"
+  "all":"All",
+  "time_since":"since {time}",
+  "@time_since":{
+  "placeholders":{
+    "time": {}
+  }
+  },
+ "one_day_calender":"day",
+ "most_important_info":"important info"
 
 
 

@@ -51,54 +51,56 @@ class BuildAddPostOverlay extends StatelessWidget {
                 onTap: () {
                   homeCubit.pickImages(context);
                 },
-                child: Container(
-                  height: 75.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(color: ColorConstant.mutedColor),
-                    color: ColorConstant.lightGreyColor,
-                  ),
-                  child: homeCubit.selectedImages.isNotEmpty
-                      ? ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: List.generate(
-                            homeCubit.selectedImages.length,
-                            (index) => Container(
-                              width: MediaQuery.of(context).size.width / 5,
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: ColorConstant.mutedColor),
-                                  borderRadius: BorderRadius.circular(14)),
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 2.w, vertical: 2.h),
-                              child: Image.file(
-                                homeCubit.selectedImages[index],
-                                fit: BoxFit.cover,
+                child: Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: ColorConstant.mutedColor),
+                      color: ColorConstant.lightGreyColor,
+                    ),
+                    child: homeCubit.selectedImages.isNotEmpty
+                        ? Wrap(
+                            clipBehavior: Clip.hardEdge,
+                            alignment: WrapAlignment.center,
+                            children: List.generate(
+                              homeCubit.selectedImages.length,
+                              (index) => Container(
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 6.w, vertical: 6.h),
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(14)),
+                                child: Image.file(
+                                  homeCubit.selectedImages[index],
+                                  fit: BoxFit.cover,
+                                  width: 100.w,
+                                  height: 100.h,
+                                ),
                               ),
                             ),
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Icon(
+                                SolarIconsOutline.uploadMinimalistic,
+                                color: ColorConstant.primaryColor,
+                                size: 30.h,
+                              ),
+                              Text(
+                                locale!.upload_images,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                              ),
+                            ],
                           ),
-                        )
-                      : Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Icon(
-                              SolarIconsOutline.uploadMinimalistic,
-                              color: ColorConstant.primaryColor,
-                              size: 30.h,
-                            ),
-                            Text(
-                              locale!.upload_images,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                            ),
-                          ],
-                        ),
+                  ),
                 ),
               ),
               Text(

@@ -22,7 +22,7 @@ class BuildAddsSection extends StatelessWidget {
         right: 16.w,
         left: 16.w,
         top: 8.h,
-        bottom: 8.h,
+        bottom: 4.h,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14.sp),

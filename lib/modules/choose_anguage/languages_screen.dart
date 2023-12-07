@@ -21,61 +21,65 @@ class LanguageScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = context.read<AuthenticationCubit>();
-        return Scaffold(
-          body: Padding(
-            padding: EdgeInsets.only(top: h / 7.2, left: w / 25, right: w / 25),
-            child: Column(
-              children: [
-                Image.asset(ImageConstant.logoImage),
-                SizedBox(
-                  height: w / 7,
-                ),
-                Text(
-                  locale!.choose_language,
-                  style: font.bodyLarge,
-                ),
-                SizedBox(
-                  height: h / 31,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    BuildLanguageColumn(
-                        onTap: () {
-                          cubit.changeLanguage(false);
-                        },
-                        check: cubit.index == 0 ? true : false,
-                        containerText: locale.language_code,
-                        languageText: locale.language,
-                        context: context),
-                    SizedBox(
-                      width: w / 6.5,
-                    ),
-                    BuildLanguageColumn(
-                        onTap: () {
-                          cubit.changeLanguage(true);
-                        },
-                        check: cubit.index == 1 ? true : false,
-                        containerText: locale.language_code,
-                        languageText: locale.language,
-                        context: context)
-                  ],
-                ),
-                SizedBox(
-                  height: h / 9.2,
-                ),
-                BuildDefaultButton(
-                    onTap: cubit.index != null
-                        ? () {
-                            Navigator.pushReplacementNamed(
-                                context, 'homeLayout');
-                          }
-                        : null,
-                    text: locale.go_on,
-                    color: ColorConstant.primaryColor,
-                    elevation: 4,
-                    context: context)
-              ],
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: Scaffold(
+            body: Padding(
+              padding:
+                  EdgeInsets.only(top: h / 7.2, left: w / 25, right: w / 25),
+              child: Column(
+                children: [
+                  Image.asset(ImageConstant.logoImage),
+                  SizedBox(
+                    height: w / 7,
+                  ),
+                  Text(
+                    'إختر لغتك المفضلة',
+                    style: font.bodyLarge,
+                  ),
+                  SizedBox(
+                    height: h / 31,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      BuildLanguageColumn(
+                          onTap: () {
+                            cubit.changeLanguage(false);
+                          },
+                          check: cubit.index == 0 ? true : false,
+                          containerText: 'Aa',
+                          languageText: 'English',
+                          context: context),
+                      SizedBox(
+                        width: w / 6.5,
+                      ),
+                      BuildLanguageColumn(
+                          onTap: () {
+                            cubit.changeLanguage(true);
+                          },
+                          check: cubit.index == 1 ? true : false,
+                          containerText: 'ض',
+                          languageText: 'العربية',
+                          context: context)
+                    ],
+                  ),
+                  SizedBox(
+                    height: h / 9.2,
+                  ),
+                  BuildDefaultButton(
+                      onTap: cubit.index != null
+                          ? () {
+                              Navigator.pushReplacementNamed(
+                                  context, 'homeLayout');
+                            }
+                          : null,
+                      text: 'متابعة',
+                      color: ColorConstant.primaryColor,
+                      elevation: 4,
+                      context: context)
+                ],
+              ),
             ),
           ),
         );

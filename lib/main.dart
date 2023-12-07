@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/authentication/authentication_cubit.dart';
+import 'package:kotobekia/controller/category/category_cubit.dart';
 import 'package:kotobekia/controller/chat/chat_cubit.dart';
 import 'package:kotobekia/controller/home/home_cubit.dart';
 import 'package:kotobekia/controller/otp/otp_cubit.dart';
@@ -57,6 +58,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (ctx) => HomeCubit()..getHomePosts(),
+        ),
+        BlocProvider(
+          create: (ctx) => CategoryCubit(),
         ),
       ],
       child: ScreenUtilInit(

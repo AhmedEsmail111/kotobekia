@@ -79,7 +79,7 @@
   "location": "الموقع",
   "similar_books": "كتب مماثلة",
   "login": "تسجيل الدخول",
-  "register": "التسجيل",
+  "register": "تسجيل حساب جديد",
   "choose_language": "اختر لغتك المفضلة",
   "language": "العربية",
   "language_code": "ض",
@@ -101,7 +101,7 @@
   "submit":"نشر",
   "advice_for_price":"الهدف من التطبيق هو نشر المعرفة بالمجان ف كن ذا أثر",
   "welcome": "أهلا بيك في",
-  "kotobekia":"كتبيكيا", 
+  "kotobekia":"كتبيكيا",
   "slogan":"حيث لا حدود للخير تقدر تبدأ من هنا.",
   "create_acount": "إنشاء حساب",
   "create_acount_slogan": "أنشئ حساب وابحث عن الخير او اصنع خير جديد",
@@ -138,7 +138,15 @@
   "abuse_advice2":"تقدر تبلغ عن اي اسائة من خلال الايكون دي",
   "abuse_advice3":"هتلاقيها في اكتر من مكان في التطبيق حسب انت عايز تبلغ عن ايه",
   "abuse_advice4":"وانت بتستلم الكتاب حاول تكون في مكان عام ويفضل ما تروحش لوحدك",
-  "all":"الكل"
+  "all":"الكل",
+  "time_since":"منذ {time}",
+  "@time_since":{
+  "placeholders":{
+    "time": {}
+  }
+  },
+  "one_day_calender":"يوما",
+  "most_important_info":"اهم المعلومات"
 
  
 }

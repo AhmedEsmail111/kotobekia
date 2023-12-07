@@ -27,6 +27,7 @@ class HomeCubit extends Cubit<HomeStates> {
     const ChatScreen(),
     const ProfileScreen(),
   ];
+  HomePostsModel? homePostsModel;
   var currentIndex = 0;
   List<Post> kindergartenPosts = [];
   List<Post> primaryPosts = [];
@@ -42,122 +43,42 @@ class HomeCubit extends Cubit<HomeStates> {
 
   void getHomePosts() async {
     emit(GetHomeDataLoadingHomeState());
-    final response = await DioHelper.getHomePostsData(
-        methodUrl: ApiConstant.getHomePostMethodUrl);
-    if (response.data == null) {
+    try {
+      final response = await DioHelper.getHomePostsData(
+          methodUrl: ApiConstant.getHomePostMethodUrl);
+      if (response.data == null) {
+        emit(GetHomeDataFailureHomeState());
+        return;
+      }
+
+      homePostsModel = HomePostsModel.fromJson(response.data);
+      kindergartenPosts = homePostsModel!.result[0].posts
+          .where((element) =>
+              element.educationLevel == reversedLevels.entries.toList()[0].key)
+          .toList();
+      primaryPosts = homePostsModel!.result[1].posts
+          .where((element) =>
+              element.educationLevel == reversedLevels.entries.toList()[1].key)
+          .toList();
+      preparatoryPosts = homePostsModel!.result[2].posts
+          .where((element) =>
+              element.educationLevel == reversedLevels.entries.toList()[2].key)
+          .toList();
+
+      secondaryPosts = homePostsModel!.result[3].posts
+          .where((element) =>
+              element.educationLevel == reversedLevels.entries.toList()[3].key)
+          .toList();
+
+      generalPosts = homePostsModel!.result[4].posts
+          .where((element) =>
+              element.educationLevel == reversedLevels.entries.toList()[4].key)
+          .toList();
+      emit(GetHomeDataSuccessHomeState());
+    } catch (e) {
+      print(e.toString());
       emit(GetHomeDataFailureHomeState());
-      return;
     }
-
-    final List<dynamic> kindergartenData = response.data['result'][0]['posts'];
-    kindergartenPosts = kindergartenData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-
-    final List<dynamic> primaryData = response.data['result'][1]['posts'];
-    primaryPosts = primaryData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-    final List<dynamic> preparatoryData = response.data['result'][2]['posts'];
-
-    preparatoryPosts = preparatoryData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-
-    final List<dynamic> secondaryData = response.data['result'][3]['posts'];
-    secondaryPosts = secondaryData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-    final List<dynamic> generalData = response.data['result'][4]['posts'];
-    generalPosts = generalData
-        .map(
-          (post) => Post(
-            title: post['title'],
-            images: post['images'],
-            price: int.parse(post['price']),
-            grade: post['grade'],
-            educationLevel: post['educationLevel'],
-            location: post['location'],
-            numberOfBooks: post['numberOfBooks'],
-            seen: post['views'],
-            description: post['description'],
-            createdSince: 'منذ 5 أيام',
-            educationType: post['educationType'],
-            bookEdition: post['bookEdition'],
-            semester: post['educationTerm'],
-          ),
-        )
-        .toList();
-    // print(kindergartenPosts[0].images[0]);
-    // print(primaryPosts[1].images[0]);
-    // print(preparatoryPosts[2].images[0]);
-    // print(secondaryPosts[1].images[0]);
-    // print(generalPosts[3].images[0]);
-    emit(GetHomeDataSuccessHomeState());
   }
 
   bool isAddingPost = false;

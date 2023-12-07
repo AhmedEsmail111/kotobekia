@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/models/post_model/post_model.dart';
+import 'package:kotobekia/shared/helper/functions.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
@@ -12,7 +13,7 @@ class BuildRectangleCardPost extends StatelessWidget {
   final String image;
   final String educationLevel;
   final String location;
-
+  final DateTime timeSince;
   final int numberOfWatcher;
   final int numberOfBooks;
 
@@ -28,13 +29,17 @@ class BuildRectangleCardPost extends StatelessWidget {
     required this.numberOfWatcher,
     required this.numberOfBooks,
     required this.onTap,
+    required this.timeSince,
   });
 
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context);
+    final time = DateTime.now().difference(timeSince).inDays;
+
+    final timeText = time <= 10 ? locale!.days : locale!.one_day_calender;
     return Card(
-      elevation: 3,
+      elevation: 1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14),
       ),
@@ -46,41 +51,41 @@ class BuildRectangleCardPost extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: const Color(0xFFC8C5C5)),
           ),
-          padding: EdgeInsets.all(4.h),
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
           width: double.infinity,
           height: 178.h,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Flexible(
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      clipBehavior: Clip.hardEdge,
-                      borderRadius: BorderRadius.circular(
-                        14.sp,
-                      ),
-                      child: Image.network(
-                        width: 200.w,
-                        height: double.infinity,
-                        fit: BoxFit.cover,
-                        'https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg',
-                      ),
+              Stack(
+                children: [
+                  ClipRRect(
+                    clipBehavior: Clip.hardEdge,
+                    borderRadius: BorderRadius.circular(
+                      14.sp,
                     ),
-                    Positioned(
-                      right: 1,
-                      bottom: 1,
-                      child: IconButton(
-                        icon: Icon(
-                          SolarIconsOutline.heart,
-                          color: ColorConstant.whiteColor,
-                          size: 20.h,
-                        ),
-                        onPressed: () {},
+                    child: Image.network(
+                      width: MediaQuery.of(context).size.width / 2.6,
+                      height: 158.h,
+                      fit: BoxFit.cover,
+                      'https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg',
+                    ),
+                  ),
+                  Positioned(
+                    right: 1,
+                    bottom: 1,
+                    child: IconButton(
+                      icon: Icon(
+                        SolarIconsOutline.heart,
+                        color: ColorConstant.whiteColor,
+                        size: 20.h,
                       ),
-                    )
-                  ],
-                ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, 'getStart');
+                      },
+                    ),
+                  )
+                ],
               ),
               SizedBox(
                 width: 8.w,
@@ -89,7 +94,7 @@ class BuildRectangleCardPost extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 150.w,
+                    width: MediaQuery.of(context).size.width / 2.4,
                     child: Text(
                       title,
                       overflow: TextOverflow.ellipsis,
@@ -98,22 +103,31 @@ class BuildRectangleCardPost extends StatelessWidget {
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                           ),
+                      textDirection: HelperFunctions.isArabic(title)
+                          ? TextDirection.rtl
+                          : TextDirection.ltr,
                     ),
                   ),
                   SizedBox(
-                    width: 150.w,
-                    child: Text(
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      description,
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                    ),
+                    height: 6.h,
                   ),
-                  SizedBox(
-                    height: 5.h,
+                  Expanded(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width / 2.4,
+                      child: Text(
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                        maxLines: 2,
+                        description,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                        textDirection: HelperFunctions.isArabic(description)
+                            ? TextDirection.rtl
+                            : TextDirection.ltr,
+                      ),
+                    ),
                   ),
                   Text(
                     reversedLevels[educationLevel]!,
@@ -121,10 +135,13 @@ class BuildRectangleCardPost extends StatelessWidget {
                           fontSize: 10.sp,
                           fontWeight: FontWeight.w600,
                         ),
+                    textDirection: HelperFunctions.isArabic(
+                            reversedLevels[educationLevel]!)
+                        ? TextDirection.rtl
+                        : TextDirection.ltr,
                   ),
-                  const Spacer(),
                   SizedBox(
-                    width: 150.w,
+                    width: MediaQuery.of(context).size.width / 2.4,
                     child: Row(
                       children: [
                         Icon(
@@ -140,7 +157,7 @@ class BuildRectangleCardPost extends StatelessWidget {
                               .textTheme
                               .bodyMedium!
                               .copyWith(
-                                  fontSize: 10.sp, fontWeight: FontWeight.w900),
+                                  fontSize: 10.sp, fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
                           width: MediaQuery.sizeOf(context).width / 55,
@@ -157,7 +174,7 @@ class BuildRectangleCardPost extends StatelessWidget {
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontSize: 10.sp,
-                                    fontWeight: FontWeight.w900,
+                                    fontWeight: FontWeight.w500,
                                   ),
                         ),
                         const Spacer(),
@@ -179,7 +196,6 @@ class BuildRectangleCardPost extends StatelessWidget {
                                 .textTheme
                                 .titleLarge!
                                 .copyWith(
-                                  // textBaseline: TextBaseline.alphabetic,
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w400,
                                   color: price == 0
@@ -195,7 +211,7 @@ class BuildRectangleCardPost extends StatelessWidget {
                     height: 3,
                   ),
                   SizedBox(
-                    width: 150.w,
+                    width: MediaQuery.of(context).size.width / 2.4,
                     child: Row(
                       children: [
                         Icon(
@@ -212,6 +228,9 @@ class BuildRectangleCardPost extends StatelessWidget {
                                     fontSize: 10.sp,
                                     fontWeight: FontWeight.w500,
                                   ),
+                          textDirection: HelperFunctions.isArabic(location)
+                              ? TextDirection.rtl
+                              : TextDirection.ltr,
                         ),
                         SizedBox(
                           width: MediaQuery.sizeOf(context).width / 55,
@@ -225,7 +244,7 @@ class BuildRectangleCardPost extends StatelessWidget {
                           width: MediaQuery.sizeOf(context).width / 120,
                         ),
                         Text(
-                          'منذ 5 ايام',
+                          locale.time_since('$time $timeText'),
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
