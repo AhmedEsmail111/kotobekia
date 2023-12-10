@@ -44,7 +44,7 @@ class BuildGrid extends StatelessWidget {
               price: data[index].price,
               description: data[index].description,
               educationLevel: reversedLevels[data[index].educationLevel]!,
-              location: data[index].location,
+              location: data[index].city,
               numberOfBooks: data[index].numberOfBooks,
               numberOfWatcher: data[index].views,
               timeSince: data[index].createdAt,
@@ -55,6 +55,7 @@ class BuildGrid extends StatelessWidget {
               height: 275.h,
               width: MediaQuery.of(context).size.width / 2.2,
               contentPadding: EdgeInsets.all(8.w),
+              cardBorder: Border.all(color: const Color(0xFFEDEDED)),
             ),
           );
         },

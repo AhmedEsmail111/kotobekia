@@ -141,7 +141,7 @@ class HomeScreen extends StatelessWidget {
                           image: kinderGatenPosts[index].images[0],
                           educationLevel: reversedLevels[
                               kinderGatenPosts[index].educationLevel]!,
-                          location: kinderGatenPosts[index].location,
+                          location: kinderGatenPosts[index].city,
                           numberOfWatcher: kinderGatenPosts[index].views,
                           numberOfBooks: kinderGatenPosts[index].numberOfBooks,
                           timeSince: kinderGatenPosts[index].createdAt,
@@ -197,7 +197,7 @@ class HomeScreen extends StatelessWidget {
                           image: primaryPosts[index].images[0],
                           educationLevel: reversedLevels[
                               primaryPosts[index].educationLevel]!,
-                          location: primaryPosts[index].location,
+                          location: primaryPosts[index].city,
                           numberOfWatcher: primaryPosts[index].views,
                           numberOfBooks: primaryPosts[index].numberOfBooks,
                           timeSince: primaryPosts[index].createdAt,
@@ -254,7 +254,7 @@ class HomeScreen extends StatelessWidget {
                           image: preparatoryPosts[index].images[0],
                           educationLevel: reversedLevels[
                               preparatoryPosts[index].educationLevel]!,
-                          location: preparatoryPosts[index].location,
+                          location: preparatoryPosts[index].city,
                           numberOfWatcher: preparatoryPosts[index].views,
                           numberOfBooks: preparatoryPosts[index].numberOfBooks,
                           timeSince: preparatoryPosts[index].createdAt,
@@ -310,7 +310,7 @@ class HomeScreen extends StatelessWidget {
                           image: secondaryPosts[index].images[0],
                           educationLevel: reversedLevels[
                               secondaryPosts[index].educationLevel]!,
-                          location: secondaryPosts[index].location,
+                          location: secondaryPosts[index].city,
                           numberOfWatcher: secondaryPosts[index].views,
                           numberOfBooks: secondaryPosts[index].numberOfBooks,
                           timeSince: secondaryPosts[index].createdAt,
@@ -365,7 +365,7 @@ class HomeScreen extends StatelessWidget {
                           image: generalPosts[index].images[0],
                           educationLevel: reversedLevels[
                               generalPosts[index].educationLevel]!,
-                          location: generalPosts[index].location,
+                          location: generalPosts[index].city,
                           numberOfWatcher: generalPosts[index].views,
                           numberOfBooks: generalPosts[index].numberOfBooks,
                           timeSince: generalPosts[index].createdAt,

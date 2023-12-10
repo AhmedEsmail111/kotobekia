@@ -124,7 +124,9 @@ class ChatScreen extends StatelessWidget {
                                 );
                               },
                               separatorBuilder: (context, index) =>
-                                  const BuildDividerLine(),
+                                  const BuildDividerLine(
+                                    thickness: 1,
+                                  ),
                               itemCount: 20),
                         if (cubit.checkedTypeChat == 2)
                           ListView.separated(
@@ -141,7 +143,9 @@ class ChatScreen extends StatelessWidget {
                                 );
                               },
                               separatorBuilder: (context, index) =>
-                                  const BuildDividerLine(),
+                                  const BuildDividerLine(
+                                    thickness: 1,
+                                  ),
                               itemCount: 3),
                         if (cubit.checkedTypeChat == 3)
                           Container(

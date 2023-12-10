@@ -71,7 +71,9 @@ class MessageScreen extends StatelessWidget {
                   SizedBox(
                     height: 9.h,
                   ),
-                  const BuildDividerLine(),
+                  const BuildDividerLine(
+                    thickness: 1,
+                  ),
                   BuildItemForUserInChat(
                       font: font,
                       image:

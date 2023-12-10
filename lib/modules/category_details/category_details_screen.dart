@@ -61,7 +61,9 @@ class CategoryDetailsScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: ColorConstant.backgroundColor,
           appBar: AppBar(
-              leading: const BuildBackButton(),
+              leading: const BuildBackButton(
+                hasBackground: false,
+              ),
               title: Text(
                 postDetails.title,
                 style: Theme.of(context).textTheme.bodyLarge,
@@ -75,7 +77,7 @@ class CategoryDetailsScreen extends StatelessWidget {
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(14)),
                   width: double.infinity,
-                  height: 200.h,
+                  height: 190.h,
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
@@ -159,7 +161,7 @@ class CategoryDetailsScreen extends StatelessWidget {
                   children: [
                     BuildCardDetails(
                       description: postDetails.description,
-                      location: postDetails.location,
+                      location: postDetails.city,
                       price: postDetails.price,
                       timeSince: postDetails.createdAt,
                       title: postDetails.title,
@@ -195,7 +197,9 @@ class CategoryDetailsScreen extends StatelessWidget {
                 SizedBox(
                   height: 4.h,
                 ),
-                const BuildInteractionCard(),
+                BuildInteractionCard(
+                  postIdUrl: postDetails.id,
+                ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                   child: const BuildContactCard(name: 'أمجد حسام الدين'),

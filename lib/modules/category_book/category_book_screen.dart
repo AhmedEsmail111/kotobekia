@@ -37,7 +37,9 @@ class CategoryBooksScreen extends StatelessWidget {
           canPop: true,
           child: Scaffold(
               appBar: AppBar(
-                leading: const BuildBackButton(),
+                leading: const BuildBackButton(
+                  hasBackground: false,
+                ),
                 bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(5),
                   child: Container(),

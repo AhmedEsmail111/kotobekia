@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kotobekia/controller/authentication/authentication_cubit.dart';
+import 'package:kotobekia/controller/profile/profile_cubit.dart';
+import 'package:kotobekia/controller/profile/profile_states.dart';
 import 'package:kotobekia/shared/constants/images/images_constant.dart';
 
 import '../../shared/component/authentication/default_button_in_app.dart';
@@ -17,10 +18,10 @@ class LanguageScreen extends StatelessWidget {
     double w = MediaQuery.sizeOf(context).width;
     double h = MediaQuery.sizeOf(context).height;
     TextTheme font = Theme.of(context).textTheme;
-    return BlocConsumer<AuthenticationCubit, AuthenticationState>(
+    return BlocConsumer<ProfileCubit, ProfileStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var cubit = context.read<AuthenticationCubit>();
+        var cubit = ProfileCubit.get(context);
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Scaffold(
@@ -68,16 +69,19 @@ class LanguageScreen extends StatelessWidget {
                     height: h / 9.2,
                   ),
                   BuildDefaultButton(
-                      onTap: cubit.index != null
-                          ? () {
-                              Navigator.pushReplacementNamed(
-                                  context, 'homeLayout');
-                            }
-                          : null,
-                      text: 'متابعة',
-                      color: ColorConstant.primaryColor,
-                      elevation: 4,
-                      context: context)
+                    onTap: cubit.index != null
+                        ? () {
+                            cubit.setDefaultLanguage();
+                            Navigator.pushReplacementNamed(
+                                context, 'homeLayout');
+                          }
+                        : null,
+                    text: 'متابعة',
+                    color: ColorConstant.primaryColor,
+                    elevation: 4,
+                    context: context,
+                    withBorder: false,
+                  )
                 ],
               ),
             ),

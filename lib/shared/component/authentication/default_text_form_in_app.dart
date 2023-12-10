@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kotobekia/controller/authentication/authentication_cubit.dart';
 import 'package:solar_icons/solar_icons.dart';
+
 import '../../styles/colors.dart';
 
 // Default TextFormField in my app
@@ -21,12 +21,12 @@ class BuildDefaultTextField extends StatelessWidget {
   final int maxLenght;
   final Color backGroundColor;
   final Icon? prefixIcons;
-  final AuthenticationCubit ?cubit;
-  final int ?numberOfFormPass;
+  final AuthenticationCubit? cubit;
+  final int? numberOfFormPass;
   const BuildDefaultTextField(
       {super.key,
-         this.cubit,
-        this.numberOfFormPass,
+      this.cubit,
+      this.numberOfFormPass,
       required this.inputType,
       required this.withText,
       required this.hintText,
@@ -64,15 +64,17 @@ class BuildDefaultTextField extends StatelessWidget {
                   color: ColorConstant.backgroundColor,
                   borderRadius: BorderRadius.circular(15)),
               child: TextFormField(
-
                   maxLength: maxLenght,
                   controller: controller,
                   style: Theme.of(context).textTheme.displayLarge!.copyWith(
                         color: ColorConstant.blackColor,
                         fontWeight: FontWeight.w300,
                       ),
-                  obscureText: isObscured?
-                  (numberOfFormPass==1?cubit!.isObscureOne:cubit!.isObscureTwo):isObscured,
+                  obscureText: isObscured
+                      ? (numberOfFormPass == 1
+                          ? cubit!.isObscureOne
+                          : cubit!.isObscureTwo)
+                      : isObscured,
                   keyboardType: inputType,
                   decoration: InputDecoration(
                     counterText: '',
@@ -91,8 +93,9 @@ class BuildDefaultTextField extends StatelessWidget {
                     prefixIcon: prefixIcons,
                     suffixIcon: isObscured
                         ? InkWell(
-                            onTap:() {
-                              cubit?.changeVisiabilityPassword(numberOfFormPass!);
+                            onTap: () {
+                              cubit?.changeVisiabilityPassword(
+                                  numberOfFormPass!);
                             },
                             child: Container(
                                 width: MediaQuery.of(context).size.width / 20,
@@ -100,7 +103,9 @@ class BuildDefaultTextField extends StatelessWidget {
                                   right: MediaQuery.of(context).size.width / 40,
                                 ),
                                 alignment: Alignment.centerRight,
-                                child: (numberOfFormPass==1?cubit!.isObscureOne:cubit!.isObscureTwo)
+                                child: (numberOfFormPass == 1
+                                        ? cubit!.isObscureOne
+                                        : cubit!.isObscureTwo)
                                     ? const Icon(SolarIconsOutline.eyeClosed)
                                     : const Icon(SolarIconsOutline.eye)),
                           )

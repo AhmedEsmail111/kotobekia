@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kotobekia/controller/home/home_cubit.dart';
-import 'package:kotobekia/controller/home/home_state.dart';
+import 'package:kotobekia/controller/add_post/add_post_cubit.dart';
+import 'package:kotobekia/controller/add_post/add_post_states.dart';
 import 'package:kotobekia/layout/drop_down_button.dart';
 import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
@@ -16,30 +16,11 @@ class BuildAddPostOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context);
-    // vars to collect the entered data by the user
-    var enteredTitle = '';
 
-    var enteredDescription = '';
-
-    var enteredPrice = '';
-
-    var enteredRegion = '';
-
-    var enteredEducationLevel = '';
-
-    var enteredGrade = '';
-
-    var enteredEducationType = '';
-
-    var enteredSemester = '';
-
-    var enteredBookEdition = '';
-
-    var enteredBooksCount = '';
-    return BlocConsumer<HomeCubit, HomeStates>(
+    return BlocConsumer<AddPostCubit, AddPostStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        final homeCubit = HomeCubit.get(context);
+        final addPostCubit = AddPostCubit.get(context);
 
         return Container(
           color: ColorConstant.backgroundColor,
@@ -49,58 +30,57 @@ class BuildAddPostOverlay extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  homeCubit.pickImages(context);
+                  addPostCubit.pickImages(context);
                 },
-                child: Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: ColorConstant.mutedColor),
-                      color: ColorConstant.lightGreyColor,
-                    ),
-                    child: homeCubit.selectedImages.isNotEmpty
-                        ? Wrap(
-                            clipBehavior: Clip.hardEdge,
-                            alignment: WrapAlignment.center,
-                            children: List.generate(
-                              homeCubit.selectedImages.length,
-                              (index) => Container(
-                                width: MediaQuery.of(context).size.width / 2.5,
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: 6.w, vertical: 6.h),
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(14)),
-                                child: Image.file(
-                                  homeCubit.selectedImages[index],
-                                  fit: BoxFit.cover,
-                                  width: 100.w,
-                                  height: 100.h,
-                                ),
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 6.h),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(color: ColorConstant.mutedColor),
+                    color: ColorConstant.lightGreyColor,
+                  ),
+                  child: addPostCubit.selectedImages.isNotEmpty
+                      ? Wrap(
+                          clipBehavior: Clip.hardEdge,
+                          alignment: WrapAlignment.center,
+                          children: List.generate(
+                            addPostCubit.selectedImages.length,
+                            (index) => Container(
+                              width: MediaQuery.of(context).size.width / 2.6,
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 6.w, vertical: 6.h),
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(14)),
+                              child: Image.file(
+                                addPostCubit.selectedImages[index],
+                                fit: BoxFit.cover,
+                                width: 100.w,
+                                height: 100.h,
                               ),
                             ),
-                          )
-                        : Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Icon(
-                                SolarIconsOutline.uploadMinimalistic,
-                                color: ColorConstant.primaryColor,
-                                size: 30.h,
-                              ),
-                              Text(
-                                locale!.upload_images,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                              ),
-                            ],
                           ),
-                  ),
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Icon(
+                              SolarIconsOutline.uploadMinimalistic,
+                              color: ColorConstant.primaryColor,
+                              size: 30.h,
+                            ),
+                            Text(
+                              locale!.upload_images,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                            ),
+                          ],
+                        ),
                 ),
               ),
               Text(
@@ -143,7 +123,7 @@ class BuildAddPostOverlay extends StatelessWidget {
                             color: ColorConstant.iconColor,
                           ),
                         ),
-                        items: homeCubit.regionsDropDownItem.map((region) {
+                        items: addPostCubit.regionsDropDownItem.map((region) {
                           return DropdownMenuItem(
                             value: region,
                             child: Container(
@@ -160,12 +140,12 @@ class BuildAddPostOverlay extends StatelessWidget {
                         }).toList(),
                         onChanged: (value) {
                           if (value != null) {
-                            enteredRegion = value;
+                            addPostCubit.changeRegion(value);
                           }
                         },
                         onSaved: (value) {
                           if (value != null) {
-                            enteredRegion = value;
+                            addPostCubit.changeRegion(value);
                           }
                         },
                         validator: (value) {
@@ -211,12 +191,12 @@ class BuildAddPostOverlay extends StatelessWidget {
                           filled: true,
                         ),
                         onSaved: (value) {
-                          enteredTitle = value!;
+                          addPostCubit.changeTitle(value!);
                         },
                         validator: (value) {
                           if (value == null ||
                               value.trim().isEmpty ||
-                              value.trim().length < 12) {
+                              value.trim().length < 5) {
                             return 'من فضلك أدخل عنوان صحيح';
                           }
                           return null;
@@ -260,7 +240,7 @@ class BuildAddPostOverlay extends StatelessWidget {
                           filled: true,
                         ),
                         onSaved: (value) {
-                          enteredDescription = value!;
+                          addPostCubit.changeDescription(value!);
                         },
                         validator: (value) {
                           if (value == null ||
@@ -302,13 +282,13 @@ class BuildAddPostOverlay extends StatelessWidget {
                             filled: true,
                           ),
                           onSaved: (value) {
-                            enteredPrice = value!;
+                            addPostCubit.changePrice(value!);
                           },
                           validator: (value) {
                             if (value == null ||
                                 value.trim().isEmpty ||
                                 value.trim().length > 3 ||
-                                int.parse(value) > 500) {
+                                int.parse(value) > 400) {
                               return ' أدخل سعر مناسب';
                             }
                             return null;
@@ -355,7 +335,7 @@ class BuildAddPostOverlay extends StatelessWidget {
                           ),
                           maxLines: 1,
                           onSaved: (value) {
-                            enteredBooksCount = value!;
+                            addPostCubit.changeBooksCount(value!);
                           },
                           validator: (value) {
                             if (value == null ||
@@ -369,57 +349,66 @@ class BuildAddPostOverlay extends StatelessWidget {
                       ),
                     ),
                     BuildDropDownButton(
-                      dropDownValue: homeCubit.educationLevelsDropDownItems[3],
-                      items: homeCubit.educationLevelsDropDownItems,
+                      dropDownValue: addPostCubit.educationLevel,
+                      items: addPostCubit.educationLevelsDropDownItems,
                       text: locale.education_level,
                       onSelect: (value) {
                         if (value != null) {
-                          enteredEducationLevel = value;
-                          homeCubit.changeEducationLevel(value);
+                          // enteredEducationLevel = value;
+                          addPostCubit.changeEducationLevel(value);
                         }
                       },
                       onSave: (value) {
-                        enteredEducationLevel = value!;
+                        if (value != null) {
+                          // enteredEducationLevel = value;
+                          addPostCubit.changeEducationLevel(value);
+                        }
                       },
                     ),
                     BuildDropDownButton(
-                      dropDownValue: homeCubit.educationLevel == 'إبتدائي'
-                          ? homeCubit.modifiedGradeDropDownItems[2]
-                          : homeCubit.gradeDropDownItems[2],
-                      items: homeCubit.educationLevel == 'إبتدائي'
-                          ? homeCubit.modifiedGradeDropDownItems
-                          : homeCubit.gradeDropDownItems,
+                      dropDownValue: addPostCubit.modifiedGradeDropDownItems[2],
+                      items: addPostCubit.educationLevel == 'إبتدائي'
+                          ? addPostCubit.modifiedGradeDropDownItems
+                          : addPostCubit.gradeDropDownItems,
                       text: locale.grade,
                       onSelect: (value) {},
                       onSave: (value) {
-                        enteredGrade = value!;
+                        if (value != null) {
+                          addPostCubit.changeGrade(value);
+                        }
                       },
                     ),
                     BuildDropDownButton(
-                      dropDownValue: homeCubit.educationTypeDropDownItems[0],
-                      items: homeCubit.educationTypeDropDownItems,
+                      dropDownValue: addPostCubit.educationTypeDropDownItems[0],
+                      items: addPostCubit.educationTypeDropDownItems,
                       text: locale.education_type,
-                      onSelect: (value) {},
+                      onSelect: (value) {
+                        addPostCubit.changeEducationType(value!);
+                      },
                       onSave: (value) {
-                        enteredEducationType = value!;
+                        addPostCubit.changeEducationType(value!);
                       },
                     ),
                     BuildDropDownButton(
-                      dropDownValue: homeCubit.termDropDownItems[0],
-                      items: homeCubit.termDropDownItems,
+                      dropDownValue: addPostCubit.termDropDownItems[0],
+                      items: addPostCubit.termDropDownItems,
                       text: locale.term,
-                      onSelect: (value) {},
+                      onSelect: (value) {
+                        addPostCubit.changeSemester(value!);
+                      },
                       onSave: (value) {
-                        enteredSemester = value!;
+                        addPostCubit.changeSemester(value!);
                       },
                     ),
                     BuildDropDownButton(
-                      dropDownValue: homeCubit.yearsDropDownItems[1],
-                      items: homeCubit.yearsDropDownItems,
+                      dropDownValue: addPostCubit.yearsDropDownItems[1],
+                      items: addPostCubit.yearsDropDownItems,
                       text: locale.education_year,
-                      onSelect: (value) {},
+                      onSelect: (value) {
+                        addPostCubit.changeBookEdition(value!);
+                      },
                       onSave: (value) {
-                        enteredBookEdition = value!;
+                        addPostCubit.changeBookEdition(value!);
                       },
                     )
                   ],
@@ -444,7 +433,7 @@ class BuildAddPostOverlay extends StatelessWidget {
                 ),
                 height: 147.h,
                 width: double.infinity,
-                child: homeCubit.locationImageUrl != null
+                child: addPostCubit.locationImageUrl != null
                     ? Image.network('src')
                     : Icon(
                         SolarIconsOutline.mapPoint,
@@ -455,7 +444,7 @@ class BuildAddPostOverlay extends StatelessWidget {
               SizedBox(
                 height: 10.h,
               ),
-              homeCubit.isAddingPost
+              addPostCubit.isAddingPost
                   ? const CircularProgressIndicator(
                       color: ColorConstant.primaryColor,
                     )
@@ -471,18 +460,18 @@ class BuildAddPostOverlay extends StatelessWidget {
                         ),
                         onPressed: () {
                           submit(
-                            homeCubit: homeCubit,
+                            addPostCubit: addPostCubit,
                             context: context,
-                            title: enteredTitle,
-                            description: enteredDescription,
-                            price: enteredPrice,
-                            educationLevel: enteredEducationLevel,
-                            educationType: enteredEducationType,
-                            grade: enteredGrade,
-                            region: enteredRegion,
-                            semester: enteredSemester,
-                            bookEdition: enteredBookEdition,
-                            booksCount: enteredBooksCount,
+                            title: addPostCubit.enteredTitle,
+                            description: addPostCubit.enteredDescription,
+                            price: addPostCubit.enteredPrice,
+                            educationLevel: addPostCubit.educationLevel,
+                            educationType: addPostCubit.enteredEducationType,
+                            grade: addPostCubit.enteredGrade,
+                            region: addPostCubit.enteredRegion,
+                            semester: addPostCubit.enteredSemester,
+                            bookEdition: addPostCubit.enteredBookEdition,
+                            booksCount: addPostCubit.enteredBooksCount,
                           );
                         },
                         child: Text(
@@ -504,7 +493,7 @@ class BuildAddPostOverlay extends StatelessWidget {
   }
 
   void submit({
-    required HomeCubit homeCubit,
+    required AddPostCubit addPostCubit,
     required BuildContext context,
     required String title,
     required String description,
@@ -517,8 +506,7 @@ class BuildAddPostOverlay extends StatelessWidget {
     required String bookEdition,
     required String booksCount,
   }) {
-    print(homeCubit.isAddingPost);
-    if (homeCubit.selectedImages.isEmpty) {
+    if (addPostCubit.selectedImages.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
@@ -530,17 +518,27 @@ class BuildAddPostOverlay extends StatelessWidget {
     }
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
+      print('title $title');
+      print('description $description');
+      print('grade $grade');
+      print('educationlevel $educationLevel');
+      print('semester $semester');
+      print('educationtype $educationType');
+      print('booksCount $booksCount');
+      print('region $region');
+      print('price $price');
+      print('bookedition $bookEdition');
 
-      homeCubit.sendNewPost(
+      addPostCubit.sendNewPost(
         title: title,
         description: description,
         price: price,
         educationLevel: levels[educationLevel]!,
         educationType: educationType,
         grade: grade,
-        location: region,
+        cityLocation: region,
         semester: semester,
-        images: homeCubit.selectedImages,
+        images: addPostCubit.selectedImages,
         bookEdition: bookEdition,
         numberOfBooks: booksCount,
       );

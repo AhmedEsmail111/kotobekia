@@ -40,7 +40,7 @@ class BuildList extends StatelessWidget {
               price: data[index].price,
               description: data[index].description,
               educationLevel: data[index].educationLevel,
-              location: data[index].location,
+              location: data[index].city,
               numberOfBooks: data[index].numberOfBooks,
               numberOfWatcher: data[index].views,
               timeSince: data[index].createdAt,

@@ -1,58 +1,55 @@
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../styles/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../styles/colors.dart';
 
 // Default Button in my app
 
 class BuildDefaultButton extends StatelessWidget {
-  final VoidCallback ?onTap;
+  final VoidCallback? onTap;
   final String text;
   final Color color;
   final double elevation;
   final BuildContext context;
+  final bool withBorder;
 
-  const BuildDefaultButton({super.key,
+  const BuildDefaultButton({
+    super.key,
     required this.onTap,
     required this.text,
     required this.color,
     required this.elevation,
-    required this.context});
+    required this.context,
+    required this.withBorder,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery
-          .of(context)
-          .size
-          .height / 17,
+      height: 50.h,
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: elevation,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14)),
+            side: withBorder
+                ? const BorderSide(color: ColorConstant.primaryColor)
+                : BorderSide.none,
+            borderRadius: BorderRadius.circular(14),
+          ),
           backgroundColor: color,
         ),
         onPressed: onTap,
         child: Text(
           text,
-          style: Theme
-              .of(context)
-              .textTheme
-              .bodyLarge!
-              .copyWith(
-            color: ColorConstant.foregroundColor,
-            fontWeight: FontWeight.w500,
-            fontSize: MediaQuery
-                .of(context)
-                .size
-                .width / 22.5,
-          ),
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color:
+                    withBorder ? Colors.black : ColorConstant.foregroundColor,
+                fontWeight: FontWeight.w500,
+                fontSize: MediaQuery.of(context).size.width / 22.5,
+              ),
         ),
       ),
     );
   }
 }
-

@@ -35,8 +35,6 @@ class FailedUserLoginState extends AuthenticationState {
 
 class SuccessChangeGenderState extends AuthenticationState {}
 
-class SuccessChangeCheckLanguageState extends AuthenticationState {}
-
 class SuccessChangeVisibilityPasswordState extends AuthenticationState {}
 
 class ChangeDefaultLanguageAuthenticationState extends AuthenticationState {}

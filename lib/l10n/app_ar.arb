@@ -81,8 +81,6 @@
   "login": "تسجيل الدخول",
   "register": "تسجيل حساب جديد",
   "choose_language": "اختر لغتك المفضلة",
-  "language": "العربية",
-  "language_code": "ض",
   "go_on": "متابعة",
   "palestine": "بلد بعد فلسطين ولا عاصمه بعد القدس",
   "palestine_2": "القدس هي عاصمة فلسطين اﻷبديه",
@@ -146,7 +144,23 @@
   }
   },
   "one_day_calender":"يوما",
-  "most_important_info":"اهم المعلومات"
+  "most_important_info":"اهم المعلومات",
+  "number_of_chats":"عدد المحادثات",
+  "number_of_posts":"عدد المنشورات",
+  "personal_badges":"الاوسمة الخاصة",
+  "modify_profile":"تعديل الملف الشخصي",
+  "favorite_adds":"الاعلانات المفضلة",
+  "language":"اللغة",
+  "dark_mode":"الوضع الليلي",
+  "help":"مساعدة",
+  "report_problem":"التبليغ عن مشكلة",
+  "log_out":"تسجيل الخروج",
+  "interaction":"محادثه",
+  "adds":"إعلانات",
+  "personal_profile":"الملف الشخصي",
+  "modify_password":"تغيير كلمة المرور",
+  "save_changes":"حفظ التغييرات"
+ 
 
  
 }

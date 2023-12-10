@@ -81,8 +81,6 @@
   "login": "login",
   "register": "register",
   "choose_language": "select your preferred language",
-  "language": "English",
-  "language_code": "Aa",
   "go_on": "Continue",
   "palestine": "There is no Country but palestine and no Capital but Al-Quds",
   "palestine_2": "Al-Quds is Palestine's eternal capital",
@@ -146,7 +144,22 @@
   }
   },
  "one_day_calender":"day",
- "most_important_info":"important info"
+ "most_important_info":"important info",
+  "number_of_chats":"Chats",
+  "number_of_posts":"Posts",
+  "personal_badges":"Personal badges",
+  "modify_profile":"Modify personal info",
+  "favorite_adds":"Favorite adds",
+  "language":"Language",
+  "dark_mode":"Dark mode",
+  "help":"Help",
+  "report_problem":"Report a Problem",
+  "log_out":"Log out",
+  "interaction":"Interaction",
+  "adds":"Adds",
+  "personal_profile":"Personal Profile",
+  "modify_password":"Modify Password",
+  "save_changes":"Save Changes"
 
 
 

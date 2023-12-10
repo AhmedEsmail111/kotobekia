@@ -171,7 +171,9 @@ class OtpScreen extends StatelessWidget {
                                 text: locale.confirm,
                                 color: ColorConstant.primaryColor,
                                 elevation: 4,
-                                context: context)
+                                context: context,
+                                withBorder: false,
+                              )
                             : const Center(
                                 child: CircularProgressIndicator(
                                   color: ColorConstant.primaryColor,

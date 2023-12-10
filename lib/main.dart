@@ -4,16 +4,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kotobekia/controller/add_post/add_post_cubit.dart';
 import 'package:kotobekia/controller/authentication/authentication_cubit.dart';
 import 'package:kotobekia/controller/category/category_cubit.dart';
+import 'package:kotobekia/controller/category_details/category_details_cubit.dart';
 import 'package:kotobekia/controller/chat/chat_cubit.dart';
+import 'package:kotobekia/controller/favorites/favorites_cubit.dart';
 import 'package:kotobekia/controller/home/home_cubit.dart';
 import 'package:kotobekia/controller/otp/otp_cubit.dart';
+import 'package:kotobekia/controller/profile/profile_cubit.dart';
+import 'package:kotobekia/controller/profile/profile_states.dart';
 import 'package:kotobekia/l10n/l10n.dart';
 import 'package:kotobekia/layout/home_layout.dart';
+import 'package:kotobekia/modules/change_language/change_language.dart';
 import 'package:kotobekia/modules/create_account/create_account_screen.dart';
+import 'package:kotobekia/modules/favorite_adds/favorite_adds_.dart';
 import 'package:kotobekia/modules/get_start/get_start_screen.dart';
 import 'package:kotobekia/modules/login/Login_screen.dart';
+import 'package:kotobekia/modules/modify_profile/modify_profile.dart';
 import 'package:kotobekia/modules/otp/otp_screen.dart';
 import 'package:kotobekia/modules/verified_email/verified_email_screen.dart';
 import 'package:kotobekia/shared/constants/app/app_constant.dart';
@@ -62,6 +70,18 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (ctx) => CategoryCubit(),
         ),
+        BlocProvider(
+          create: (ctx) => AddPostCubit(),
+        ),
+        BlocProvider(
+          create: (ctx) => ProfileCubit(),
+        ),
+        BlocProvider(
+          create: (ctx) => FavoritesCubit(),
+        ),
+        BlocProvider(
+          create: (ctx) => CategoryDetailsCubit(),
+        ),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),
@@ -69,10 +89,10 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         // Use builder only if you need to use library outside ScreenUtilInit context
         builder: (_, child) {
-          return BlocConsumer<AuthenticationCubit, AuthenticationState>(
+          return BlocConsumer<ProfileCubit, ProfileStates>(
             listener: (ctx, state) {},
             builder: (ctx, state) {
-              final authenticationCubit = AuthenticationCubit.get(_);
+              final profileCubit = ProfileCubit.get(_);
               return MaterialApp(
                 routes: {
                   'homeLayout': (context) => LayoutScreen(),
@@ -83,8 +103,11 @@ class MyApp extends StatelessWidget {
                   'otp': (context) => const OtpScreen(),
                   'message': (context) => const MessageScreen(),
                   'chat': (context) => const ChatScreen(),
+                  'modifyProfile': (context) => const ModifyProfileScreen(),
+                  'favoriteAdds': (context) => const FavoriteAddsScreen(),
+                  'changeLanguage': (context) => const ChangeLanguageScreen(),
                 },
-                locale: authenticationCubit.locale,
+                locale: profileCubit.locale,
                 localizationsDelegates: const [
                   AppLocalizations.delegate,
                   GlobalMaterialLocalizations.delegate,

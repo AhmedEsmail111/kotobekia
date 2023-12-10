@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kotobekia/shared/component/vertical_divider.dart';
 import 'package:kotobekia/shared/constants/images/images_constant.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
@@ -83,10 +84,8 @@ class BuildContactCard extends StatelessWidget {
                 ),
               ],
             ),
-            Container(
+            const BuildVerticalDivider(
               height: double.infinity,
-              width: 2.w,
-              color: ColorConstant.midGrayColor,
             ),
             SizedBox(
               width: 60.w,

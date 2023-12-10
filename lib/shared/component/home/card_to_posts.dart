@@ -27,6 +27,7 @@ class BuildPosts extends StatelessWidget {
   final double cardElevation;
   final BoxBorder? cardBorder;
   final void Function() onTap;
+
   const BuildPosts({
     super.key,
     required this.title,
@@ -63,7 +64,9 @@ class BuildPosts extends StatelessWidget {
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-            color: ColorConstant.backgroundColor,
+            color: cardBorder != null
+                ? ColorConstant.whiteColor
+                : ColorConstant.backgroundColor,
             borderRadius: borderRadius,
             border: cardBorder,
           ),

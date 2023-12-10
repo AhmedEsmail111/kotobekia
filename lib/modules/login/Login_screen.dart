@@ -121,7 +121,9 @@ class LoginScreen extends StatelessWidget {
                                   text: locale.login,
                                   color: ColorConstant.primaryColor,
                                   elevation: 4,
-                                  context: context)
+                                  context: context,
+                                  withBorder: false,
+                                )
                               : const Center(
                                   child: CircularProgressIndicator(
                                     color: ColorConstant.primaryColor,
