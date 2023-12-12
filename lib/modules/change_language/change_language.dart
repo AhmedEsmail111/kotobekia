@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kotobekia/controller/profile/profile_cubit.dart';
-import 'package:kotobekia/controller/profile/profile_states.dart';
+import 'package:kotobekia/controller/language/language_cubit.dart';
+import 'package:kotobekia/controller/language/language_states.dart';
 import 'package:kotobekia/modules/change_language/language_tile.dart';
 import 'package:kotobekia/shared/component/authentication/default_button_in_app.dart';
 import 'package:kotobekia/shared/component/divider_line.dart';
@@ -17,18 +17,18 @@ class ChangeLanguageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context);
-    return BlocConsumer<ProfileCubit, ProfileStates>(
+    return BlocConsumer<LanguageCubit, LanguageStates>(
       listener: (ctx, state) {},
       builder: (ctx, state) {
-        final profileCubit = ProfileCubit.get(context);
+        final languageCubit = LanguageCubit.get(context);
 
         return PopScope(
           onPopInvoked: (_) {
-            profileCubit.arabicStatus =
+            languageCubit.arabicStatus =
                 CacheHelper.getData(key: AppConstant.languageKey) == 'ar'
                     ? true
                     : false;
-            profileCubit.englishStatus = !profileCubit.arabicStatus;
+            languageCubit.englishStatus = !languageCubit.arabicStatus;
           },
           child: Scaffold(
             body: SafeArea(
@@ -55,10 +55,10 @@ class ChangeLanguageScreen extends StatelessWidget {
                         children: [
                           BuildLanguageTile(
                             text: 'العربية',
-                            isClicked: profileCubit.arabicStatus,
+                            isClicked: languageCubit.arabicStatus,
                             onClick: (status) {
-                              profileCubit.changeLanguageStatus(
-                                  !profileCubit.arabicStatus, 1);
+                              languageCubit.changeLanguageStatus(
+                                  !languageCubit.arabicStatus, 1);
                             },
                           ),
                           Padding(
@@ -67,10 +67,10 @@ class ChangeLanguageScreen extends StatelessWidget {
                           ),
                           BuildLanguageTile(
                             text: 'English',
-                            isClicked: profileCubit.englishStatus,
+                            isClicked: languageCubit.englishStatus,
                             onClick: (status) {
-                              profileCubit.changeLanguageStatus(
-                                  !profileCubit.englishStatus, 0);
+                              languageCubit.changeLanguageStatus(
+                                  !languageCubit.englishStatus, 0);
                             },
                           ),
                         ],
@@ -81,7 +81,7 @@ class ChangeLanguageScreen extends StatelessWidget {
                   BuildDefaultButton(
                     withBorder: false,
                     onTap: () {
-                      profileCubit.setDefaultLanguage();
+                      languageCubit.setDefaultLanguage();
                       Navigator.pop(context);
                     },
                     text: locale.save_changes,

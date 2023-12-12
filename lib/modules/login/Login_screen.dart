@@ -193,7 +193,7 @@ class LoginScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is SuccessUserLoginState) {
           if (state.userModel.token == null) {
-            snakBarMessage(
+            snackBarMessage(
                 snackbarState: SnackbarState.error,
                 context: context,
                 message: state.userModel.message.toString());
@@ -201,7 +201,7 @@ class LoginScreen extends StatelessWidget {
             Navigator.pushNamed(context, '');
           }
         } else if (state is FailedUserLoginState) {
-          snakBarMessage(
+          snackBarMessage(
               snackbarState: SnackbarState.error,
               context: context,
               message: state.error);

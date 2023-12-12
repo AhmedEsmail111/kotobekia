@@ -14,7 +14,7 @@ class BuildPosts extends StatelessWidget {
   final int price;
   final String image;
   final String educationLevel;
-  final String location;
+  final String cityLocation;
   final DateTime timeSince;
   final int numberOfWatcher;
   final int numberOfBooks;
@@ -35,7 +35,7 @@ class BuildPosts extends StatelessWidget {
     required this.price,
     required this.image,
     required this.educationLevel,
-    required this.location,
+    required this.cityLocation,
     // required this.lastTime,
     required this.numberOfWatcher,
     required this.numberOfBooks,
@@ -57,6 +57,45 @@ class BuildPosts extends StatelessWidget {
     final time = DateTime.now().difference(timeSince).inDays;
 
     final timeText = time <= 10 ? locale!.days : locale!.one_day_calender;
+    //  to show returned education level based on the user's locale
+    final reversEducationLevels = {
+      '655b4ec133dd362ae53081f7': locale.kindergarten,
+      '655b4ecd33dd362ae53081f9': locale.primary,
+      '655b4ee433dd362ae53081fb': locale.preparatory,
+      '655b4efb33dd362ae53081fd': locale.secondary,
+      '655b4f0a33dd362ae53081ff': locale.general,
+    };
+
+    //  to show returned city based on the user's locale
+    final reversedRegions = {
+      'cairo': locale.cairo,
+      'giza': locale.giza,
+      'alexandria': locale.alexandria,
+      'dakahlia': locale.dakahlia,
+      'sharqia': locale.sharqia,
+      'monufia': locale.monufia,
+      'qalyubia': locale.qalyubia,
+      'beheira': locale.beheira,
+      'port_said': locale.port_said,
+      'damietta': locale.damietta,
+      'ismailia': locale.ismailia,
+      'suez': locale.suez,
+      'kafr_el_sheikh': locale.kafr_el_sheikh,
+      'fayoum': locale.fayoum,
+      'beni_suef': locale.beni_suef,
+      'matruh': locale.matruh,
+      'north_sinai': locale.north_sinai,
+      'south_sinai': locale.south_sinai,
+      'minya': locale.minya,
+      'asyut': locale.asyut,
+      'sohag': locale.sohag,
+      'qena': locale.qena,
+      'red_sea': locale.red_sea,
+      'luxor': locale.luxor,
+      'aswan': locale.aswan,
+    };
+    final city = reversedRegions[cityLocation];
+
     return Card(
       elevation: cardElevation,
       shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -204,7 +243,7 @@ class BuildPosts extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 padding: EdgeInsets.symmetric(vertical: 4.h),
                 child: Text(
-                  educationLevel,
+                  reversEducationLevels[educationLevel]!,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 10.sp,
                         fontWeight: FontWeight.w400,
@@ -221,20 +260,22 @@ class BuildPosts extends StatelessWidget {
                     size: 10.h,
                   ),
                   SizedBox(
-                    width: MediaQuery.sizeOf(context).width / 90,
+                    width: 2.w,
                   ),
                   Text(
-                    location,
+                    city!,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontSize: 10.sp,
                           fontWeight: FontWeight.w500,
                         ),
-                    textDirection: HelperFunctions.isArabic(location)
+                    textDirection: HelperFunctions.isArabic(city)
                         ? TextDirection.rtl
                         : TextDirection.ltr,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: true,
                   ),
                   SizedBox(
-                    width: MediaQuery.sizeOf(context).width / 55,
+                    width: 4.w,
                   ),
                   const Spacer(),
                   Icon(
@@ -242,14 +283,19 @@ class BuildPosts extends StatelessWidget {
                     size: 10.h,
                   ),
                   SizedBox(
-                    width: MediaQuery.sizeOf(context).width / 120,
+                    width: 2.w,
                   ),
-                  Text(
-                    locale.time_since('$time $timeText '),
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontSize: 10.sp, fontWeight: FontWeight.w500),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 6.7,
+                    child: Text(
+                      locale.time_since('$time $timeText'),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: true,
+                    ),
                   ),
                 ],
               )

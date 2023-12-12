@@ -11,9 +11,10 @@ import 'package:kotobekia/controller/category_details/category_details_cubit.dar
 import 'package:kotobekia/controller/chat/chat_cubit.dart';
 import 'package:kotobekia/controller/favorites/favorites_cubit.dart';
 import 'package:kotobekia/controller/home/home_cubit.dart';
+import 'package:kotobekia/controller/language/language_cubit.dart';
+import 'package:kotobekia/controller/language/language_states.dart';
 import 'package:kotobekia/controller/otp/otp_cubit.dart';
 import 'package:kotobekia/controller/profile/profile_cubit.dart';
-import 'package:kotobekia/controller/profile/profile_states.dart';
 import 'package:kotobekia/l10n/l10n.dart';
 import 'package:kotobekia/layout/home_layout.dart';
 import 'package:kotobekia/modules/change_language/change_language.dart';
@@ -82,6 +83,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (ctx) => CategoryDetailsCubit(),
         ),
+        BlocProvider(
+          create: (ctx) => LanguageCubit(),
+        ),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),
@@ -89,10 +93,10 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         // Use builder only if you need to use library outside ScreenUtilInit context
         builder: (_, child) {
-          return BlocConsumer<ProfileCubit, ProfileStates>(
+          return BlocConsumer<LanguageCubit, LanguageStates>(
             listener: (ctx, state) {},
             builder: (ctx, state) {
-              final profileCubit = ProfileCubit.get(_);
+              final profileCubit = LanguageCubit.get(_);
               return MaterialApp(
                 routes: {
                   'homeLayout': (context) => LayoutScreen(),

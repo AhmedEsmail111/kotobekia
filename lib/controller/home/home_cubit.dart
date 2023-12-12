@@ -49,26 +49,21 @@ class HomeCubit extends Cubit<HomeStates> {
 
       homePostsModel = HomePostsModel.fromJson(response.data);
       kindergartenPosts = homePostsModel!.result[0].posts
-          .where((element) =>
-              element.educationLevel == reversedLevels.entries.toList()[0].key)
+          .where((element) => element.educationLevel == levels[0])
           .toList();
       primaryPosts = homePostsModel!.result[1].posts
-          .where((element) =>
-              element.educationLevel == reversedLevels.entries.toList()[1].key)
+          .where((element) => element.educationLevel == levels[1])
           .toList();
       preparatoryPosts = homePostsModel!.result[2].posts
-          .where((element) =>
-              element.educationLevel == reversedLevels.entries.toList()[2].key)
+          .where((element) => element.educationLevel == levels[2])
           .toList();
 
       secondaryPosts = homePostsModel!.result[3].posts
-          .where((element) =>
-              element.educationLevel == reversedLevels.entries.toList()[3].key)
+          .where((element) => element.educationLevel == levels[3])
           .toList();
 
       generalPosts = homePostsModel!.result[4].posts
-          .where((element) =>
-              element.educationLevel == reversedLevels.entries.toList()[4].key)
+          .where((element) => element.educationLevel == levels[4])
           .toList();
       emit(GetHomeDataSuccessHomeState());
     } catch (e) {

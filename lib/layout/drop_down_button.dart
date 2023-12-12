@@ -7,18 +7,24 @@ import 'package:solar_icons/solar_icons.dart';
 //           'المرحلة التعليمية',
 
 class BuildDropDownButton extends StatelessWidget {
-  final String dropDownValue;
+  final String dropDownHint;
+  final String errorMessage;
   final List<String> items;
+  final String? selectedValue;
   final String text;
+  final IconData? icon;
   final void Function(String? value)? onSelect;
   final void Function(String? value)? onSave;
   const BuildDropDownButton({
     super.key,
-    required this.dropDownValue,
+    required this.dropDownHint,
     required this.items,
     required this.text,
     this.onSelect,
     this.onSave,
+    required this.errorMessage,
+    this.icon,
+    this.selectedValue,
   });
   @override
   Widget build(BuildContext context) {
@@ -26,14 +32,18 @@ class BuildDropDownButton extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 4.h,
+          height: 16.h,
         ),
-        Text(
-          text,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium!
-              .copyWith(fontWeight: FontWeight.w500),
+        if (icon == null)
+          Text(
+            text,
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(fontWeight: FontWeight.w500),
+          ),
+        SizedBox(
+          height: 4.h,
         ),
         Container(
           clipBehavior: Clip.hardEdge,
@@ -41,17 +51,29 @@ class BuildDropDownButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
           ),
           child: DropdownButtonFormField(
-            value: dropDownValue,
+            value: selectedValue,
             menuMaxHeight: 300.h,
             icon: Icon(
               SolarIconsOutline.altArrowDown,
               size: 16.h,
               color: ColorConstant.iconColor,
             ),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               fillColor: ColorConstant.whiteColor,
               filled: true,
+              // hintText: dropDownHint,
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(fontWeight: FontWeight.w500, color: Colors.black26),
               border: InputBorder.none,
+              prefixIcon: icon != null
+                  ? Icon(
+                      icon,
+                      size: 16.h,
+                      color: ColorConstant.iconColor,
+                    )
+                  : null,
             ),
             items: items.map((level) {
               return DropdownMenuItem(
@@ -70,6 +92,12 @@ class BuildDropDownButton extends StatelessWidget {
             }).toList(),
             onChanged: onSelect,
             onSaved: onSave,
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return errorMessage;
+              }
+              return null;
+            },
           ),
         ),
       ],

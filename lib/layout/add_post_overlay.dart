@@ -5,20 +5,89 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/add_post/add_post_cubit.dart';
 import 'package:kotobekia/controller/add_post/add_post_states.dart';
 import 'package:kotobekia/layout/drop_down_button.dart';
-import 'package:kotobekia/models/post_model/post_model.dart';
+import 'package:kotobekia/shared/component/authentication/default_button_in_app.dart';
+import 'package:kotobekia/shared/component/snakbar_message.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
-
-final formKey = GlobalKey<FormState>();
 
 class BuildAddPostOverlay extends StatelessWidget {
   const BuildAddPostOverlay({super.key});
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
     final locale = AppLocalizations.of(context);
+    final sentMessageSnackBar = locale!.choose_all_message;
+    final selectImagesMessage = locale.images_not_choesen_message;
+    // to be able to match the backend requirements
+
+    final grades = {
+      locale.grade_one: 'grade_one',
+      locale.grade_two: 'grade_two',
+      locale.grade_three: 'grade_three',
+      locale.grade_four: 'grade_four',
+      locale.grade_five: 'grade_five',
+      locale.grade_six: 'grade_six',
+    };
+
+    final termDropDownItems = {
+      locale.first: 'first',
+      locale.second: 'second',
+      locale.both: 'both'
+    };
+
+    final educationTypeDropDownItems = {
+      locale.general_type: 'general',
+      locale.azhar: 'azhar',
+      locale.any_type: 'other',
+    };
+
+    final educationLevelsDropDownItems = {
+      locale.kindergarten: '655b4ec133dd362ae53081f7',
+      locale.primary: '655b4ecd33dd362ae53081f9',
+      locale.preparatory: '655b4ee433dd362ae53081fb',
+      locale.secondary: '655b4efb33dd362ae53081fd',
+      locale.general: '655b4f0a33dd362ae53081ff'
+    };
+
+    final regionsDropDownItems = {
+      locale.cairo: 'cairo',
+      locale.giza: 'giza',
+      locale.alexandria: 'alexandria',
+      locale.dakahlia: 'dakahlia',
+      locale.sharqia: 'sharqia',
+      locale.monufia: 'monufia',
+      locale.qalyubia: 'qalyubia',
+      locale.beheira: 'beheira',
+      locale.port_said: 'port_said',
+      locale.damietta: 'damietta',
+      locale.ismailia: 'ismailia',
+      locale.suez: 'suez',
+      locale.kafr_el_sheikh: 'kafr_el_sheikh',
+      locale.fayoum: 'fayoum',
+      locale.beni_suef: 'beni_suef',
+      locale.matruh: 'matruh',
+      locale.north_sinai: 'north_sinai',
+      locale.south_sinai: 'south_sinai',
+      locale.minya: 'minya',
+      locale.asyut: 'asyut',
+      locale.sohag: 'sohag',
+      locale.qena: 'qena',
+      locale.red_sea: 'red_sea',
+      locale.luxor: 'luxor',
+      locale.aswan: 'aswan',
+    };
 
     return BlocConsumer<AddPostCubit, AddPostStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is SendNewPostSuccess) {
+          snackBarMessage(
+            context: context,
+            message: locale.add_new_message,
+            snackbarState: SnackbarState.inValid,
+          );
+          // Navigator.pop(context);
+        }
+      },
       builder: (context, state) {
         final addPostCubit = AddPostCubit.get(context);
 
@@ -71,7 +140,7 @@ class BuildAddPostOverlay extends StatelessWidget {
                               size: 30.h,
                             ),
                             Text(
-                              locale!.upload_images,
+                              locale.upload_images,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -84,7 +153,7 @@ class BuildAddPostOverlay extends StatelessWidget {
                 ),
               ),
               Text(
-                locale!.maximum_images,
+                locale.maximum_images,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontWeight: FontWeight.w400,
                       fontSize: 11.sp,
@@ -96,75 +165,30 @@ class BuildAddPostOverlay extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: DropdownButtonFormField(
-                        menuMaxHeight: 300.h,
-                        icon: Icon(
-                          SolarIconsOutline.altArrowDown,
-                          size: 16.h,
-                          color: ColorConstant.iconColor,
-                        ),
-                        decoration: InputDecoration(
-                          fillColor: ColorConstant.whiteColor,
-                          filled: true,
-                          border: InputBorder.none,
-                          hintText: locale.your_city,
-                          hintStyle: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(fontWeight: FontWeight.w500),
-                          prefixIcon: Icon(
-                            SolarIconsOutline.mapPoint,
-                            size: 16.h,
-                            color: ColorConstant.iconColor,
-                          ),
-                        ),
-                        items: addPostCubit.regionsDropDownItem.map((region) {
-                          return DropdownMenuItem(
-                            value: region,
-                            child: Container(
-                              height: 50,
-                              alignment: Alignment.topCenter,
-                              child: RichText(
-                                text: TextSpan(
-                                  text: region,
-                                  style: DefaultTextStyle.of(context).style,
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          if (value != null) {
-                            addPostCubit.changeRegion(value);
-                          }
-                        },
-                        onSaved: (value) {
-                          if (value != null) {
-                            addPostCubit.changeRegion(value);
-                          }
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'من فضلك اختر المافظة التابع لها';
-                          }
-                          return null;
-                        },
-                      ),
+                    BuildDropDownButton(
+                      icon: SolarIconsOutline.mapPoint,
+                      dropDownHint: locale.your_city,
+                      items: regionsDropDownItems.keys.toList(),
+                      text: '',
+                      errorMessage: locale.city_error_message,
+                      onSelect: (value) {
+                        addPostCubit.changeRegion(regionsDropDownItems[value]!);
+                      },
+                      onSave: (value) {
+                        addPostCubit.changeRegion(regionsDropDownItems[value]!);
+                      },
                     ),
                     SizedBox(
                       height: 5.h,
                     ),
                     Text(
                       locale.post_title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontWeight: FontWeight.w500),
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
+                    SizedBox(
+                      height: 4.h,
                     ),
                     Container(
                       clipBehavior: Clip.hardEdge,
@@ -180,7 +204,7 @@ class BuildAddPostOverlay extends StatelessWidget {
                         // maxLength: 30,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
-                          hintText: 'مجموعة كتب الأضواء',
+                          hintText: locale.title_hint,
                           hintStyle:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.w600,
@@ -191,13 +215,15 @@ class BuildAddPostOverlay extends StatelessWidget {
                           filled: true,
                         ),
                         onSaved: (value) {
-                          addPostCubit.changeTitle(value!);
+                          if (value != null) {
+                            addPostCubit.changeTitle(value);
+                          }
                         },
                         validator: (value) {
                           if (value == null ||
                               value.trim().isEmpty ||
                               value.trim().length < 5) {
-                            return 'من فضلك أدخل عنوان صحيح';
+                            return locale.title_error_message;
                           }
                           return null;
                         },
@@ -212,6 +238,9 @@ class BuildAddPostOverlay extends StatelessWidget {
                           .textTheme
                           .titleMedium!
                           .copyWith(fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      height: 4.h,
                     ),
                     Container(
                       clipBehavior: Clip.hardEdge,
@@ -228,8 +257,7 @@ class BuildAddPostOverlay extends StatelessWidget {
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                           hintMaxLines: 3,
-                          hintText:
-                              '5 كتب عبارة عن كتاب العربي وكتاب الإنجليزي والتاريخ والجغرافيا والفلسفة',
+                          hintText: locale.description_hint,
                           hintStyle:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.w400,
@@ -246,7 +274,7 @@ class BuildAddPostOverlay extends StatelessWidget {
                           if (value == null ||
                               value.trim().isEmpty ||
                               value.trim().length < 12) {
-                            return 'من فضلك أدخل وصف صحيح';
+                            return locale.description_error_message;
                           }
                           return null;
                         },
@@ -261,6 +289,9 @@ class BuildAddPostOverlay extends StatelessWidget {
                           .textTheme
                           .titleMedium!
                           .copyWith(fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      height: 4.h,
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2.8,
@@ -289,7 +320,7 @@ class BuildAddPostOverlay extends StatelessWidget {
                                 value.trim().isEmpty ||
                                 value.trim().length > 3 ||
                                 int.parse(value) > 400) {
-                              return ' أدخل سعر مناسب';
+                              return locale.price_error_message;
                             }
                             return null;
                           },
@@ -315,6 +346,9 @@ class BuildAddPostOverlay extends StatelessWidget {
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
+                      height: 4.h,
+                    ),
+                    SizedBox(
                       width: MediaQuery.of(context).size.width / 2.8,
                       child: Container(
                         clipBehavior: Clip.hardEdge,
@@ -338,10 +372,8 @@ class BuildAddPostOverlay extends StatelessWidget {
                             addPostCubit.changeBooksCount(value!);
                           },
                           validator: (value) {
-                            if (value == null ||
-                                value.trim().isEmpty ||
-                                value.trim().length > 2) {
-                              return 'أدخل عدد الكتب';
+                            if (value == null || value.trim().isEmpty) {
+                              return locale.books_count_error_message;
                             }
                             return null;
                           },
@@ -349,59 +381,71 @@ class BuildAddPostOverlay extends StatelessWidget {
                       ),
                     ),
                     BuildDropDownButton(
-                      dropDownValue: addPostCubit.educationLevel,
-                      items: addPostCubit.educationLevelsDropDownItems,
+                      dropDownHint: locale.your_education_level,
+                      errorMessage: locale.level_error_message,
+                      items: educationLevelsDropDownItems.keys.toList(),
                       text: locale.education_level,
                       onSelect: (value) {
                         if (value != null) {
-                          // enteredEducationLevel = value;
-                          addPostCubit.changeEducationLevel(value);
+                          addPostCubit.changeEducationLevel(
+                              educationLevelsDropDownItems[value]!);
                         }
                       },
                       onSave: (value) {
                         if (value != null) {
-                          // enteredEducationLevel = value;
-                          addPostCubit.changeEducationLevel(value);
+                          addPostCubit.changeEducationLevel(
+                              educationLevelsDropDownItems[value]!);
                         }
                       },
                     ),
                     BuildDropDownButton(
-                      dropDownValue: addPostCubit.modifiedGradeDropDownItems[2],
-                      items: addPostCubit.educationLevel == 'إبتدائي'
-                          ? addPostCubit.modifiedGradeDropDownItems
-                          : addPostCubit.gradeDropDownItems,
+                      // selectedValue: addPostCubit.enteredGrade,
+                      dropDownHint: locale.your_grade,
+                      errorMessage: locale.grade_error_message,
+                      items:
+                          // addPostCubit.isPrimary
+                          //     ? grades.keys.toList().sublist(0, 3)
+                          //     :
+                          grades.keys.toList(),
                       text: locale.grade,
-                      onSelect: (value) {},
+                      onSelect: (value) {
+                        addPostCubit.changeGrade(grades[value]!);
+                      },
                       onSave: (value) {
                         if (value != null) {
-                          addPostCubit.changeGrade(value);
+                          addPostCubit.changeGrade(grades[value]!);
                         }
                       },
                     ),
                     BuildDropDownButton(
-                      dropDownValue: addPostCubit.educationTypeDropDownItems[0],
-                      items: addPostCubit.educationTypeDropDownItems,
+                      dropDownHint: locale.your_education_type,
+                      errorMessage: locale.type_error_message,
+                      items: educationTypeDropDownItems.keys.toList(),
                       text: locale.education_type,
                       onSelect: (value) {
-                        addPostCubit.changeEducationType(value!);
+                        addPostCubit.changeEducationType(
+                            educationTypeDropDownItems[value]!);
                       },
                       onSave: (value) {
-                        addPostCubit.changeEducationType(value!);
+                        addPostCubit.changeEducationType(
+                            educationTypeDropDownItems[value]!);
                       },
                     ),
                     BuildDropDownButton(
-                      dropDownValue: addPostCubit.termDropDownItems[0],
-                      items: addPostCubit.termDropDownItems,
+                      dropDownHint: locale.your_semester,
+                      errorMessage: locale.semester_error_message,
+                      items: termDropDownItems.keys.toList(),
                       text: locale.term,
                       onSelect: (value) {
-                        addPostCubit.changeSemester(value!);
+                        addPostCubit.changeSemester(termDropDownItems[value]!);
                       },
                       onSave: (value) {
-                        addPostCubit.changeSemester(value!);
+                        addPostCubit.changeSemester(termDropDownItems[value]!);
                       },
                     ),
                     BuildDropDownButton(
-                      dropDownValue: addPostCubit.yearsDropDownItems[1],
+                      errorMessage: locale.edition_error_message,
+                      dropDownHint: locale.your_book_edition,
                       items: addPostCubit.yearsDropDownItems,
                       text: locale.education_year,
                       onSelect: (value) {
@@ -414,77 +458,72 @@ class BuildAddPostOverlay extends StatelessWidget {
                   ],
                 ),
               ),
-              Text(
-                locale.location_on_map,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontWeight: FontWeight.w500),
-              ),
-              Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(bottom: 8.h),
-                decoration: BoxDecoration(
-                  color: ColorConstant.whiteColor,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(
-                    color: const Color(0xFFC8C5C5),
-                  ),
-                ),
-                height: 147.h,
-                width: double.infinity,
-                child: addPostCubit.locationImageUrl != null
-                    ? Image.network('src')
-                    : Icon(
-                        SolarIconsOutline.mapPoint,
-                        size: 40.h,
-                        color: ColorConstant.secondaryColor,
-                      ),
-              ),
+              // Text(
+              //   locale.location_on_map,
+              //   style: Theme.of(context)
+              //       .textTheme
+              //       .titleMedium!
+              //       .copyWith(fontWeight: FontWeight.w500),
+              // ),
+              // Container(
+              //   alignment: Alignment.center,
+              //   margin: EdgeInsets.only(bottom: 8.h),
+              //   decoration: BoxDecoration(
+              //     color: ColorConstant.whiteColor,
+              //     borderRadius: BorderRadius.circular(14),
+              //     border: Border.all(
+              //       color: const Color(0xFFC8C5C5),
+              //     ),
+              //   ),
+              //   height: 147.h,
+              //   width: double.infinity,
+              //   child: addPostCubit.locationImageUrl != null
+              //       ? Image.network('src')
+              //       : Icon(
+              //           SolarIconsOutline.mapPoint,
+              //           size: 40.h,
+              //           color: ColorConstant.secondaryColor,
+              //         ),
+              // ),
               SizedBox(
-                height: 10.h,
+                height: 24.h,
               ),
               addPostCubit.isAddingPost
-                  ? const CircularProgressIndicator(
-                      color: ColorConstant.primaryColor,
-                    )
-                  : Container(
-                      clipBehavior: Clip.hardEdge,
-                      margin: EdgeInsets.only(bottom: 10.h),
-                      height: 45.h,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14)),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorConstant.primaryColor,
-                        ),
-                        onPressed: () {
-                          submit(
-                            addPostCubit: addPostCubit,
-                            context: context,
-                            title: addPostCubit.enteredTitle,
-                            description: addPostCubit.enteredDescription,
-                            price: addPostCubit.enteredPrice,
-                            educationLevel: addPostCubit.educationLevel,
-                            educationType: addPostCubit.enteredEducationType,
-                            grade: addPostCubit.enteredGrade,
-                            region: addPostCubit.enteredRegion,
-                            semester: addPostCubit.enteredSemester,
-                            bookEdition: addPostCubit.enteredBookEdition,
-                            booksCount: addPostCubit.enteredBooksCount,
-                          );
-                        },
-                        child: Text(
-                          locale.submit,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: ColorConstant.whiteColor),
-                        ),
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: ColorConstant.primaryColor,
                       ),
                     )
+                  : BuildDefaultButton(
+                      onTap: () {
+                        if (formKey.currentState!.validate()) {
+                          formKey.currentState!.save();
+                          submit(
+                              addPostCubit: addPostCubit,
+                              context: context,
+                              title: addPostCubit.enteredTitle,
+                              description: addPostCubit.enteredDescription,
+                              price: addPostCubit.enteredPrice,
+                              educationLevel: addPostCubit.educationLevel,
+                              educationType: addPostCubit.enteredEducationType,
+                              grade: addPostCubit.enteredGrade,
+                              region: addPostCubit.enteredRegion,
+                              semester: addPostCubit.enteredSemester,
+                              bookEdition: addPostCubit.enteredBookEdition,
+                              booksCount: addPostCubit.enteredBooksCount,
+                              message: sentMessageSnackBar,
+                              selectImagesMessage: selectImagesMessage);
+                        }
+                      },
+                      text: locale.submit,
+                      color: ColorConstant.primaryColor,
+                      elevation: 3,
+                      context: context,
+                      withBorder: false,
+                    ),
+              SizedBox(
+                height: 16.h,
+              ),
             ],
           ),
         );
@@ -505,44 +544,60 @@ class BuildAddPostOverlay extends StatelessWidget {
     required String semester,
     required String bookEdition,
     required String booksCount,
+    required String message,
+    required String selectImagesMessage,
   }) {
     if (addPostCubit.selectedImages.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'من فضلك قم بإختيار  صور الإعلان',
-            textAlign: TextAlign.center,
-          ),
-        ),
+      snackBarMessage(
+        context: context,
+        message: selectImagesMessage,
+        snackbarState: SnackbarState.error,
       );
+      return;
     }
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
-      print('title $title');
-      print('description $description');
-      print('grade $grade');
-      print('educationlevel $educationLevel');
-      print('semester $semester');
-      print('educationtype $educationType');
-      print('booksCount $booksCount');
-      print('region $region');
-      print('price $price');
-      print('bookedition $bookEdition');
 
-      addPostCubit.sendNewPost(
-        title: title,
-        description: description,
-        price: price,
-        educationLevel: levels[educationLevel]!,
-        educationType: educationType,
-        grade: grade,
-        cityLocation: region,
-        semester: semester,
-        images: addPostCubit.selectedImages,
-        bookEdition: bookEdition,
-        numberOfBooks: booksCount,
+    // if (formKey.currentState!.validate()) {
+    //   formKey.currentState!.save();
+    if (addPostCubit.enteredBookEdition.trim().isEmpty ||
+        addPostCubit.enteredEducationType.trim().isEmpty ||
+        addPostCubit.enteredGrade.trim().isEmpty ||
+        addPostCubit.enteredSemester.trim().isEmpty ||
+        addPostCubit.educationLevel.trim().isEmpty ||
+        addPostCubit.enteredTitle.trim().isEmpty ||
+        addPostCubit.enteredDescription.trim().isEmpty ||
+        addPostCubit.enteredPrice.trim().isEmpty ||
+        addPostCubit.enteredBookEdition.trim().isEmpty) {
+      snackBarMessage(
+        context: context,
+        message: message,
+        snackbarState: SnackbarState.error,
       );
-      Navigator.pop(context);
+      return;
     }
+    print('title $title');
+    print('description $description');
+    print('grade $grade');
+    print('educationlevel $educationLevel');
+    print('semester $semester');
+    print('educationtype $educationType');
+    print('booksCount $booksCount');
+    print('region $region');
+    print('price $price');
+    print('bookEdition $bookEdition');
+
+    addPostCubit.sendNewPost(
+      title: title,
+      description: description,
+      price: price,
+      educationLevel: educationLevel,
+      educationType: educationType,
+      grade: grade,
+      cityLocation: region,
+      semester: semester,
+      images: addPostCubit.selectedImages,
+      bookEdition: bookEdition,
+      numberOfBooks: booksCount,
+    );
   }
 }
+// }

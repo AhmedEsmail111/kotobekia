@@ -209,13 +209,13 @@ class OtpScreen extends StatelessWidget {
           if (state.otpModel.message == 'OTP Verified Successfully') {
             Navigator.pushReplacementNamed(context, 'verifiedEmail');
           } else {
-            snakBarMessage(
+            snackBarMessage(
                 snackbarState: SnackbarState.error,
                 context: context,
                 message: state.otpModel.message.toString());
           }
         } else if (state is FailedVerifyOtpState) {
-          snakBarMessage(
+          snackBarMessage(
               snackbarState: SnackbarState.error,
               context: context,
               message: state.error);

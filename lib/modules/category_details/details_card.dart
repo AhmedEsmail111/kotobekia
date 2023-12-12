@@ -10,7 +10,7 @@ class BuildCardDetails extends StatelessWidget {
   final int price;
   final String description;
 
-  final String location;
+  final String cityLocation;
   final DateTime timeSince;
 
   const BuildCardDetails({
@@ -18,7 +18,7 @@ class BuildCardDetails extends StatelessWidget {
     required this.title,
     required this.price,
     required this.description,
-    required this.location,
+    required this.cityLocation,
     required this.timeSince,
   });
   @override
@@ -28,6 +28,35 @@ class BuildCardDetails extends StatelessWidget {
 
     final timeText = time <= 10 ? locale!.days : locale!.one_day_calender;
 
+    //  to show returned city based on the user's locale
+    final reversedRegions = {
+      'cairo': locale.cairo,
+      'giza': locale.giza,
+      'alexandria': locale.alexandria,
+      'dakahlia': locale.dakahlia,
+      'sharqia': locale.sharqia,
+      'monufia': locale.monufia,
+      'qalyubia': locale.qalyubia,
+      'beheira': locale.beheira,
+      'port_said': locale.port_said,
+      'damietta': locale.damietta,
+      'ismailia': locale.ismailia,
+      'suez': locale.suez,
+      'kafr_el_sheikh': locale.kafr_el_sheikh,
+      'fayoum': locale.fayoum,
+      'beni_suef': locale.beni_suef,
+      'matruh': locale.matruh,
+      'north_sinai': locale.north_sinai,
+      'south_sinai': locale.south_sinai,
+      'minya': locale.minya,
+      'asyut': locale.asyut,
+      'sohag': locale.sohag,
+      'qena': locale.qena,
+      'red_sea': locale.red_sea,
+      'luxor': locale.luxor,
+      'aswan': locale.aswan,
+    };
+    final city = reversedRegions[cityLocation];
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
       decoration: BoxDecoration(
@@ -128,12 +157,12 @@ class BuildCardDetails extends StatelessWidget {
                 width: 4.w,
               ),
               Text(
-                location,
+                city!,
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
                     .copyWith(fontSize: 14.sp),
-                textDirection: HelperFunctions.isArabic(title)
+                textDirection: HelperFunctions.isArabic(city)
                     ? TextDirection.rtl
                     : TextDirection.ltr,
               ),

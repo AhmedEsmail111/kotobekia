@@ -34,7 +34,7 @@ class CreateAccountScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is SuccessUserCreateAccountState) {
           if (state.userModel.token == null) {
-            snakBarMessage(
+            snackBarMessage(
                 snackbarState: SnackbarState.error,
                 context: context,
                 message: state.userModel.message.toString());
@@ -43,7 +43,7 @@ class CreateAccountScreen extends StatelessWidget {
                 arguments: emailController.text);
           }
         } else if (state is FailedUserCreateAccountState) {
-          snakBarMessage(
+          snackBarMessage(
               snackbarState: SnackbarState.error,
               context: context,
               message: state.error);

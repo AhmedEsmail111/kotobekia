@@ -1,50 +1,36 @@
-// static list for the levels
-final levels = [
-  '655b4ec133dd362ae53081f7',
-  '655b4ecd33dd362ae53081f9',
-  '655b4ee433dd362ae53081fb',
-  '655b4efb33dd362ae53081fd',
-  '655b4f0a33dd362ae53081ff',
-];
-
-class HomePostsModel {
+class SpecificCategoryModel {
   final String message;
-  final List<Outcome> result;
+  final int totalPages;
+  final int page;
+  final int totalDocuments;
+  final int remainingPages;
+  final int? nextPage;
+  final List<Result> posts;
 
-  HomePostsModel({
+  SpecificCategoryModel({
     required this.message,
-    required this.result,
-  });
-
-  factory HomePostsModel.fromJson(Map<String, dynamic> json) => HomePostsModel(
-        message: json["message"],
-        result: json["result"] != null
-            ? List<Outcome>.from(json["result"].map((x) => Outcome.fromJson(x)))
-            : [],
-      );
-}
-
-class Outcome {
-  final String id;
-  final String educationLevel;
-  final List<Post> posts;
-
-  Outcome({
-    required this.id,
-    required this.educationLevel,
+    required this.totalPages,
+    required this.page,
+    required this.totalDocuments,
+    required this.remainingPages,
+    required this.nextPage,
     required this.posts,
   });
 
-  factory Outcome.fromJson(Map<String, dynamic> json) => Outcome(
-        id: json["_id"],
-        educationLevel: json["educationLevel"],
-        posts: json["posts"] != null
-            ? List<Post>.from(json["posts"].map((x) => Post.fromJson(x)))
-            : [],
+  factory SpecificCategoryModel.fromJson(Map<String, dynamic> json) =>
+      SpecificCategoryModel(
+        message: json["message"],
+        totalPages: json["totalPages"],
+        page: json["page"],
+        totalDocuments: json["totalDocuments"],
+        remainingPages: json["remainingPages"],
+        nextPage: json["nextPage"],
+        posts: List<Result>.from(
+            json["result"].map((post) => Result.fromJson(post))),
       );
 }
 
-class Post {
+class Result {
   final String id;
   final String title;
   final String description;
@@ -67,36 +53,36 @@ class Post {
   final DateTime? updatedAt;
   final int postId;
 
-  Post({
+  Result({
     required this.id,
     required this.title,
     required this.description,
     required this.images,
-    this.postType,
+    required this.postType,
     required this.price,
     required this.grade,
     required this.bookEdition,
     required this.educationLevel,
-    this.postStatus,
+    required this.postStatus,
     required this.views,
-    this.feedback,
+    required this.feedback,
     required this.numberOfBooks,
     required this.semester,
     required this.educationType,
     required this.location,
     required this.city,
-    this.identificationNumber,
+    required this.identificationNumber,
     required this.createdAt,
-    this.updatedAt,
+    required this.updatedAt,
     required this.postId,
   });
 
-  factory Post.fromJson(Map<String, dynamic> json) => Post(
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["_id"],
         title: json["title"],
         description: json["description"],
-        images: List<String>.from(json["images"].map((x) => x)),
-        postType: json["postType"] ?? '',
+        images: List<String>.from(json["images"].map((image) => image)),
+        postType: json["postType"],
         price: json["price"] != null
             ? json["price"] is int
                 ? int.parse(json["price"])

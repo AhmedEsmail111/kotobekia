@@ -4,13 +4,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/category/category_cubit.dart';
 import 'package:kotobekia/controller/category/category_states.dart';
-import 'package:kotobekia/controller/home/home_cubit.dart';
-import 'package:kotobekia/controller/home/home_state.dart';
+import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/modules/category_book/grid.dart';
 import 'package:kotobekia/modules/category_book/list.dart';
 import 'package:kotobekia/shared/component/back_button.dart';
 import 'package:kotobekia/shared/component/home/adds_section.dart';
 import 'package:kotobekia/shared/component/home/dignity_flag.dart';
+import 'package:kotobekia/shared/component/home/search_container.dart';
+import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
 class CategoryBooksScreen extends StatelessWidget {
@@ -22,21 +23,37 @@ class CategoryBooksScreen extends StatelessWidget {
 
   final int categoryIndex;
   final String category;
+
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context);
+
+    CategoryCubit.get(context).handleScroll(levels[categoryIndex], context);
+    CategoryCubit.get(context).getCategory(levels[categoryIndex], context);
+
     return BlocConsumer<CategoryCubit, CategoryStates>(
-      listener: (ctx, state) {},
+      listener: (ctx, state) {
+        // if (!CategoryCubit.get(context).isThereOtherData) {
+        //   ScaffoldMessenger.of(context)
+        //       .showSnackBar(SnackBar(content: Text('no more')));
+        // }
+      },
       builder: (ctx, state) {
         final categoryCubit = CategoryCubit.get(context);
+        print(categoryCubit.posts.length);
+        print(categoryCubit.page);
+        print(categoryCubit.isThereOtherData);
 
         return PopScope(
           onPopInvoked: (e) {
+            categoryCubit.posts = [];
+            categoryCubit.isThereOtherData = true;
+            categoryCubit.page = 1;
             categoryCubit.changeLayout(true);
           },
           canPop: true,
           child: Scaffold(
-              appBar: AppBar(
+            appBar: AppBar(
                 leading: const BuildBackButton(
                   hasBackground: false,
                 ),
@@ -60,95 +77,66 @@ class CategoryBooksScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-                title: Container(
-                  width: 292.w,
-                  height: 38.h,
-                  clipBehavior: Clip.hardEdge,
-                  margin: EdgeInsets.only(top: 8.h),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14.sp),
+                title: const BuildSearchContainer()),
+            body: SafeArea(
+              child: Column(
+                children: [
+                  BuildPalestine(text: locale!.palestine_2),
+                  const BuildAddsSection(
+                    imageUrl:
+                        "https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg",
                   ),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14.sp),
-                          borderSide: const BorderSide(
-                            color: Color(0xFFC8C5C5),
-                          )),
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 19.h),
-                      hintTextDirection: TextDirection.rtl,
-                      hintStyle:
-                          Theme.of(context).textTheme.titleSmall!.copyWith(
-                                fontWeight: FontWeight.w400,
-                              ),
-                      hintText: locale!.search,
-                      prefixIcon: Icon(
-                        SolarIconsOutline.magnifier,
-                        size: 15.w,
+                  Container(
+                      margin: EdgeInsets.only(
+                        left: 16.w,
+                        right: 16.w,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            category,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              categoryCubit.changeLayout(!categoryCubit.isGrid);
+                            },
+                            icon: !categoryCubit.isGrid
+                                ? Icon(
+                                    SolarIconsOutline.widget,
+                                    size: 32.w,
+                                  )
+                                : Icon(
+                                    SolarIconsOutline.hamburgerMenu,
+                                    size: 32.w,
+                                  ),
+                          ),
+                        ],
+                      )),
+                  if (state is GetCategoryDataLoadingState &&
+                      state.isFirstFetch)
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: ColorConstant.primaryColor,
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              body: SafeArea(
-                child: Column(
-                  children: [
-                    BuildPalestine(text: locale.palestine_2),
-                    const BuildAddsSection(
-                      imageUrl:
-                          "https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg",
-                    ),
-                    Container(
-                        margin: EdgeInsets.only(
-                          left: 16.w,
-                          right: 16.w,
+                  categoryCubit.isGrid
+                      ? BuildGrid(
+                          data: categoryCubit.posts,
+                          categoryIndex: categoryIndex,
+                        )
+                      : BuildList(
+                          categoryIndex: categoryIndex,
+                          data: categoryCubit.posts,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              category,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                categoryCubit
-                                    .changeLayout(!categoryCubit.isGrid);
-                              },
-                              icon: !categoryCubit.isGrid
-                                  ? Icon(
-                                      SolarIconsOutline.widget,
-                                      size: 32.w,
-                                    )
-                                  : Icon(
-                                      SolarIconsOutline.hamburgerMenu,
-                                      size: 32.w,
-                                    ),
-                            ),
-                          ],
-                        )),
-                    BlocBuilder<HomeCubit, HomeStates>(
-                      builder: (ctx, state) {
-                        final homePostsModel =
-                            HomeCubit.get(ctx).homePostsModel;
-                        final categoryCubit = CategoryCubit.get(context);
-                        return categoryCubit.isGrid
-                            ? BuildGrid(
-                                data:
-                                    homePostsModel!.result[categoryIndex].posts,
-                                categoryIndex: categoryIndex,
-                              )
-                            : BuildList(
-                                categoryIndex: categoryIndex,
-                                data:
-                                    homePostsModel!.result[categoryIndex].posts,
-                              );
-                      },
-                    ),
-                  ],
-                ),
-              )),
+                ],
+              ),
+            ),
+          ),
         );
       },
     );

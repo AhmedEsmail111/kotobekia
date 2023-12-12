@@ -26,9 +26,7 @@ class FavoriteAddsScreen extends StatelessWidget {
                     color: const Color(0xFFD9D9D9),
                     text: locale!.favorite_adds,
                   )),
-              BuildGrid(
-                  data: HomeCubit.get(context).kindergartenPosts,
-                  categoryIndex: 0)
+              BuildGrid(data: [], categoryIndex: 0)
             ],
           ),
         );

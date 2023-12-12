@@ -4,7 +4,7 @@
   "my_posts": "إعلاناتي",
   "messages": "الرسائل",
   "account": "الحساب",
-  "kindergarten": "روض الأطفال",
+  "kindergarten": "رياض الأطفال",
   "primary": "التعليم الابتدائي",
   "preparatory": "التعليم الإعدادي",
   "secondary": "التعليم الثانوي",
@@ -159,8 +159,34 @@
   "adds":"إعلانات",
   "personal_profile":"الملف الشخصي",
   "modify_password":"تغيير كلمة المرور",
-  "save_changes":"حفظ التغييرات"
- 
+  "save_changes":"حفظ التغييرات",
+  "add_new_message":"قد تم رفع الإعلان يتم مراجعته الآن",
+  "choose_all_message":"من فضلك فم بإدخال جميع المعلومات",
+  "first":"الأول",
+  "second":"الثاني",
+  "both":"كلاهما",
+  "azhar":"أزهر",
+  "general_type":"تربية وتعليم",
+  "any_type":"عام",
+  "your_education_level":"اختر المرحلة التعليمية",
+  "your_grade":"اختر الصف الدراسي",
+  "your_education_type":"اختر نوع التعليم",
+  "your_semester":"اختر التيرم",
+  "your_book_edition":"سنة إصدار الكتاب",
+  "city_error_message":"من فضلك اختر المحافظة التابع لها",
+  "level_error_message":"يجا اختيار مستوى تعليمي",
+  "type_error_message":"يجب إختيار نوع التعليم",
+  "semester_error_message":"يجب إختيار الفصل الدراسي",
+  "grade_error_message":"يجب إختيار الصف",
+  "edition_error_message":"يجب اختيار سنة إصدار الكتب",
+  "title_hint":"مجموعة كتب الأضواء",
+  "description_hint":" كتب عبارة عن كتاب العربي وكتاب الإنجليزي والتاريخ والجغرافيا والفلسفة 5",
+  "title_error_message":"من فضلك أدخل عنوان صحيح",
+  "description_error_message":"من فضلك أدخل وصف صحيح",
+  "price_error_message":"أدخل سعر مناسب",
+  "books_count_error_message":"أدخل عدد الكتب",
+  "images_not_choesen_message":"من فضلك قم بإختيار صور الإعلان"
+  
 
  
 }

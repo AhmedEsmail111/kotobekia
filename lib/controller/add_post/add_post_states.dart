@@ -23,3 +23,7 @@ class UserChangingSemesterAddPostState extends AddPostStates {}
 class UserChangingBookEditionAddPostState extends AddPostStates {}
 
 class UserChangingRegionAddPostState extends AddPostStates {}
+
+class SendNewPostSuccess extends AddPostStates {}
+
+class SendNewPostFailure extends AddPostStates {}

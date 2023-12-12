@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kotobekia/controller/add_post/add_post_states.dart';
+import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/shared/component/snakbar_message.dart';
 import 'package:kotobekia/shared/network/remote/remote.dart';
 
@@ -25,10 +26,12 @@ class AddPostCubit extends Cubit<AddPostStates> {
     }
     if (pickedImages.length > 5) {
       if (context.mounted) {
-        snakBarMessage(
-            context: context,
-            message: 'من فضلك قم بإختيار 5 صور فقط',
-            snackbarState: SnackbarState.inValid);
+        snackBarMessage(
+          context: context,
+          message: 'من فضلك قم بإختيار 5 صور فقط',
+          snackbarState: SnackbarState.inValid,
+        );
+        return;
       }
     }
     images = [];
@@ -52,39 +55,49 @@ class AddPostCubit extends Cubit<AddPostStates> {
     required List<File> images,
     required String numberOfBooks,
   }) async {
-    try {
-      isAddingPost = true;
-      final response = await DioHelper.sendNewPostData(
-        title: title,
-        description: description,
-        price: price,
-        educationLevel: educationLevel,
-        educationType: educationType,
-        grade: grade,
-        bookEdition: bookEdition,
-        cityLocation: cityLocation,
-        semester: semester,
-        images: images,
-        numberOfBooks: numberOfBooks,
-      );
+    if (enteredGrade.trim().isNotEmpty &&
+        enteredBookEdition.trim().isNotEmpty &&
+        enteredEducationType.trim().isNotEmpty &&
+        enteredSemester.trim().isNotEmpty) {
+      try {
+        isAddingPost = true;
+        final response = await DioHelper.sendNewPostData(
+          title: title,
+          description: description,
+          price: price,
+          educationLevel: educationLevel,
+          educationType: educationType,
+          grade: grade,
+          bookEdition: bookEdition,
+          cityLocation: cityLocation,
+          semester: semester,
+          images: images,
+          numberOfBooks: numberOfBooks,
+        );
 
-      isAddingPost = false;
+        isAddingPost = false;
 
-      if (response.statusCode == 200) {
-        print('Data and images sent successfully');
-        print(response.data);
-        print(response.statusCode);
-      } else {
-        print('Error sending data and images: ${response.statusCode}');
-        // Print response data for more details
-        print(response.data);
+        if (response.statusCode == 200) {
+          print('Data and images sent successfully');
+          emit(SendNewPostSuccess());
+          print(response.data);
+          print(response.statusCode);
+        } else {
+          isAddingPost = false;
+          emit(SendNewPostFailure());
+          print('Error sending data and images: ${response.statusCode}');
+          // Print response data for more details
+          print(response.data);
+        }
+      } catch (error) {
+        isAddingPost = false;
+        emit(SendNewPostFailure());
+        print('Error sending data and images: ${error.toString()}');
       }
-    } catch (error) {
-      isAddingPost = false;
-      print('Error sending data and images: ${error.toString()}');
     }
   }
 
+  bool isPrimary = false;
   // vars to collect the entered data by the user
   var enteredTitle = '';
   void changeTitle(String value) {
@@ -104,9 +117,14 @@ class AddPostCubit extends Cubit<AddPostStates> {
     emit(UserChangingPriceAddPostState());
   }
 
-  var educationLevel = 'ثانوي';
+  var educationLevel = '';
   void changeEducationLevel(String value) {
     educationLevel = value;
+    if (educationLevel == levels[1]) {
+      isPrimary = true;
+    } else {
+      isPrimary = false;
+    }
     emit(UserSelectingImagesAddPostState());
   }
 
@@ -119,6 +137,7 @@ class AddPostCubit extends Cubit<AddPostStates> {
   var enteredGrade = '';
   void changeGrade(String value) {
     enteredGrade = value;
+    print(enteredGrade + educationLevel);
     emit(UserChangingGradeAddPostState());
   }
 
@@ -173,8 +192,6 @@ class AddPostCubit extends Cubit<AddPostStates> {
     'البحر الأحمر',
     'الأقصر',
     'أسوان',
-    'الواحات',
-    'الوادي الجديد',
   ];
 
   // dropDownItems for the book edition years
@@ -195,44 +212,9 @@ class AddPostCubit extends Cubit<AddPostStates> {
     (dateTime.year - 13).toString(),
   ];
 
-  // dropDownItems for the education levels
-  final List<String> educationLevelsDropDownItems = [
-    'حضانة',
-    'إبتدائي',
-    'إعدادي',
-    'ثانوي',
-    ' غير ذلك',
-  ];
+  // // a url for the location image of the user
+  // String? locationImageUrl;
 
-  // dropDownItems for the grade
-  final List<String> modifiedGradeDropDownItems = [
-    'أولى',
-    'تانية',
-    'تالتة',
-    'رابعة',
-    'خامسة',
-    'ساتة',
-  ];
-  // dropDownItems for the grade
-  final List<String> gradeDropDownItems = [
-    'أولى',
-    'تانية',
-    'تالتة',
-  ];
-  // dropDownItems for the term
-  final List<String> termDropDownItems = [
-    'الأول',
-    'الثاني',
-    'كلاهما',
-  ];
-  // dropDownItems for the term
-  final List<String> educationTypeDropDownItems = [
-    'تربية وتعليم',
-    'أزهر',
-    'غير ذلك',
-  ];
-  // a url for the location image of the user
-  String? locationImageUrl;
   // update the list of images when the user select some
   List<File> selectedImages = [];
   void changeSelectedImages(List<File> images) {
@@ -240,6 +222,4 @@ class AddPostCubit extends Cubit<AddPostStates> {
     selectedImages = images;
     emit(UserSelectingImagesAddPostState());
   }
-
-// change the selected level so that we can change how many grade there are
 }
