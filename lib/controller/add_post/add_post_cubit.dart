@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kotobekia/controller/add_post/add_post_states.dart';
 import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/shared/component/snakbar_message.dart';
+import 'package:kotobekia/shared/helper/functions.dart';
 import 'package:kotobekia/shared/network/remote/remote.dart';
 
 final dateTime = DateTime.now();
@@ -14,7 +17,7 @@ class AddPostCubit extends Cubit<AddPostStates> {
 
   static AddPostCubit get(context) => BlocProvider.of(context);
 
-  Future<void> pickImages(context) async {
+  Future<void> pickImages(context, String message) async {
     final imagePicker = ImagePicker();
     List<File> images = [];
     final pickedImages = await imagePicker.pickMultiImage(
@@ -27,10 +30,10 @@ class AddPostCubit extends Cubit<AddPostStates> {
     if (pickedImages.length > 5) {
       if (context.mounted) {
         snackBarMessage(
-          context: context,
-          message: 'من فضلك قم بإختيار 5 صور فقط',
-          snackbarState: SnackbarState.inValid,
-        );
+            context: context,
+            message: message,
+            snackbarState: SnackbarState.inValid,
+            duration: const Duration(seconds: 2));
         return;
       }
     }
@@ -54,13 +57,14 @@ class AddPostCubit extends Cubit<AddPostStates> {
     required String semester,
     required List<File> images,
     required String numberOfBooks,
+    required BuildContext context,
+    required String noInternet,
+    required String weakInternet,
   }) async {
-    if (enteredGrade.trim().isNotEmpty &&
-        enteredBookEdition.trim().isNotEmpty &&
-        enteredEducationType.trim().isNotEmpty &&
-        enteredSemester.trim().isNotEmpty) {
+    if (await HelperFunctions.hasConnection()) {
       try {
         isAddingPost = true;
+        emit(SendNewPostLoading());
         final response = await DioHelper.sendNewPostData(
           title: title,
           description: description,
@@ -91,9 +95,22 @@ class AddPostCubit extends Cubit<AddPostStates> {
         }
       } catch (error) {
         isAddingPost = false;
-        emit(SendNewPostFailure());
-        print('Error sending data and images: ${error.toString()}');
+        if (error is SocketException) {
+          emit(SendNewPostInternetFailure(message: weakInternet));
+        }
+        if (error is DioException &&
+                error.type == DioExceptionType.connectionError ||
+            error is DioException &&
+                error.type == DioExceptionType.connectionTimeout ||
+            error is DioException &&
+                error.type == DioExceptionType.sendTimeout ||
+            error is DioException &&
+                error.type == DioExceptionType.receiveTimeout) {
+          emit(SendNewPostInternetFailure(message: weakInternet));
+        }
       }
+    } else {
+      emit(SendNewPostInternetFailure(message: noInternet));
     }
   }
 

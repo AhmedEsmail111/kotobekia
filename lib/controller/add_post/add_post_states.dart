@@ -26,4 +26,12 @@ class UserChangingRegionAddPostState extends AddPostStates {}
 
 class SendNewPostSuccess extends AddPostStates {}
 
+class SendNewPostLoading extends AddPostStates {}
+
 class SendNewPostFailure extends AddPostStates {}
+
+class SendNewPostInternetFailure extends AddPostStates {
+  final String message;
+
+  SendNewPostInternetFailure({required this.message});
+}

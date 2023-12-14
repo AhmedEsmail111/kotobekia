@@ -13,3 +13,9 @@ class GetCategoryDataLoadingState extends CategoryStates {
 }
 
 class GetCategoryDataFailureState extends CategoryStates {}
+
+class GetCategoryDataInternetFailureState extends CategoryStates {
+  final String message;
+
+  GetCategoryDataInternetFailureState({required this.message});
+}

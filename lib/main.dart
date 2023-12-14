@@ -11,6 +11,8 @@ import 'package:kotobekia/controller/category_details/category_details_cubit.dar
 import 'package:kotobekia/controller/chat/chat_cubit.dart';
 import 'package:kotobekia/controller/favorites/favorites_cubit.dart';
 import 'package:kotobekia/controller/home/home_cubit.dart';
+import 'package:kotobekia/controller/internet/internet-states.dart';
+import 'package:kotobekia/controller/internet/internet_cubit.dart';
 import 'package:kotobekia/controller/language/language_cubit.dart';
 import 'package:kotobekia/controller/language/language_states.dart';
 import 'package:kotobekia/controller/otp/otp_cubit.dart';
@@ -25,6 +27,7 @@ import 'package:kotobekia/modules/login/Login_screen.dart';
 import 'package:kotobekia/modules/modify_profile/modify_profile.dart';
 import 'package:kotobekia/modules/otp/otp_screen.dart';
 import 'package:kotobekia/modules/verified_email/verified_email_screen.dart';
+import 'package:kotobekia/shared/component/snakbar_message.dart';
 import 'package:kotobekia/shared/constants/app/app_constant.dart';
 import 'package:kotobekia/shared/constants/images/images_constant.dart';
 import 'package:kotobekia/shared/network/local/local.dart';
@@ -66,7 +69,7 @@ class MyApp extends StatelessWidget {
           create: (context) => OtpCubit(),
         ),
         BlocProvider(
-          create: (ctx) => HomeCubit()..getHomePosts(),
+          create: (ctx) => HomeCubit(),
         ),
         BlocProvider(
           create: (ctx) => CategoryCubit(),
@@ -86,6 +89,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (ctx) => LanguageCubit(),
         ),
+        BlocProvider(
+          create: (ctx) => InternetCubit()..checkConnectivity(),
+        ),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),
@@ -98,43 +104,66 @@ class MyApp extends StatelessWidget {
             builder: (ctx, state) {
               final profileCubit = LanguageCubit.get(_);
               return MaterialApp(
-                routes: {
-                  'homeLayout': (context) => LayoutScreen(),
-                  'getStart': (context) => const GetStartScreen(),
-                  'createAccount': (context) => const CreateAccountScreen(),
-                  'login': (context) => const LoginScreen(),
-                  'verifiedEmail': (context) => const VerifiedEmailScreen(),
-                  'otp': (context) => const OtpScreen(),
-                  'message': (context) => const MessageScreen(),
-                  'chat': (context) => const ChatScreen(),
-                  'modifyProfile': (context) => const ModifyProfileScreen(),
-                  'favoriteAdds': (context) => const FavoriteAddsScreen(),
-                  'changeLanguage': (context) => const ChangeLanguageScreen(),
-                },
-                locale: profileCubit.locale,
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate
-                ],
-                supportedLocales: L10n.all,
-                debugShowCheckedModeBanner: false,
-                themeMode: ThemeMode.light,
-                theme: lightTheme(width: width, height: height),
-                home: AnimatedSplashScreen(
-                  nextScreen:
-                      CacheHelper.getData(key: AppConstant.languageKey) == null
-                          ? const LanguageScreen()
-                          : LayoutScreen(),
-                  duration: 3500,
-                  splashIconSize: width / 0.7,
-                  pageTransitionType: PageTransitionType.fade,
-                  backgroundColor: ColorConstant.backgroundColor,
-                  splash: ImageConstant.splashAnimationImage,
-                  splashTransition: SplashTransition.fadeTransition,
-                ),
-              );
+                  routes: {
+                    'homeLayout': (context) => LayoutScreen(),
+                    'getStart': (context) => const GetStartScreen(),
+                    'createAccount': (context) => const CreateAccountScreen(),
+                    'login': (context) => const LoginScreen(),
+                    'verifiedEmail': (context) => const VerifiedEmailScreen(),
+                    'otp': (context) => const OtpScreen(),
+                    'message': (context) => const MessageScreen(),
+                    'chat': (context) => const ChatScreen(),
+                    'modifyProfile': (context) => const ModifyProfileScreen(),
+                    'favoriteAdds': (context) => const FavoriteAddsScreen(),
+                    'changeLanguage': (context) => const ChangeLanguageScreen(),
+                  },
+                  locale: profileCubit.locale,
+                  localizationsDelegates: const [
+                    AppLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate
+                  ],
+                  supportedLocales: L10n.all,
+                  debugShowCheckedModeBanner: false,
+                  themeMode: ThemeMode.light,
+                  theme: lightTheme(width: width, height: height),
+                  home: BlocListener<InternetCubit, InternetStates>(
+                    listener: (ctx, state) {
+                      final locale = AppLocalizations.of(ctx);
+                      if (state is InternetNotConnected) {
+                        snackBarMessage(
+                          context: ctx,
+                          message: locale!.snackbar_no_internet,
+                          snackbarState: SnackbarState.error,
+                          duration: const Duration(days: 1),
+                        );
+                      }
+                      if (state is InternetConnected && !state.isFirst) {
+                        snackBarMessage(
+                            context: ctx,
+                            message: locale!.connection_restored,
+                            snackbarState: SnackbarState.success,
+                            duration: const Duration(seconds: 2));
+                      }
+                    },
+                    child: CacheHelper.getData(key: AppConstant.languageKey) ==
+                            null
+                        ? AnimatedSplashScreen(
+                            nextScreen: CacheHelper.getData(
+                                        key: AppConstant.languageKey) ==
+                                    null
+                                ? const LanguageScreen()
+                                : LayoutScreen(),
+                            duration: 3500,
+                            splashIconSize: width / 0.7,
+                            pageTransitionType: PageTransitionType.fade,
+                            backgroundColor: ColorConstant.backgroundColor,
+                            splash: ImageConstant.splashAnimationImage,
+                            splashTransition: SplashTransition.fadeTransition,
+                          )
+                        : LayoutScreen(),
+                  ));
             },
           );
         },

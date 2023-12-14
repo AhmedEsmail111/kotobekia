@@ -10,7 +10,7 @@ class BuildDropDownButton extends StatelessWidget {
   final String dropDownHint;
   final String errorMessage;
   final List<String> items;
-  final String? selectedValue;
+  // final String? selectedValue;
   final String text;
   final IconData? icon;
   final void Function(String? value)? onSelect;
@@ -24,7 +24,7 @@ class BuildDropDownButton extends StatelessWidget {
     this.onSave,
     required this.errorMessage,
     this.icon,
-    this.selectedValue,
+    // this.selectedValue,
   });
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class BuildDropDownButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
           ),
           child: DropdownButtonFormField(
-            value: selectedValue,
+            // value: selectedValue,
             menuMaxHeight: 300.h,
             icon: Icon(
               SolarIconsOutline.altArrowDown,
@@ -61,7 +61,7 @@ class BuildDropDownButton extends StatelessWidget {
             decoration: InputDecoration(
               fillColor: ColorConstant.whiteColor,
               filled: true,
-              // hintText: dropDownHint,
+              hintText: dropDownHint,
               hintStyle: Theme.of(context)
                   .textTheme
                   .titleMedium!

@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+
 class HelperFunctions {
   static bool isArabic(String text) {
     for (int i = 0; i < text.length; i++) {
@@ -46,5 +49,17 @@ class HelperFunctions {
         bytes[5] == 0x0A &&
         bytes[6] == 0x1A &&
         bytes[7] == 0x0A;
+  }
+
+  static Future<bool> hasConnection() async {
+    var isDeviceConnected = await InternetConnectionChecker().hasConnection;
+    var connectionResult = await Connectivity().checkConnectivity();
+    if (connectionResult == ConnectivityResult.mobile ||
+        connectionResult == ConnectivityResult.wifi) {
+      isDeviceConnected = true;
+    } else {
+      isDeviceConnected = false;
+    }
+    return isDeviceConnected;
   }
 }

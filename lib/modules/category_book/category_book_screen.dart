@@ -11,6 +11,7 @@ import 'package:kotobekia/shared/component/back_button.dart';
 import 'package:kotobekia/shared/component/home/adds_section.dart';
 import 'package:kotobekia/shared/component/home/dignity_flag.dart';
 import 'package:kotobekia/shared/component/home/search_container.dart';
+import 'package:kotobekia/shared/component/home/text_placeholder.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
@@ -28,16 +29,19 @@ class CategoryBooksScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context);
 
-    CategoryCubit.get(context).handleScroll(levels[categoryIndex], context);
-    CategoryCubit.get(context).getCategory(levels[categoryIndex], context);
+    CategoryCubit.get(context).handleScroll(
+        category: levels[categoryIndex],
+        context: context,
+        noInternet: locale!.no_internet,
+        weakInternet: locale.weak_internet);
+    CategoryCubit.get(context).getCategory(
+        category: levels[categoryIndex],
+        context: context,
+        noInternet: locale.no_internet,
+        weakInternet: locale.weak_internet);
 
     return BlocConsumer<CategoryCubit, CategoryStates>(
-      listener: (ctx, state) {
-        // if (!CategoryCubit.get(context).isThereOtherData) {
-        //   ScaffoldMessenger.of(context)
-        //       .showSnackBar(SnackBar(content: Text('no more')));
-        // }
-      },
+      listener: (ctx, state) {},
       builder: (ctx, state) {
         final categoryCubit = CategoryCubit.get(context);
         print(categoryCubit.posts.length);
@@ -81,7 +85,7 @@ class CategoryBooksScreen extends StatelessWidget {
             body: SafeArea(
               child: Column(
                 children: [
-                  BuildPalestine(text: locale!.palestine_2),
+                  BuildPalestine(text: locale.palestine_2),
                   const BuildAddsSection(
                     imageUrl:
                         "https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg",
@@ -114,8 +118,10 @@ class CategoryBooksScreen extends StatelessWidget {
                           ),
                         ],
                       )),
-                  if (state is GetCategoryDataLoadingState &&
-                      state.isFirstFetch)
+                  if (state is GetCategoryDataLoadingState && state.isFirstFetch
+                      // &&
+                      // state is! GetCategoryDataInternetFailureState
+                      )
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 2,
                       child: const Center(
@@ -123,6 +129,12 @@ class CategoryBooksScreen extends StatelessWidget {
                           color: ColorConstant.primaryColor,
                         ),
                       ),
+                    ),
+                  if (state is GetCategoryDataInternetFailureState &&
+                      categoryCubit.posts.isEmpty)
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: BuildTextPlaceHolder(text: state.message),
                     ),
                   categoryCubit.isGrid
                       ? BuildGrid(

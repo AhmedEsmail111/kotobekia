@@ -90,6 +90,14 @@ class LayoutScreen extends StatelessWidget {
               ],
             ),
           ),
+          // floatingActionButton: Container(
+          //     margin: EdgeInsets.symmetric(
+          //         horizontal: MediaQuery.of(context).size.width / 2.4,
+          //         vertical: 0),
+          //     child: IconButton(
+          //       icon: Icon(SolarIconsOutline.addSquare),
+          //       onPressed: () {},
+          //     )),
         );
       },
     );

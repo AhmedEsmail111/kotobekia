@@ -181,11 +181,19 @@
   "edition_error_message":"please select when the book was published",
   "title_hint":"Legacy of Ashes",
   "description_hint":"a book that talks about many fun and interesting stuff and it,s mainly about politics",
-  "title_error_message":"please enter a valid title",
-  "description_error_message":"please enter a valid description",
-  "price_error_message":"enter a proper price",
+  "title_error_message":"please enter a title",
+  "title_error_message_2":"The title should be at least 5 characters long",
+  "description_error_message":"please enter a description",
+  "description_error_message_2":"Description should be at least 60 characters long",
+  "price_error_message":"enter a price",
+
   "books_count_error_message":"enter booksCount",
-  "images_not_choesen_message":"Please select the images to be uploaded with the post"
+  "images_not_choesen_message":"Please select the images to be uploaded with the post",
+  "choose_only_5":"please choose only 5 images",
+  "no_internet":"Please connect to the internet to be able to fetch the data for you",
+  "weak_internet":"Please connect to strong internet to be able to fetch the data for you" ,
+  "snackbar_no_internet":"No Internet connection Please connect to a network",
+  "connection_restored":"Connection restored"
 
 
 

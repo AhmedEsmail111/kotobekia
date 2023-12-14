@@ -196,7 +196,8 @@ class LoginScreen extends StatelessWidget {
             snackBarMessage(
                 snackbarState: SnackbarState.error,
                 context: context,
-                message: state.userModel.message.toString());
+                message: state.userModel.message.toString(),
+                duration: const Duration(seconds: 2));
           } else {
             Navigator.pushNamed(context, '');
           }
@@ -204,7 +205,8 @@ class LoginScreen extends StatelessWidget {
           snackBarMessage(
               snackbarState: SnackbarState.error,
               context: context,
-              message: state.error);
+              message: state.error,
+              duration: const Duration(seconds: 2));
         }
       },
     );

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kotobekia/controller/home/home_state.dart';
@@ -8,6 +11,7 @@ import 'package:kotobekia/modules/home/home_screen.dart';
 import 'package:kotobekia/modules/profile/profile_screen.dart';
 import 'package:kotobekia/modules/user_adds/user_adds_screen.dart';
 import 'package:kotobekia/shared/constants/api/api_constant.dart';
+import 'package:kotobekia/shared/helper/functions.dart';
 import 'package:kotobekia/shared/network/remote/remote.dart';
 
 final dateTime = DateTime.now();
@@ -19,7 +23,7 @@ class HomeCubit extends Cubit<HomeStates> {
   List<Widget> screens = [
     const HomeScreen(),
     const UserAddsScreen(),
-    const BuildAddPostOverlay(),
+    BuildAddPostOverlay(),
     const ChatScreen(),
     const ProfileScreen(),
   ];
@@ -37,38 +41,57 @@ class HomeCubit extends Cubit<HomeStates> {
     emit(ChangeBottomNavBarHomeState());
   }
 
-  void getHomePosts() async {
-    emit(GetHomeDataLoadingHomeState());
-    try {
-      final response =
-          await DioHelper.getData(url: ApiConstant.getHomePostMethodUrl);
-      if (response.data == null) {
-        emit(GetHomeDataFailureHomeState());
-        return;
+  void getHomePosts(
+      {required String noInternet, required String weakInternet}) async {
+    if (await HelperFunctions.hasConnection()) {
+      try {
+        emit(GetHomeDataLoadingHomeState());
+        final response =
+            await DioHelper.getData(url: ApiConstant.getHomePostMethodUrl);
+        if (response.data == null) {
+          emit(GetHomeDataFailureHomeState());
+          return;
+        }
+
+        homePostsModel = HomePostsModel.fromJson(response.data);
+        kindergartenPosts = homePostsModel!.result[0].posts
+            .where((element) => element.educationLevel == levels[0])
+            .toList();
+        primaryPosts = homePostsModel!.result[1].posts
+            .where((element) => element.educationLevel == levels[1])
+            .toList();
+        preparatoryPosts = homePostsModel!.result[2].posts
+            .where((element) => element.educationLevel == levels[2])
+            .toList();
+
+        secondaryPosts = homePostsModel!.result[3].posts
+            .where((element) => element.educationLevel == levels[3])
+            .toList();
+
+        generalPosts = homePostsModel!.result[4].posts
+            .where((element) => element.educationLevel == levels[4])
+            .toList();
+        emit(GetHomeDataSuccessHomeState());
+      } catch (error) {
+        if (error is SocketException) {
+          emit(GetHomeDataInternetFailureHomeState(message: weakInternet));
+        }
+        if (error is DioException &&
+                error.type == DioExceptionType.connectionError ||
+            error is DioException &&
+                error.type == DioExceptionType.connectionTimeout ||
+            error is DioException &&
+                error.type == DioExceptionType.sendTimeout ||
+            error is DioException &&
+                error.type == DioExceptionType.receiveTimeout) {
+          emit(GetHomeDataInternetFailureHomeState(message: weakInternet));
+        }
+        // else {
+        //   emit(GetHomeDataFailureHomeState());
+        // }
       }
-
-      homePostsModel = HomePostsModel.fromJson(response.data);
-      kindergartenPosts = homePostsModel!.result[0].posts
-          .where((element) => element.educationLevel == levels[0])
-          .toList();
-      primaryPosts = homePostsModel!.result[1].posts
-          .where((element) => element.educationLevel == levels[1])
-          .toList();
-      preparatoryPosts = homePostsModel!.result[2].posts
-          .where((element) => element.educationLevel == levels[2])
-          .toList();
-
-      secondaryPosts = homePostsModel!.result[3].posts
-          .where((element) => element.educationLevel == levels[3])
-          .toList();
-
-      generalPosts = homePostsModel!.result[4].posts
-          .where((element) => element.educationLevel == levels[4])
-          .toList();
-      emit(GetHomeDataSuccessHomeState());
-    } catch (e) {
-      print(e.toString());
-      emit(GetHomeDataFailureHomeState());
+    } else {
+      emit(GetHomeDataInternetFailureHomeState(message: noInternet));
     }
   }
 

@@ -212,13 +212,15 @@ class OtpScreen extends StatelessWidget {
             snackBarMessage(
                 snackbarState: SnackbarState.error,
                 context: context,
-                message: state.otpModel.message.toString());
+                message: state.otpModel.message.toString(),
+                duration: const Duration(seconds: 2));
           }
         } else if (state is FailedVerifyOtpState) {
           snackBarMessage(
               snackbarState: SnackbarState.error,
               context: context,
-              message: state.error);
+              message: state.error,
+              duration: const Duration(seconds: 2));
         }
       },
     );

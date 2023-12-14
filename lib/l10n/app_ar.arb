@@ -181,11 +181,19 @@
   "edition_error_message":"يجب اختيار سنة إصدار الكتب",
   "title_hint":"مجموعة كتب الأضواء",
   "description_hint":" كتب عبارة عن كتاب العربي وكتاب الإنجليزي والتاريخ والجغرافيا والفلسفة 5",
-  "title_error_message":"من فضلك أدخل عنوان صحيح",
-  "description_error_message":"من فضلك أدخل وصف صحيح",
-  "price_error_message":"أدخل سعر مناسب",
+  "title_error_message":"من فضلك أدخل عنوان البوست",
+  "title_error_message_2":"العنوان لابد أن يكون أكبر من 5 أحرف",
+  "description_error_message":"من فضلك أدخل وصف الإعلان",
+  "description_error_message_2":"الوصف ينبغي أن يكون أكثر من 60 حرفا",
+  "price_error_message":"أدخل سعر الكتب",
   "books_count_error_message":"أدخل عدد الكتب",
-  "images_not_choesen_message":"من فضلك قم بإختيار صور الإعلان"
+  "images_not_choesen_message":"من فضلك قم بإختيار صور الإعلان",
+  "choose_only_5":"من فضلك قم بإختيار 5 صور فقط",
+  "no_internet":"من فضلك اتصل بالأنترنت ثم قم بإعادة المحاولة", 
+  "weak_internet":"من فضلك اتصل بشبكة انترنت قوية ثم قم بإعادة المحاولة",
+  "snackbar_no_internet":" لا يوجد إتصال بالأنترنت , من فضلك قم بإعادة الإتصال",
+  "connection_restored":"تم إعادة الأتصال"
+
   
 
  

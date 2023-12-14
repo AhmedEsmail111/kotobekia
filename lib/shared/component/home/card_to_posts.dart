@@ -240,7 +240,6 @@ class BuildPosts extends StatelessWidget {
                 ],
               ),
               Container(
-                alignment: Alignment.centerRight,
                 padding: EdgeInsets.symmetric(vertical: 4.h),
                 child: Text(
                   reversEducationLevels[educationLevel]!,
