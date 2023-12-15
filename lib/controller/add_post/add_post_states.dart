@@ -24,6 +24,8 @@ class UserChangingBookEditionAddPostState extends AddPostStates {}
 
 class UserChangingRegionAddPostState extends AddPostStates {}
 
+class TogglePriceButton extends AddPostStates {}
+
 class SendNewPostSuccess extends AddPostStates {}
 
 class SendNewPostLoading extends AddPostStates {}

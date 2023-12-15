@@ -68,9 +68,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => OtpCubit(),
         ),
-        BlocProvider(
-          create: (ctx) => HomeCubit(),
-        ),
+        BlocProvider(create: (ctx) => HomeCubit()),
         BlocProvider(
           create: (ctx) => CategoryCubit(),
         ),

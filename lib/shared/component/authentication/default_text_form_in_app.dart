@@ -23,24 +23,32 @@ class BuildDefaultTextField extends StatelessWidget {
   final Icon? prefixIcons;
   final AuthenticationCubit? cubit;
   final int? numberOfFormPass;
-  const BuildDefaultTextField(
-      {super.key,
-      this.cubit,
-      this.numberOfFormPass,
-      required this.inputType,
-      required this.withText,
-      required this.hintText,
-      this.aboveFieldText,
-      this.prefixIcons,
-      required this.backGroundColor,
-      required this.context,
-      required this.width,
-      required this.height,
-      required this.maxLenght,
-      this.controller,
-      this.onSaved,
-      this.onValidate,
-      required this.isObscured});
+  final int? maxLines;
+  final void Function(String)? onChange;
+
+  final bool? isEnabled;
+  const BuildDefaultTextField({
+    super.key,
+    this.cubit,
+    this.numberOfFormPass,
+    required this.inputType,
+    required this.withText,
+    required this.hintText,
+    this.aboveFieldText,
+    this.prefixIcons,
+    required this.backGroundColor,
+    required this.context,
+    required this.width,
+    required this.height,
+    required this.maxLenght,
+    this.controller,
+    this.onSaved,
+    this.onValidate,
+    required this.isObscured,
+    this.onChange,
+    this.isEnabled,
+    this.maxLines,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +72,10 @@ class BuildDefaultTextField extends StatelessWidget {
                   color: ColorConstant.backgroundColor,
                   borderRadius: BorderRadius.circular(15)),
               child: TextFormField(
+                  enabled: isEnabled,
+                  onChanged: onChange,
                   maxLength: maxLenght,
+                  maxLines: maxLines,
                   controller: controller,
                   style: Theme.of(context).textTheme.displayLarge!.copyWith(
                         color: ColorConstant.blackColor,

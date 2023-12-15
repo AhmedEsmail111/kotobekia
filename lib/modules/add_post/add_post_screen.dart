@@ -4,16 +4,19 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/add_post/add_post_cubit.dart';
 import 'package:kotobekia/controller/add_post/add_post_states.dart';
-import 'package:kotobekia/layout/drop_down_button.dart';
+import 'package:kotobekia/modules/add_post/drop_down_button.dart';
 import 'package:kotobekia/shared/component/authentication/default_button_in_app.dart';
-import 'package:kotobekia/shared/component/internet_dialogue.dart';
+import 'package:kotobekia/shared/component/authentication/default_text_form_in_app.dart';
+import 'package:kotobekia/shared/component/dialogue_message.dart';
 import 'package:kotobekia/shared/component/snakbar_message.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
-class BuildAddPostOverlay extends StatelessWidget {
-  BuildAddPostOverlay({super.key});
+class AddPostScreen extends StatelessWidget {
+  AddPostScreen({super.key});
   final formKey = GlobalKey<FormState>();
+// to be able to manipulate the text and clear it when the user press the free button
+  final priceTextEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context);
@@ -88,7 +91,7 @@ class BuildAddPostOverlay extends StatelessWidget {
               duration: const Duration(seconds: 2));
         }
         if (state is SendNewPostInternetFailure) {
-          buildInternetDialogue(context: context, message: state.message);
+          buildDialogue(context: context, message: state.message);
         }
       },
       builder: (context, state) {
@@ -199,47 +202,30 @@ class BuildAddPostOverlay extends StatelessWidget {
                         SizedBox(
                           height: 4.h,
                         ),
-                        Container(
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: TextFormField(
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(fontWeight: FontWeight.w500),
-                            maxLines: 1,
-                            // maxLength: 30,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                              hintText: locale.title_hint,
-                              hintStyle: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorConstant.extraGreyColor,
-                                      fontSize: 12.sp),
-                              border: InputBorder.none,
-                              fillColor: ColorConstant.whiteColor,
-                              filled: true,
-                            ),
-                            onSaved: (value) {
-                              if (value != null) {
-                                addPostCubit.changeTitle(value);
-                              }
-                            },
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return locale.title_error_message;
-                              }
-                              if (value.trim().length < 5) {
-                                return locale.title_error_message_2;
-                              }
-                              return null;
-                            },
-                          ),
+                        BuildDefaultTextField(
+                          inputType: TextInputType.text,
+                          withText: false,
+                          hintText: locale.title_hint,
+                          backGroundColor: ColorConstant.whiteColor,
+                          context: context,
+                          width: double.infinity,
+                          height: 50.h,
+                          maxLenght: 35,
+                          isObscured: false,
+                          onSaved: (value) {
+                            if (value != null) {
+                              addPostCubit.changeTitle(value);
+                            }
+                          },
+                          onValidate: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return locale.title_error_message;
+                            }
+                            if (value.trim().length < 5) {
+                              return locale.title_error_message_2;
+                            }
+                            return null;
+                          },
                         ),
                         SizedBox(
                           height: 5.h,
@@ -254,46 +240,28 @@ class BuildAddPostOverlay extends StatelessWidget {
                         SizedBox(
                           height: 4.h,
                         ),
-                        Container(
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: TextFormField(
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(fontWeight: FontWeight.w500),
-                            maxLines: 3,
-                            // maxLength: 120,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                              hintMaxLines: 3,
-                              hintText: locale.description_hint,
-                              hintStyle: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    color: ColorConstant.extraGreyColor,
-                                  ),
-                              border: InputBorder.none,
-                              fillColor: ColorConstant.whiteColor,
-                              filled: true,
-                            ),
-                            onSaved: (value) {
-                              addPostCubit.changeDescription(value!);
-                            },
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return locale.description_error_message;
-                              }
-                              if (value.trim().length < 60) {
-                                return locale.description_error_message_2;
-                              }
-                              return null;
-                            },
-                          ),
+                        BuildDefaultTextField(
+                          inputType: TextInputType.text,
+                          withText: false,
+                          hintText: locale.description_hint,
+                          backGroundColor: ColorConstant.whiteColor,
+                          context: context,
+                          width: double.infinity,
+                          height: 50.h,
+                          maxLenght: 300,
+                          maxLines: 3,
+                          isObscured: false,
+                          onSaved: (value) {
+                            addPostCubit.changeDescription(value!);
+                          },
+                          onValidate: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return locale.description_error_message;
+                            } else if (value.trim().length < 60) {
+                              return locale.description_error_message_2;
+                            }
+                            return null;
+                          },
                         ),
                         SizedBox(
                           height: 5.h,
@@ -308,45 +276,95 @@ class BuildAddPostOverlay extends StatelessWidget {
                         SizedBox(
                           height: 4.h,
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2.8,
-                          child: Container(
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                            child: TextFormField(
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(fontWeight: FontWeight.w500),
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                fillColor: ColorConstant.whiteColor,
-                                filled: true,
-                              ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.ideographic,
+                          children: [
+                            BuildDefaultTextField(
+                              controller: priceTextEditingController,
+                              isEnabled: addPostCubit.index == 0,
+                              onChange: (value) {
+                                addPostCubit.changePrice(value);
+                              },
+                              inputType: TextInputType.number,
+                              withText: false,
+                              hintText: '',
+                              backGroundColor: ColorConstant.whiteColor,
+                              context: context,
+                              width: MediaQuery.of(context).size.width / 2.6,
+                              height: 50.h,
+                              maxLenght: 5,
+                              isObscured: false,
                               onSaved: (value) {
                                 addPostCubit.changePrice(value!);
                               },
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
+                              onValidate: (value) {
+                                if (value == null ||
+                                    value.trim().isEmpty &&
+                                        addPostCubit.index == 0) {
                                   return locale.price_error_message;
+                                } else if (!checkPrice(
+                                      numberOfBooks:
+                                          addPostCubit.enteredBooksCount,
+                                      bookPrice: addPostCubit.enteredPrice,
+                                    ) &&
+                                    addPostCubit.index == 0) {
+                                  return '';
                                 }
                                 return null;
                               },
                             ),
+                            Text(locale.or),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 2.6,
+                              height: 40.h,
+                              child: Container(
+                                decoration: addPostCubit.index == 1
+                                    ? BoxDecoration(
+                                        borderRadius: BorderRadius.circular(14),
+                                        border: Border.all(
+                                            color: ColorConstant.blackColor))
+                                    : null,
+                                child: BuildDefaultButton(
+                                  onTap: () {
+                                    if (addPostCubit.index == 0) {
+                                      priceTextEditingController.clear();
+                                      addPostCubit.togglePriceButton(1);
+                                    } else {
+                                      addPostCubit.togglePriceButton(0);
+                                    }
+                                  },
+                                  text: locale.free,
+                                  color: ColorConstant.primaryColor,
+                                  elevation: 1,
+                                  context: context,
+                                  withBorder: false,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        if (!checkPrice(
+                              numberOfBooks: addPostCubit.enteredBooksCount,
+                              bookPrice: addPostCubit.enteredPrice,
+                            ) &&
+                            addPostCubit.index == 0)
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 4.w),
+                            child: Text(
+                              locale.overpriced_message,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                      color: ColorConstant.dangerColor,
+                                      fontSize: 12.sp),
+                            ),
                           ),
-                        ),
-                        Text(
-                          locale.advice_for_price,
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayMedium!
-                              .copyWith(fontSize: 13.sp),
-                          maxLines: 2,
-                        ),
                         SizedBox(
                           height: 8.h,
                         ),
@@ -360,37 +378,28 @@ class BuildAddPostOverlay extends StatelessWidget {
                         SizedBox(
                           height: 4.h,
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2.8,
-                          child: Container(
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                            child: TextFormField(
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(fontWeight: FontWeight.w500),
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                fillColor: ColorConstant.whiteColor,
-                                filled: true,
-                              ),
-                              maxLines: 1,
-                              onSaved: (value) {
-                                addPostCubit.changeBooksCount(value!);
-                              },
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return locale.books_count_error_message;
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
+                        BuildDefaultTextField(
+                          inputType: TextInputType.number,
+                          withText: false,
+                          hintText: '',
+                          backGroundColor: ColorConstant.whiteColor,
+                          context: context,
+                          width: MediaQuery.of(context).size.width / 2.6,
+                          height: 50.h,
+                          maxLenght: 3,
+                          isObscured: false,
+                          onChange: (value) {
+                            addPostCubit.changeBooksCount(value);
+                          },
+                          onSaved: (value) {
+                            addPostCubit.changeBooksCount(value!);
+                          },
+                          onValidate: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return locale.books_count_error_message;
+                            }
+                            return null;
+                          },
                         ),
                         BuildDropDownButton(
                           dropDownHint: locale.your_education_level,
@@ -411,14 +420,15 @@ class BuildAddPostOverlay extends StatelessWidget {
                           },
                         ),
                         BuildDropDownButton(
-                          // selectedValue: addPostCubit.enteredGrade,
                           dropDownHint: locale.your_grade,
                           errorMessage: locale.grade_error_message,
                           items:
                               // addPostCubit.isPrimary
-                              //     ? grades.keys.toList().sublist(0, 3)
-                              //     :
-                              grades.keys.toList(),
+                              //     ?
+                              grades.keys.toList()
+                          // :
+                          // grades.keys.toList().sublist(0, 3)
+                          ,
                           text: locale.grade,
                           onSelect: (value) {
                             addPostCubit.changeGrade(grades[value]!);
@@ -510,7 +520,6 @@ class BuildAddPostOverlay extends StatelessWidget {
                         )
                       : BuildDefaultButton(
                           onTap: () {
-                            print(addPostCubit.isAddingPost);
                             if (formKey.currentState!.validate()) {
                               formKey.currentState!.save();
                               submit(
@@ -518,7 +527,9 @@ class BuildAddPostOverlay extends StatelessWidget {
                                 context: context,
                                 title: addPostCubit.enteredTitle,
                                 description: addPostCubit.enteredDescription,
-                                price: addPostCubit.enteredPrice,
+                                price: addPostCubit.index == 0
+                                    ? addPostCubit.enteredPrice
+                                    : '0',
                                 educationLevel: addPostCubit.educationLevel,
                                 educationType:
                                     addPostCubit.enteredEducationType,
@@ -532,7 +543,6 @@ class BuildAddPostOverlay extends StatelessWidget {
                                 locale: locale,
                               );
                             }
-                            print(addPostCubit.isAddingPost);
                           },
                           text: locale.submit,
                           color: ColorConstant.primaryColor,
@@ -541,7 +551,7 @@ class BuildAddPostOverlay extends StatelessWidget {
                           withBorder: false,
                         ),
                   SizedBox(
-                    height: 16.h,
+                    height: 50.h,
                   ),
                 ],
               ),
@@ -577,24 +587,6 @@ class BuildAddPostOverlay extends StatelessWidget {
       return;
     }
 
-    // if (formKey.currentState!.validate()) {
-    //   formKey.currentState!.save();
-    // if (addPostCubit.enteredBookEdition.trim().isEmpty ||
-    //     addPostCubit.enteredEducationType.trim().isEmpty ||
-    //     addPostCubit.enteredGrade.trim().isEmpty ||
-    //     addPostCubit.enteredSemester.trim().isEmpty ||
-    //     addPostCubit.educationLevel.trim().isEmpty ||
-    //     addPostCubit.enteredTitle.trim().isEmpty ||
-    //     addPostCubit.enteredDescription.trim().isEmpty ||
-    //     addPostCubit.enteredPrice.trim().isEmpty ||
-    //     addPostCubit.enteredBookEdition.trim().isEmpty) {
-    //   snackBarMessage(
-    //       context: context,
-    //       message: message,
-    //       snackbarState: SnackbarState.error,
-    //       duration: const Duration(seconds: 2));
-    //   return;
-    // }
     print('title $title');
     print('description $description');
     print('grade $grade');
@@ -622,8 +614,17 @@ class BuildAddPostOverlay extends StatelessWidget {
       noInternet: locale.no_internet,
       weakInternet: locale.weak_internet,
     );
-    print(addPostCubit.isAddingPost);
+  }
+
+  bool checkPrice({required String numberOfBooks, required String bookPrice}) {
+    int? number = int.tryParse(numberOfBooks);
+
+    int? price = int.tryParse(bookPrice) ?? 1;
+
+    var limit = 0;
+    if (number != null) {
+      limit = number * 30;
+    }
+    return price <= limit;
   }
 }
-
-// }

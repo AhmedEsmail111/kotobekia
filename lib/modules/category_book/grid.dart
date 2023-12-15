@@ -1,12 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/category/category_cubit.dart';
 import 'package:kotobekia/controller/category/category_states.dart';
 import 'package:kotobekia/models/category_model/specific_category_model.dart';
-import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/modules/category_details/category_details_screen.dart';
 import 'package:kotobekia/shared/component/home/card_to_posts.dart';
+import 'package:kotobekia/shared/styles/colors.dart';
 
 class BuildGrid extends StatelessWidget {
   const BuildGrid({
@@ -26,25 +28,24 @@ class BuildGrid extends StatelessWidget {
             controller: categoryCubit.scrollController,
             padding: EdgeInsets.symmetric(horizontal: 8.w),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+              crossAxisCount: categoryCubit.isLoading ? 1 : 2,
               mainAxisExtent: 275.h,
             ),
             physics: const BouncingScrollPhysics(),
-            itemCount: data.length,
-            //  + (categoryCubit.isLoading ? 1 : 0)
-
+            // isLoading will only be true when he tries to fetch other pages(more date)
+            itemCount: data.length + (categoryCubit.isLoading ? 1 : 0),
             itemBuilder: (ctx, index) {
-              // if (index == categoryCubit.posts.length) {
-              //   Timer(const Duration(milliseconds: 30), () {
-              //     categoryCubit.scrollController.jumpTo(
-              //         categoryCubit.scrollController.position.maxScrollExtent);
-              //   });
-              //   return const Center(
-              //     child: CircularProgressIndicator(
-              //       color: ColorConstant.primaryColor,
-              //     ),
-              //   );
-              // }
+              if (index == categoryCubit.posts.length) {
+                Timer(const Duration(milliseconds: 30), () {
+                  categoryCubit.scrollController.jumpTo(
+                      categoryCubit.scrollController.position.maxScrollExtent);
+                });
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: ColorConstant.primaryColor,
+                  ),
+                );
+              }
               return Container(
                 margin: EdgeInsets.symmetric(
                   horizontal: 4.w,

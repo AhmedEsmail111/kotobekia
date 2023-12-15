@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void buildInternetDialogue(
-    {required BuildContext context, required String message}) {
+void buildDialogue({required BuildContext context, required String message}) {
   final dialogue = AlertDialog(
     title: Center(
       child: Text(

@@ -62,11 +62,11 @@ class BuildDropDownButton extends StatelessWidget {
               fillColor: ColorConstant.whiteColor,
               filled: true,
               hintText: dropDownHint,
-              hintStyle: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontWeight: FontWeight.w500, color: Colors.black26),
+              hintStyle: const TextStyle().copyWith(color: Colors.black26),
               border: InputBorder.none,
+              errorStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Colors.red,
+                  ),
               prefixIcon: icon != null
                   ? Icon(
                       icon,

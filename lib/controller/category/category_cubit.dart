@@ -32,10 +32,15 @@ class CategoryCubit extends Cubit<CategoryStates> {
       required String weakInternet}) async {
     if (isThereOtherData &&
         page != null &&
-        await HelperFunctions.hasConnection()) {
-      isLoading = true;
+        await HelperFunctions.hasConnection() &&
+        state is! GetCategoryDataLoadingState) {
+      // isLoading will only be true when he tries to fetch other pages(more date),
+      //and that does not include when he opens the category screen for the first time
+      isLoading = page == 1 ? false : true;
       emit(GetCategoryDataLoadingState(isFirstFetch: page == 1));
       try {
+        // print(page);
+
         final response = await DioHelper.getData(
           url: '${ApiConstant.getSpecificCategoryMethodUrl}$category',
           query: {'page': page},
@@ -49,14 +54,18 @@ class CategoryCubit extends Cubit<CategoryStates> {
         if (response.statusCode == 200) {
           print('success state');
           specificCategoryModel = SpecificCategoryModel.fromJson(response.data);
-          isLoading = false;
+          print(response.data);
+          print('totla ${specificCategoryModel!.totalDocuments}');
 
+          isLoading = false;
+          posts = posts + specificCategoryModel!.posts;
           page = specificCategoryModel!.nextPage;
 
-          isThereOtherData =
-              specificCategoryModel!.remainingPages == 0 ? false : true;
+          isThereOtherData = page == null ? false : true;
 
-          posts = posts + specificCategoryModel!.posts;
+          print(posts.length);
+          print(page);
+          print(isThereOtherData);
 
           emit(GetCategoryDataSuccessState());
         }
@@ -93,9 +102,7 @@ class CategoryCubit extends Cubit<CategoryStates> {
       required String weakInternet}) {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
-        if (scrollController.position.pixels != 0 &&
-            isThereOtherData &&
-            state is! GetCategoryDataLoadingState) {
+        if (scrollController.position.pixels != 0) {
           getCategory(
             category: category,
             context: context,

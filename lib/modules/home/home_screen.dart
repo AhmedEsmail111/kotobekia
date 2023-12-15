@@ -21,10 +21,12 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context);
+    final locale = AppLocalizations.of(context)!;
 
-    HomeCubit.get(context).getHomePosts(
-        noInternet: locale!.no_internet, weakInternet: locale.weak_internet);
+    if (HomeCubit.get(context).homePostsModel == null) {
+      HomeCubit.get(context).getHomePosts(
+          noInternet: locale.no_internet, weakInternet: locale.weak_internet);
+    }
 
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;

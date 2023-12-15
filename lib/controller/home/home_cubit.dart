@@ -4,8 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kotobekia/controller/home/home_state.dart';
-import 'package:kotobekia/layout/add_post_overlay.dart';
 import 'package:kotobekia/models/post_model/post_model.dart';
+import 'package:kotobekia/modules/add_post/add_post_screen.dart';
 import 'package:kotobekia/modules/chat_screen/chat_screen.dart';
 import 'package:kotobekia/modules/home/home_screen.dart';
 import 'package:kotobekia/modules/profile/profile_screen.dart';
@@ -23,7 +23,7 @@ class HomeCubit extends Cubit<HomeStates> {
   List<Widget> screens = [
     const HomeScreen(),
     const UserAddsScreen(),
-    BuildAddPostOverlay(),
+    AddPostScreen(),
     const ChatScreen(),
     const ProfileScreen(),
   ];

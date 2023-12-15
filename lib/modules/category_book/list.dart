@@ -27,6 +27,7 @@ class BuildList extends StatelessWidget {
         child: ListView.builder(
           controller: categoryCubit.scrollController,
           physics: const BouncingScrollPhysics(),
+          // isLoading will only be true when he tries to fetch other pages(more date)
           itemCount: data.length + (categoryCubit.isLoading ? 1 : 0),
           itemBuilder: (context, index) {
             if (index == categoryCubit.posts.length) {

@@ -180,7 +180,7 @@
   "grade_error_message":"please select the grade",
   "edition_error_message":"please select when the book was published",
   "title_hint":"Legacy of Ashes",
-  "description_hint":"a book that talks about many fun and interesting stuff and it,s mainly about politics",
+  "description_hint":" A book that talks about many fun and interesting stuff and it,s mainly about politics",
   "title_error_message":"please enter a title",
   "title_error_message_2":"The title should be at least 5 characters long",
   "description_error_message":"please enter a description",
@@ -193,7 +193,8 @@
   "no_internet":"Please connect to the internet to be able to fetch the data for you",
   "weak_internet":"Please connect to strong internet to be able to fetch the data for you" ,
   "snackbar_no_internet":"No Internet connection Please connect to a network",
-  "connection_restored":"Connection restored"
+  "connection_restored":"Connection restored",
+  "overpriced_message":"price can't be more than 30 pound for each book"
 
 
 

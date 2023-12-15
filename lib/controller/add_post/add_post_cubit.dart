@@ -128,7 +128,8 @@ class AddPostCubit extends Cubit<AddPostStates> {
     emit(UserChangingDescriptionAddPostState());
   }
 
-  var enteredPrice = '';
+// it should have a minimum value to ba able to use it the ceckPrice method in the addPostOverlay
+  var enteredPrice = '0';
   void changePrice(String value) {
     enteredPrice = value;
     emit(UserChangingPriceAddPostState());
@@ -176,10 +177,18 @@ class AddPostCubit extends Cubit<AddPostStates> {
     emit(UserChangingBookEditionAddPostState());
   }
 
-  var enteredBooksCount = '';
+// it should have a minimum value to ba able to use it the ceckPrice method in the addPostOverlay
+  var enteredBooksCount = '1';
   void changeBooksCount(String value) {
     enteredBooksCount = value;
     emit(UserChangingBooksCountAddPostState());
+  }
+
+  var index = 0;
+
+  void togglePriceButton(int num) {
+    index = num;
+    emit(TogglePriceButton());
   }
 
   // dropDownItems for the Regions

@@ -8,7 +8,6 @@ import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/modules/category_book/grid.dart';
 import 'package:kotobekia/modules/category_book/list.dart';
 import 'package:kotobekia/shared/component/back_button.dart';
-import 'package:kotobekia/shared/component/home/adds_section.dart';
 import 'package:kotobekia/shared/component/home/dignity_flag.dart';
 import 'package:kotobekia/shared/component/home/search_container.dart';
 import 'package:kotobekia/shared/component/home/text_placeholder.dart';
@@ -86,10 +85,10 @@ class CategoryBooksScreen extends StatelessWidget {
               child: Column(
                 children: [
                   BuildPalestine(text: locale.palestine_2),
-                  const BuildAddsSection(
-                    imageUrl:
-                        "https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg",
-                  ),
+                  // const BuildAddsSection(
+                  //   imageUrl:
+                  //       "https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg",
+                  // ),
                   Container(
                       margin: EdgeInsets.only(
                         left: 16.w,
@@ -118,10 +117,8 @@ class CategoryBooksScreen extends StatelessWidget {
                           ),
                         ],
                       )),
-                  if (state is GetCategoryDataLoadingState && state.isFirstFetch
-                      // &&
-                      // state is! GetCategoryDataInternetFailureState
-                      )
+                  if (state is GetCategoryDataLoadingState &&
+                      state.isFirstFetch)
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 2,
                       child: const Center(
