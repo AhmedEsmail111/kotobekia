@@ -4,455 +4,606 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/home/home_cubit.dart';
 import 'package:kotobekia/controller/home/home_state.dart';
-import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/modules/category_book/category_book_screen.dart';
 import 'package:kotobekia/modules/category_details/category_details_screen.dart';
-import 'package:kotobekia/shared/component/home/add_section.dart';
+import 'package:kotobekia/shared/component/home/adds_section.dart';
 import 'package:kotobekia/shared/component/home/card_to_posts.dart';
 import 'package:kotobekia/shared/component/home/dignity_flag.dart';
 import 'package:kotobekia/shared/component/home/row_above_card.dart';
+import 'package:kotobekia/shared/component/home/search_container.dart';
+import 'package:kotobekia/shared/component/home/text_placeholder.dart';
+import 'package:kotobekia/shared/constants/app/app_constant.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
+import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context);
+    final locale = AppLocalizations.of(context)!;
+
+    if (HomeCubit.get(context).homePostsModel == null) {
+      HomeCubit.get(context).getHomePosts(
+          noInternet: locale.no_internet, weakInternet: locale.weak_internet);
+    }
+
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
 
     // final r = w / 1.32;
     // print(r);
     return Scaffold(
-        appBar: AppBar(
-          bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(10), child: Container()),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                SolarIconsOutline.tuning_2,
-                size: 19.w,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                SolarIconsOutline.bell,
-                size: 19.w,
-              ),
-            ),
-          ],
-          title: Container(
-            width: 292.w,
-            height: 38.h,
-            clipBehavior: Clip.hardEdge,
-            margin: EdgeInsets.only(top: 8.h),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14.sp),
-            ),
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14.sp),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFC8C5C5),
-                    )),
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 8.w, vertical: 19.h),
-                hintTextDirection: TextDirection.rtl,
-                hintStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      fontWeight: FontWeight.w400,
-                    ),
-                hintText: locale!.search,
-                prefixIcon: Icon(
-                  SolarIconsOutline.magnifier,
-                  size: 15.w,
-                ),
-              ),
+      appBar: AppBar(
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(10),
+          child: Container(),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              SolarIconsOutline.tuning_2,
+              size: 19.w,
             ),
           ),
-        ),
-        body: BlocConsumer<HomeCubit, HomeStates>(
-            listener: (ctx, state) {},
-            builder: (ctx, state) {
-              final homeCubit = HomeCubit.get(context);
-              final kinderGatenPosts = homeCubit.kindergartenPosts;
-              final primaryPosts = homeCubit.primaryPosts;
-              final preparatoryPosts = homeCubit.preparatoryPosts;
-              final secondaryPosts = homeCubit.secondaryPosts;
-              final generalPosts = homeCubit.generalPosts;
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              SolarIconsOutline.bell,
+              size: 19.w,
+            ),
+          ),
+        ],
+        title: const BuildSearchContainer(),
+      ),
+      body: BlocConsumer<HomeCubit, HomeStates>(
+        listener: (ctx, state) {},
+        builder: (ctx, state) {
+          final homeCubit = HomeCubit.get(context);
+          final homePostsModel = homeCubit.homePostsModel;
+          final kinderGartenPosts = homeCubit.kindergartenPosts;
+          final primaryPosts = homeCubit.primaryPosts;
+          final preparatoryPosts = homeCubit.preparatoryPosts;
+          final secondaryPosts = homeCubit.secondaryPosts;
+          final generalPosts = homeCubit.generalPosts;
 
-              return SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    BuildPalestine(text: locale.palestine),
-                    const BuildAddsSection(
-                      imageUrl:
-                          'https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg',
-                    ),
-                    BuildRowAboveCard(
-                      title: locale.kindergarten,
-                      numberOfBooks: 100,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (ctx) => CategoryBooksScreen(
-                                  data: kinderGatenPosts,
-                                  category: locale.kindergarten,
-                                )),
+          return RefreshIndicator(
+            color: ColorConstant.primaryColor,
+            onRefresh: () async {
+              await homeCubit.getHomePosts(
+                  noInternet: locale.no_internet,
+                  weakInternet: locale.weak_internet);
+            },
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: state is GetHomeDataLoadingHomeState &&
+                      homePostsModel == null
+                  //  &&
+                  // state is! GetHomeDataInternetFailureHomeState
+                  ? SizedBox(
+                      height: MediaQuery.of(context).size.height / 1.2,
+                      width: double.infinity,
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: ColorConstant.primaryColor,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 283.h,
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: kinderGatenPosts.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.only(right: 16.w),
-                            child: BuildPosts(
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (ctx) => CategoryDetailsScreen(
-                                    postDetails: Post(
-                                      title: kinderGatenPosts[index].title,
-                                      images: kinderGatenPosts[index].images,
-                                      price: kinderGatenPosts[index].price,
-                                      grade: kinderGatenPosts[index].grade,
-                                      educationLevel: kinderGatenPosts[index]
-                                          .educationLevel,
-                                      location:
-                                          kinderGatenPosts[index].location,
-                                      numberOfBooks:
-                                          kinderGatenPosts[index].numberOfBooks,
-                                      seen: kinderGatenPosts[index].seen,
-                                      description:
-                                          kinderGatenPosts[index].description,
-                                      createdSince: 'منذ 5 أيام',
-                                      educationType:
-                                          kinderGatenPosts[index].educationType,
-                                      bookEdition:
-                                          kinderGatenPosts[index].bookEdition,
-                                      semester:
-                                          kinderGatenPosts[index].semester,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              imageHeight: 150.h,
-                              imageWidth: 151.w,
-                              width: 150.w,
-                              height: 283.h,
-                              borderRadius: BorderRadius.zero,
-                              title: kinderGatenPosts[index].title,
-                              description: kinderGatenPosts[index].description,
-                              price: kinderGatenPosts[index].price,
-                              image: kinderGatenPosts[index].images[0],
-                              educationLevel: reversedLevels[
-                                  kinderGatenPosts[index].educationLevel]!,
-                              location: kinderGatenPosts[index].location,
-                              numberOfWatcher: kinderGatenPosts[index].seen,
-                              numberOfBooks:
-                                  kinderGatenPosts[index].numberOfBooks,
-                              cardElevation: 0,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    BuildRowAboveCard(
-                      title: locale.primary,
-                      numberOfBooks: 100,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (ctx) => CategoryBooksScreen(
-                                  data: primaryPosts,
-                                  category: locale.primary,
-                                )),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 283.h,
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: primaryPosts.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.only(right: 16.w),
-                            child: BuildPosts(
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (ctx) => CategoryDetailsScreen(
-                                    postDetails: Post(
-                                      title: primaryPosts[index].title,
-                                      images: primaryPosts[index].images,
-                                      price: primaryPosts[index].price,
-                                      grade: primaryPosts[index].grade,
-                                      educationLevel:
-                                          primaryPosts[index].educationLevel,
-                                      location: primaryPosts[index].location,
-                                      numberOfBooks:
-                                          primaryPosts[index].numberOfBooks,
-                                      seen: primaryPosts[index].seen,
-                                      description:
-                                          primaryPosts[index].description,
-                                      createdSince: 'منذ 5 أيام',
-                                      educationType:
-                                          primaryPosts[index].educationType,
-                                      bookEdition:
-                                          primaryPosts[index].bookEdition,
-                                      semester: primaryPosts[index].semester,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              imageHeight: 150.h,
-                              imageWidth: 151.w,
-                              width: 150.w,
-                              height: 283.h,
-                              borderRadius: BorderRadius.zero,
-                              title: primaryPosts[index].title,
-                              description: primaryPosts[index].description,
-                              price: primaryPosts[index].price,
-                              image: primaryPosts[index].images[0],
-                              educationLevel: reversedLevels[
-                                  primaryPosts[index].educationLevel]!,
-                              location: primaryPosts[index].location,
-                              numberOfWatcher: primaryPosts[index].seen,
-                              numberOfBooks: primaryPosts[index].numberOfBooks,
-                              cardElevation: 0,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    BuildRowAboveCard(
-                      title: locale.preparatory,
-                      numberOfBooks: 100,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (ctx) => CategoryBooksScreen(
-                                  data: preparatoryPosts,
-                                  category: locale.preparatory,
-                                )),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 283.h,
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: preparatoryPosts.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.only(right: 16.w),
-                            child: BuildPosts(
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (ctx) => CategoryDetailsScreen(
-                                    postDetails: Post(
-                                      title: preparatoryPosts[index].title,
-                                      images: preparatoryPosts[index].images,
-                                      price: primaryPosts[index].price,
-                                      grade: preparatoryPosts[index].grade,
-                                      educationLevel: preparatoryPosts[index]
-                                          .educationLevel,
-                                      location:
-                                          preparatoryPosts[index].location,
-                                      numberOfBooks:
-                                          preparatoryPosts[index].numberOfBooks,
-                                      seen: preparatoryPosts[index].seen,
-                                      description:
-                                          preparatoryPosts[index].description,
-                                      createdSince: 'منذ 5 أيام',
-                                      educationType:
-                                          preparatoryPosts[index].educationType,
-                                      bookEdition:
-                                          preparatoryPosts[index].bookEdition,
-                                      semester:
-                                          preparatoryPosts[index].semester,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              imageHeight: 150.h,
-                              imageWidth: 151.w,
-                              width: 150.w,
-                              height: 283.h,
-                              borderRadius: BorderRadius.zero,
-                              title: preparatoryPosts[index].title,
-                              description: preparatoryPosts[index].description,
-                              price: preparatoryPosts[index].price,
-                              image: preparatoryPosts[index].images[0],
-                              educationLevel: reversedLevels[
-                                  preparatoryPosts[index].educationLevel]!,
-                              location: preparatoryPosts[index].location,
-                              numberOfWatcher: preparatoryPosts[index].seen,
-                              numberOfBooks:
-                                  preparatoryPosts[index].numberOfBooks,
-                              cardElevation: 0,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    BuildRowAboveCard(
-                      title: locale.secondary,
-                      numberOfBooks: 100,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (ctx) => CategoryBooksScreen(
-                                  data: secondaryPosts,
-                                  category: locale.secondary,
-                                )),
-                      ),
-                    ),
-                    SizedBox(
-                      // margin: const EdgeInsets.only(right: 16),
-                      height: 283.h,
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: secondaryPosts.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.only(right: 16.w),
-                            child: BuildPosts(
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (ctx) => CategoryDetailsScreen(
-                                          postDetails: Post(
-                                            title: secondaryPosts[index].title,
-                                            images:
-                                                secondaryPosts[index].images,
-                                            price: secondaryPosts[index].price,
-                                            grade: secondaryPosts[index].grade,
-                                            educationLevel:
-                                                secondaryPosts[index]
-                                                    .educationLevel,
-                                            location:
-                                                secondaryPosts[index].location,
-                                            numberOfBooks: secondaryPosts[index]
-                                                .numberOfBooks,
-                                            seen: secondaryPosts[index].seen,
-                                            description: secondaryPosts[index]
-                                                .description,
-                                            createdSince: 'منذ 5 أيام',
-                                            educationType: secondaryPosts[index]
-                                                .educationType,
-                                            bookEdition: secondaryPosts[index]
-                                                .bookEdition,
-                                            semester:
-                                                secondaryPosts[index].semester,
+                    )
+                  : Column(
+                      children: [
+                        BuildPalestine(text: locale.palestine),
+                        const BuildAddsSection(
+                          imageUrl:
+                              'https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg',
+                        ),
+                        BuildRowAboveCard(
+                          title: locale.kindergarten,
+                          numberOfBooks: 100,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (ctx) => CategoryBooksScreen(
+                                      categoryIndex: 0,
+                                      category: locale.kindergarten,
+                                    )),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 283.h,
+                          child: state is GetHomeDataInternetFailureHomeState &&
+                                  kinderGartenPosts.isEmpty
+                              ? BuildTextPlaceHolder(text: state.message)
+                              : ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: kinderGartenPosts.length,
+                                  itemBuilder: (context, index) {
+                                    final languageCode = CacheHelper.getData(
+                                        key: AppConstant.languageKey);
+                                    return Container(
+                                      margin: languageCode == 'ar'
+                                          ? EdgeInsets.only(right: 16.w)
+                                          : EdgeInsets.only(left: 16.w),
+                                      child: BuildPosts(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (ctx) =>
+                                                CategoryDetailsScreen(
+                                              id: kinderGartenPosts[index].id,
+                                              title: kinderGartenPosts[index]
+                                                  .title,
+                                              description:
+                                                  kinderGartenPosts[index]
+                                                      .description,
+                                              images: kinderGartenPosts[index]
+                                                  .images,
+                                              price: kinderGartenPosts[index]
+                                                  .price,
+                                              grade: kinderGartenPosts[index]
+                                                  .grade,
+                                              bookEdition:
+                                                  kinderGartenPosts[index]
+                                                      .bookEdition,
+                                              educationLevel:
+                                                  kinderGartenPosts[index]
+                                                      .educationLevel,
+                                              views: kinderGartenPosts[index]
+                                                  .views,
+                                              numberOfBooks:
+                                                  kinderGartenPosts[index]
+                                                      .numberOfBooks,
+                                              semester: kinderGartenPosts[index]
+                                                  .semester,
+                                              educationType:
+                                                  kinderGartenPosts[index]
+                                                      .educationType,
+                                              location: kinderGartenPosts[index]
+                                                  .location,
+                                              city:
+                                                  kinderGartenPosts[index].city,
+                                              createdAt:
+                                                  kinderGartenPosts[index]
+                                                      .createdAt,
+                                              postId: kinderGartenPosts[index]
+                                                  .postId,
+                                            ),
                                           ),
-                                        )),
-                              ),
-                              imageHeight: 150.h,
-                              imageWidth: 151.w,
-                              width: 150.w,
-                              height: 283.h,
-                              borderRadius: BorderRadius.zero,
-                              title: secondaryPosts[index].title,
-                              description: secondaryPosts[index].description,
-                              price: secondaryPosts[index].price,
-                              image: secondaryPosts[index].images[0],
-                              educationLevel: reversedLevels[
-                                  secondaryPosts[index].educationLevel]!,
-                              location: secondaryPosts[index].location,
-                              numberOfWatcher: secondaryPosts[index].seen,
-                              numberOfBooks:
-                                  secondaryPosts[index].numberOfBooks,
-                              cardElevation: 0,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    BuildRowAboveCard(
-                      title: locale.general,
-                      numberOfBooks: 100,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (ctx) => CategoryBooksScreen(
-                                  data: generalPosts,
-                                  category: locale.general,
-                                )),
-                      ),
-                    ),
-                    SizedBox(
-                      // margin: const EdgeInsets.only(right: 16),
-                      height: 283.h,
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: generalPosts.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.only(right: 16.w),
-                            child: BuildPosts(
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (ctx) => CategoryDetailsScreen(
-                                          postDetails: Post(
-                                            title: generalPosts[index].title,
-                                            images: generalPosts[index].images,
-                                            price: generalPosts[index].price,
-                                            grade: generalPosts[index].grade,
-                                            educationLevel: generalPosts[index]
-                                                .educationLevel,
-                                            location:
-                                                generalPosts[index].location,
-                                            numberOfBooks: generalPosts[index]
-                                                .numberOfBooks,
-                                            seen: generalPosts[index].seen,
-                                            description:
-                                                generalPosts[index].description,
-                                            createdSince: 'منذ 5 أيام',
-                                            educationType: generalPosts[index]
-                                                .educationType,
-                                            bookEdition:
-                                                generalPosts[index].bookEdition,
-                                            semester:
-                                                generalPosts[index].semester,
+                                        ),
+                                        imageHeight: 160.h,
+                                        imageWidth: 150.w,
+                                        width: 150.w,
+                                        height: 283.h,
+                                        borderRadius: BorderRadius.zero,
+                                        title: kinderGartenPosts[index].title,
+                                        description: kinderGartenPosts[index]
+                                            .description,
+                                        price: kinderGartenPosts[index].price,
+                                        image:
+                                            kinderGartenPosts[index].images[0],
+                                        educationLevel: kinderGartenPosts[index]
+                                            .educationLevel,
+                                        cityLocation:
+                                            kinderGartenPosts[index].city,
+                                        numberOfWatcher:
+                                            kinderGartenPosts[index].views,
+                                        numberOfBooks: kinderGartenPosts[index]
+                                            .numberOfBooks,
+                                        timeSince:
+                                            kinderGartenPosts[index].createdAt,
+                                        cardElevation: 0,
+                                      ),
+                                    );
+                                  },
+                                ),
+                        ),
+                        BuildRowAboveCard(
+                          title: locale.primary,
+                          numberOfBooks: 100,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (ctx) => CategoryBooksScreen(
+                                      categoryIndex: 1,
+                                      category: locale.primary,
+                                    )),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 283.h,
+                          child: state is GetHomeDataInternetFailureHomeState &&
+                                  primaryPosts.isEmpty
+                              ? BuildTextPlaceHolder(text: state.message)
+                              : ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: primaryPosts.length,
+                                  itemBuilder: (context, index) {
+                                    final languageCode = CacheHelper.getData(
+                                        key: AppConstant.languageKey);
+
+                                    return Container(
+                                      margin: languageCode == 'ar'
+                                          ? EdgeInsets.only(right: 16.w)
+                                          : EdgeInsets.only(left: 16.w),
+                                      child: BuildPosts(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (ctx) =>
+                                                CategoryDetailsScreen(
+                                              id: primaryPosts[index].id,
+                                              title: primaryPosts[index].title,
+                                              description: primaryPosts[index]
+                                                  .description,
+                                              images:
+                                                  primaryPosts[index].images,
+                                              price: primaryPosts[index].price,
+                                              grade: primaryPosts[index].grade,
+                                              bookEdition: primaryPosts[index]
+                                                  .bookEdition,
+                                              educationLevel:
+                                                  primaryPosts[index]
+                                                      .educationLevel,
+                                              views: primaryPosts[index].views,
+                                              numberOfBooks: primaryPosts[index]
+                                                  .numberOfBooks,
+                                              semester:
+                                                  primaryPosts[index].semester,
+                                              educationType: primaryPosts[index]
+                                                  .educationType,
+                                              location:
+                                                  primaryPosts[index].location,
+                                              city: primaryPosts[index].city,
+                                              createdAt:
+                                                  primaryPosts[index].createdAt,
+                                              postId:
+                                                  primaryPosts[index].postId,
+                                            ),
                                           ),
-                                        )),
+                                        ),
+                                        imageHeight: 160.h,
+                                        imageWidth: 150.w,
+                                        width: 150.w,
+                                        height: 283.h,
+                                        borderRadius: BorderRadius.zero,
+                                        title: primaryPosts[index].title,
+                                        description:
+                                            primaryPosts[index].description,
+                                        price: primaryPosts[index].price,
+                                        image: primaryPosts[index].images[0],
+                                        educationLevel:
+                                            primaryPosts[index].educationLevel,
+                                        cityLocation: primaryPosts[index].city,
+                                        numberOfWatcher:
+                                            primaryPosts[index].views,
+                                        numberOfBooks:
+                                            primaryPosts[index].numberOfBooks,
+                                        timeSince:
+                                            primaryPosts[index].createdAt,
+                                        cardElevation: 0,
+                                      ),
+                                    );
+                                  },
+                                ),
+                        ),
+                        BuildRowAboveCard(
+                          title: locale.preparatory,
+                          numberOfBooks: 100,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (ctx) => CategoryBooksScreen(
+                                categoryIndex: 2,
+                                category: locale.preparatory,
                               ),
-                              imageHeight: 150.h,
-                              imageWidth: 151.w,
-                              width: 150.w,
-                              height: 283.h,
-                              borderRadius: BorderRadius.zero,
-                              title: generalPosts[index].title,
-                              description: generalPosts[index].description,
-                              price: generalPosts[index].price,
-                              image: generalPosts[index].images[0],
-                              educationLevel: reversedLevels[
-                                  generalPosts[index].educationLevel]!,
-                              location: generalPosts[index].location,
-                              numberOfWatcher: generalPosts[index].seen,
-                              numberOfBooks: generalPosts[index].numberOfBooks,
-                              cardElevation: 0,
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 283.h,
+                          child: state is GetHomeDataInternetFailureHomeState &&
+                                  preparatoryPosts.isEmpty
+                              ? BuildTextPlaceHolder(text: state.message)
+                              : ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: preparatoryPosts.length,
+                                  itemBuilder: (context, index) {
+                                    final languageCode = CacheHelper.getData(
+                                        key: AppConstant.languageKey);
+                                    return Container(
+                                      margin: languageCode == 'ar'
+                                          ? EdgeInsets.only(right: 16.w)
+                                          : EdgeInsets.only(left: 16.w),
+                                      child: BuildPosts(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (ctx) =>
+                                                CategoryDetailsScreen(
+                                              id: preparatoryPosts[index].id,
+                                              title:
+                                                  preparatoryPosts[index].title,
+                                              description:
+                                                  preparatoryPosts[index]
+                                                      .description,
+                                              images: preparatoryPosts[index]
+                                                  .images,
+                                              price:
+                                                  preparatoryPosts[index].price,
+                                              grade:
+                                                  preparatoryPosts[index].grade,
+                                              bookEdition:
+                                                  preparatoryPosts[index]
+                                                      .bookEdition,
+                                              educationLevel:
+                                                  preparatoryPosts[index]
+                                                      .educationLevel,
+                                              views:
+                                                  preparatoryPosts[index].views,
+                                              numberOfBooks:
+                                                  preparatoryPosts[index]
+                                                      .numberOfBooks,
+                                              semester: preparatoryPosts[index]
+                                                  .semester,
+                                              educationType:
+                                                  preparatoryPosts[index]
+                                                      .educationType,
+                                              location: preparatoryPosts[index]
+                                                  .location,
+                                              city:
+                                                  preparatoryPosts[index].city,
+                                              createdAt: preparatoryPosts[index]
+                                                  .createdAt,
+                                              postId: preparatoryPosts[index]
+                                                  .postId,
+                                            ),
+                                          ),
+                                        ),
+                                        imageHeight: 160.h,
+                                        imageWidth: 150.w,
+                                        width: 150.w,
+                                        height: 283.h,
+                                        borderRadius: BorderRadius.zero,
+                                        title: preparatoryPosts[index].title,
+                                        description:
+                                            preparatoryPosts[index].description,
+                                        price: preparatoryPosts[index].price,
+                                        image:
+                                            preparatoryPosts[index].images[0],
+                                        educationLevel: preparatoryPosts[index]
+                                            .educationLevel,
+                                        cityLocation:
+                                            preparatoryPosts[index].city,
+                                        numberOfWatcher:
+                                            preparatoryPosts[index].views,
+                                        numberOfBooks: preparatoryPosts[index]
+                                            .numberOfBooks,
+                                        timeSince:
+                                            preparatoryPosts[index].createdAt,
+                                        cardElevation: 0,
+                                      ),
+                                    );
+                                  },
+                                ),
+                        ),
+                        BuildRowAboveCard(
+                          title: locale.secondary,
+                          numberOfBooks: 100,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (ctx) => CategoryBooksScreen(
+                                      categoryIndex: 3,
+                                      category: locale.secondary,
+                                    )),
+                          ),
+                        ),
+                        SizedBox(
+                          // margin: const EdgeInsets.only(right: 16),
+                          height: 283.h,
+                          child: state is GetHomeDataInternetFailureHomeState &&
+                                  secondaryPosts.isEmpty
+                              ? BuildTextPlaceHolder(text: state.message)
+                              : ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: secondaryPosts.length,
+                                  itemBuilder: (context, index) {
+                                    final languageCode = CacheHelper.getData(
+                                        key: AppConstant.languageKey);
+                                    return Container(
+                                      margin: languageCode == 'ar'
+                                          ? EdgeInsets.only(right: 16.w)
+                                          : EdgeInsets.only(left: 16.w),
+                                      child: BuildPosts(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (ctx) =>
+                                                  CategoryDetailsScreen(
+                                                    id: secondaryPosts[index]
+                                                        .id,
+                                                    title: secondaryPosts[index]
+                                                        .title,
+                                                    description:
+                                                        secondaryPosts[index]
+                                                            .description,
+                                                    images:
+                                                        secondaryPosts[index]
+                                                            .images,
+                                                    price: secondaryPosts[index]
+                                                        .price,
+                                                    grade: secondaryPosts[index]
+                                                        .grade,
+                                                    bookEdition:
+                                                        secondaryPosts[index]
+                                                            .bookEdition,
+                                                    educationLevel:
+                                                        secondaryPosts[index]
+                                                            .educationLevel,
+                                                    views: secondaryPosts[index]
+                                                        .views,
+                                                    numberOfBooks:
+                                                        secondaryPosts[index]
+                                                            .numberOfBooks,
+                                                    semester:
+                                                        secondaryPosts[index]
+                                                            .semester,
+                                                    educationType:
+                                                        secondaryPosts[index]
+                                                            .educationType,
+                                                    location:
+                                                        secondaryPosts[index]
+                                                            .location,
+                                                    createdAt:
+                                                        secondaryPosts[index]
+                                                            .createdAt,
+                                                    postId:
+                                                        secondaryPosts[index]
+                                                            .postId,
+                                                    city: secondaryPosts[index]
+                                                        .city,
+                                                  )),
+                                        ),
+                                        imageHeight: 160.h,
+                                        imageWidth: 150.w,
+                                        width: 150.w,
+                                        height: 283.h,
+                                        borderRadius: BorderRadius.zero,
+                                        title: secondaryPosts[index].title,
+                                        description:
+                                            secondaryPosts[index].description,
+                                        price: secondaryPosts[index].price,
+                                        image: secondaryPosts[index].images[0],
+                                        educationLevel: secondaryPosts[index]
+                                            .educationLevel,
+                                        cityLocation:
+                                            secondaryPosts[index].city,
+                                        numberOfWatcher:
+                                            secondaryPosts[index].views,
+                                        numberOfBooks:
+                                            secondaryPosts[index].numberOfBooks,
+                                        timeSince:
+                                            secondaryPosts[index].createdAt,
+                                        cardElevation: 0,
+                                      ),
+                                    );
+                                  },
+                                ),
+                        ),
+                        BuildRowAboveCard(
+                          title: locale.general,
+                          numberOfBooks: 100,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (ctx) => CategoryBooksScreen(
+                                categoryIndex: 4,
+                                category: locale.general,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 283.h,
+                          child: state is GetHomeDataInternetFailureHomeState &&
+                                  generalPosts.isEmpty
+                              ? BuildTextPlaceHolder(text: state.message)
+                              : ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: generalPosts.length,
+                                  itemBuilder: (context, index) {
+                                    final languageCode = CacheHelper.getData(
+                                        key: AppConstant.languageKey);
+                                    return Container(
+                                      margin: languageCode == 'ar'
+                                          ? EdgeInsets.only(right: 16.w)
+                                          : EdgeInsets.only(left: 16.w),
+                                      child: BuildPosts(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (ctx) =>
+                                                  CategoryDetailsScreen(
+                                                    id: generalPosts[index].id,
+                                                    title: generalPosts[index]
+                                                        .title,
+                                                    description:
+                                                        generalPosts[index]
+                                                            .description,
+                                                    images: generalPosts[index]
+                                                        .images,
+                                                    price: generalPosts[index]
+                                                        .price,
+                                                    grade: generalPosts[index]
+                                                        .grade,
+                                                    bookEdition:
+                                                        generalPosts[index]
+                                                            .bookEdition,
+                                                    educationLevel:
+                                                        generalPosts[index]
+                                                            .educationLevel,
+                                                    views: generalPosts[index]
+                                                        .views,
+                                                    numberOfBooks:
+                                                        generalPosts[index]
+                                                            .numberOfBooks,
+                                                    semester:
+                                                        generalPosts[index]
+                                                            .semester,
+                                                    educationType:
+                                                        generalPosts[index]
+                                                            .educationType,
+                                                    location:
+                                                        generalPosts[index]
+                                                            .location,
+                                                    createdAt:
+                                                        generalPosts[index]
+                                                            .createdAt,
+                                                    postId: generalPosts[index]
+                                                        .postId,
+                                                    city: generalPosts[index]
+                                                        .city,
+                                                  )),
+                                        ),
+                                        imageHeight: 160.h,
+                                        imageWidth: 150.w,
+                                        width: 150.w,
+                                        height: 283.h,
+                                        borderRadius: BorderRadius.zero,
+                                        title: generalPosts[index].title,
+                                        description:
+                                            generalPosts[index].description,
+                                        price: generalPosts[index].price,
+                                        image: generalPosts[index].images[0],
+                                        educationLevel:
+                                            generalPosts[index].educationLevel,
+                                        cityLocation: generalPosts[index].city,
+                                        numberOfWatcher:
+                                            generalPosts[index].views,
+                                        numberOfBooks:
+                                            generalPosts[index].numberOfBooks,
+                                        timeSince:
+                                            generalPosts[index].createdAt,
+                                        cardElevation: 0,
+                                      ),
+                                    );
+                                  },
+                                ),
+                        ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            }));
+            ),
+          );
+        },
+      ),
+    );
   }
 }

@@ -123,7 +123,9 @@ class LoginScreen extends StatelessWidget {
                                   text: locale.login,
                                   color: ColorConstant.primaryColor,
                                   elevation: 4,
-                                  context: context)
+                                  context: context,
+                                  withBorder: false,
+                                )
                               : const Center(
                                   child: CircularProgressIndicator(
                                     color: ColorConstant.primaryColor,
@@ -193,18 +195,20 @@ class LoginScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is SuccessUserLoginState) {
           if (state.userModel.token == null) {
-            snakBarMessage(
+            snackBarMessage(
                 snackbarState: SnackbarState.error,
                 context: context,
-                message: state.userModel.message.toString());
+                message: state.userModel.message.toString(),
+                duration: const Duration(seconds: 2));
           } else {
             Navigator.pushNamed(context, '');
           }
         } else if (state is FailedUserLoginState) {
-          snakBarMessage(
+          snackBarMessage(
               snackbarState: SnackbarState.error,
               context: context,
-              message: state.error);
+              message: state.error,
+              duration: const Duration(seconds: 2));
         }
       },
     );

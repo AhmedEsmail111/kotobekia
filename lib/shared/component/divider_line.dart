@@ -1,14 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../styles/colors.dart';
 
 class BuildDividerLine extends StatelessWidget {
-  const BuildDividerLine({super.key});
+  final double thickness;
+  const BuildDividerLine({
+    super.key,
+    required this.thickness,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Divider(
-        color: ColorConstant.midGrayColor, thickness: 1);
+    return Divider(color: ColorConstant.midGrayColor, thickness: thickness);
   }
 }

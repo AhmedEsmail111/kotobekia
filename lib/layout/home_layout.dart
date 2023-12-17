@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/home/home_cubit.dart';
 import 'package:kotobekia/controller/home/home_state.dart';
-import 'package:kotobekia/layout/add_post_overlay.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
@@ -72,17 +71,10 @@ class LayoutScreen extends StatelessWidget {
                 ),
                 BottomNavigationBarItem(
                   label: '',
-                  icon: IconButton(
-                    icon: Icon(
-                      SolarIconsOutline.addSquare,
-                      size: 30.h,
-                      color: ColorConstant.primaryColor,
-                    ),
-                    onPressed: () {
-                      homeCubit.changeModalBottomSheet();
-                      scaffoldKey.currentState!.showBottomSheet(
-                          (context) => const BuildAddPostOverlay());
-                    },
+                  icon: Icon(
+                    SolarIconsOutline.addSquare,
+                    size: 40.h,
+                    color: ColorConstant.primaryColor,
                   ),
                 ),
                 BottomNavigationBarItem(
@@ -98,6 +90,14 @@ class LayoutScreen extends StatelessWidget {
               ],
             ),
           ),
+          // floatingActionButton: Container(
+          //     margin: EdgeInsets.symmetric(
+          //         horizontal: MediaQuery.of(context).size.width / 2.4,
+          //         vertical: 0),
+          //     child: IconButton(
+          //       icon: Icon(SolarIconsOutline.addSquare),
+          //       onPressed: () {},
+          //     )),
         );
       },
     );

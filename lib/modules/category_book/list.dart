@@ -1,87 +1,89 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kotobekia/models/post_model/post_model.dart';
+import 'package:kotobekia/controller/category/category_cubit.dart';
+import 'package:kotobekia/controller/category/category_states.dart';
+import 'package:kotobekia/models/category_model/specific_category_model.dart';
 import 'package:kotobekia/modules/category_details/category_details_screen.dart';
-import 'package:kotobekia/shared/component/home/add_section.dart';
+import 'package:kotobekia/shared/styles/colors.dart';
 
 import 'rectangle_card_post.dart';
 
 class BuildList extends StatelessWidget {
-  const BuildList({super.key, required this.data});
-  final List<Post> data;
+  const BuildList({
+    super.key,
+    required this.data,
+    required this.categoryIndex,
+  });
+  final List<Result> data;
+  final int categoryIndex;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          return index == 0
-              ? const BuildAddsSection(
-                  imageUrl:
-                      "https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg",
-                )
-              : Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 5.h,
-                  ),
-                  child: BuildRectangleCardPost(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (ctx) => CategoryDetailsScreen(
-                          postDetails: Post(
-                            title: data[index].title,
-                            images: data[index].images,
-                            price: data[index].price,
-                            grade: data[index].grade,
-                            educationLevel: data[index].educationLevel,
-                            location: data[index].location,
-                            numberOfBooks: data[index].numberOfBooks,
-                            seen: data[index].seen,
-                            description: data[index].description,
-                            createdSince: 'منذ 5 أيام',
-                            educationType: data[index].educationType,
-                            bookEdition: data[index].bookEdition,
-                            semester: data[index].semester,
-                          ),
-                        ),
-                      ),
+    return BlocBuilder<CategoryCubit, CategoryStates>(builder: (ctx, state) {
+      final categoryCubit = CategoryCubit.get(context);
+      return Expanded(
+        child: ListView.builder(
+          controller: categoryCubit.scrollController,
+          physics: const BouncingScrollPhysics(),
+          // isLoading will only be true when he tries to fetch other pages(more date)
+          itemCount: data.length + (categoryCubit.isLoading ? 1 : 0),
+          itemBuilder: (context, index) {
+            if (index == categoryCubit.posts.length) {
+              Timer(const Duration(milliseconds: 30), () {
+                categoryCubit.scrollController.jumpTo(
+                    categoryCubit.scrollController.position.maxScrollExtent);
+              });
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: ColorConstant.primaryColor,
+                ),
+              );
+            }
+            return Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: 16.w,
+                vertical: 5.h,
+              ),
+              child: BuildRectangleCardPost(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (ctx) => CategoryDetailsScreen(
+                      id: data[index].id,
+                      title: data[index].title,
+                      description: data[index].description,
+                      images: data[index].images,
+                      price: data[index].price,
+                      grade: data[index].grade,
+                      bookEdition: data[index].bookEdition,
+                      educationLevel: data[index].educationLevel,
+                      views: data[index].views,
+                      numberOfBooks: data[index].numberOfBooks,
+                      semester: data[index].semester,
+                      educationType: data[index].educationType,
+                      location: data[index].location,
+                      city: data[index].city,
+                      createdAt: data[index].createdAt,
+                      postId: data[index].postId,
                     ),
-                    title: data[index].title,
-                    image: data[index].images[0],
-                    price: data[index].price,
-                    description: data[index].description,
-                    educationLevel: data[index].educationLevel,
-                    location: data[index].location,
-                    numberOfBooks: data[index].numberOfBooks,
-                    numberOfWatcher: data[index].seen,
                   ),
-                  // BuildPosts(
-                  //   onTap: () => Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (ctx) => const CategoryDetailsScreen()),
-                  //   ),
-                  //   title: data[index]['title'],
-                  //   description: data[index]['description'],
-                  //   price: data[index]['price'],
-                  //   image: data[index]['image'],
-                  //   educationLevel: data[index]['educationLevel'],
-                  //   location: data[index]['location'],
-                  //   numberOfWatcher: data[index]['seen'],
-                  //   numberOfBooks: data[index]['number_of_books'],
-                  //   cardBorder: Border.all(color: const Color(0xFFEDEDED)),
-                  //   borderRadius: BorderRadius.circular(14),
-                  //   imageHeight: 150.h,
-                  //   contentPadding: EdgeInsets.all(6.w),
-                  //   imageWidth: double.infinity,
-                  //   cardElevation: 3,
-                  // ),
-                );
-        },
-      ),
-    );
+                ),
+                title: data[index].title,
+                image: data[index].images[0],
+                price: data[index].price,
+                description: data[index].description,
+                educationLevel: data[index].educationLevel,
+                cityLocation: data[index].city,
+                numberOfBooks: data[index].numberOfBooks,
+                numberOfWatcher: data[index].views,
+                timeSince: data[index].createdAt,
+              ),
+            );
+          },
+        ),
+      );
+    });
   }
 }

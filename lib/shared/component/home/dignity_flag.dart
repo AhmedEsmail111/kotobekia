@@ -20,7 +20,7 @@ class BuildPalestine extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
+          Flexible(
             child: Text(
               text,
               style: Theme.of(context).textTheme.displayMedium!.copyWith(

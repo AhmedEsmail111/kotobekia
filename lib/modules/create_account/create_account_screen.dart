@@ -34,19 +34,21 @@ class CreateAccountScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is SuccessUserCreateAccountState) {
           if (state.userModel.token == null) {
-            snakBarMessage(
+            snackBarMessage(
                 snackbarState: SnackbarState.error,
                 context: context,
-                message: state.userModel.message.toString());
+                message: state.userModel.message.toString(),
+                duration: const Duration(seconds: 2));
           } else {
             Navigator.pushNamed(context, 'otp',
                 arguments: emailController.text);
           }
         } else if (state is FailedUserCreateAccountState) {
-          snakBarMessage(
+          snackBarMessage(
               snackbarState: SnackbarState.error,
               context: context,
-              message: state.error);
+              message: state.error,
+              duration: const Duration(seconds: 2));
         }
       },
       builder: (context, state) {
@@ -330,7 +332,9 @@ class CreateAccountScreen extends StatelessWidget {
                                   text: locale.create_acount,
                                   color: ColorConstant.primaryColor,
                                   elevation: 4,
-                                  context: context)
+                                  context: context,
+                                  withBorder: false,
+                                )
                               : const Center(
                                   child: CircularProgressIndicator(
                                       color: ColorConstant.primaryColor)),

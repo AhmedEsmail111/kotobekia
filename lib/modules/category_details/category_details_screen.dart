@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/modules/category_details/contact_card.dart';
 import 'package:kotobekia/modules/category_details/details_card.dart';
+import 'package:kotobekia/modules/category_details/important_info_flag.dart';
 import 'package:kotobekia/shared/component/back_button.dart';
 import 'package:kotobekia/shared/component/home/add_section.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
@@ -13,17 +13,97 @@ import 'interaction_card.dart';
 import 'row_details.dart';
 
 class CategoryDetailsScreen extends StatelessWidget {
-  const CategoryDetailsScreen({super.key, required this.postDetails});
-  final Post postDetails;
+  const CategoryDetailsScreen({
+    super.key,
+    // required this.postIndex,
+    // required this.categoryIndex,
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.images,
+    this.postType,
+    required this.price,
+    required this.grade,
+    required this.bookEdition,
+    required this.educationLevel,
+    this.postStatus,
+    required this.views,
+    this.feedback,
+    required this.numberOfBooks,
+    required this.semester,
+    required this.educationType,
+    required this.location,
+    required this.city,
+    this.identificationNumber,
+    required this.createdAt,
+    this.updatedAt,
+    required this.postId,
+  });
+  // final int postIndex;
+  // final int categoryIndex;
+  final String id;
+  final String title;
+  final String description;
+  final List<String> images;
+  final String? postType;
+  final int price;
+  final String grade;
+  final String bookEdition;
+  final String educationLevel;
+  final String? postStatus;
+  final int views;
+  final String? feedback;
+  final int numberOfBooks;
+  final String semester;
+  final String educationType;
+  final String location;
+  final String city;
+  final String? identificationNumber;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  final int postId;
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context);
+    //  to show returned education level based on the user's locale
+    final reversEducationLevels = {
+      '655b4ec133dd362ae53081f7': locale!.kindergarten,
+      '655b4ecd33dd362ae53081f9': locale.primary,
+      '655b4ee433dd362ae53081fb': locale.preparatory,
+      '655b4efb33dd362ae53081fd': locale.secondary,
+      '655b4f0a33dd362ae53081ff': locale.general,
+    };
+
+    //  to show returned grade based on the user's locale
+    final reversedGrades = {
+      'grade_one': locale.grade_one,
+      'grade_two': locale.grade_two,
+      'grade_three': locale.grade_three,
+      'grade_four': locale.grade_four,
+      'grade_five': locale.grade_five,
+      'grade_six': locale.grade_six,
+    };
+    //  to show returned semester based on the user's locale
+    final reversedSemesters = {
+      'first': locale.first,
+      'second': locale.second,
+      'both': locale.both,
+    };
+//  to show returned education type based on the user's locale
+    final reversedEducationType = {
+      'general': locale.general_type,
+      'azhar': locale.azhar,
+      'other': locale.any_type,
+    };
+
     return Scaffold(
       backgroundColor: ColorConstant.backgroundColor,
       appBar: AppBar(
-          leading: const BuildBackButton(),
+          leading: const BuildBackButton(
+            hasBackground: false,
+          ),
           title: Text(
-            postDetails.title,
+            title,
             style: Theme.of(context).textTheme.bodyLarge,
           )),
       body: SingleChildScrollView(
@@ -35,7 +115,7 @@ class CategoryDetailsScreen extends StatelessWidget {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(14)),
               width: double.infinity,
-              height: 200.h,
+              height: 190.h,
               child: Stack(
                 fit: StackFit.expand,
                 children: [
@@ -59,7 +139,7 @@ class CategoryDetailsScreen extends StatelessWidget {
                       height: 30.h,
                       alignment: Alignment.center,
                       child: Text(
-                        '${postDetails.images.length} ${locale!.images}',
+                        '${images.length} ${locale!.images}',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w900,
@@ -98,7 +178,7 @@ class CategoryDetailsScreen extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: postDetails.images.length,
+                itemCount: images.length,
                 itemBuilder: (context, index) => Container(
                   clipBehavior: Clip.hardEdge,
                   decoration:
@@ -112,42 +192,49 @@ class CategoryDetailsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            BuildCardDetails(
-              description: postDetails.description,
-              location: postDetails.location,
-              price: postDetails.price,
-              timeSince: postDetails.createdSince,
-              title: postDetails.title,
+            Stack(
+              children: [
+                BuildCardDetails(
+                  description: description,
+                  cityLocation: city,
+                  price: price,
+                  timeSince: createdAt,
+                  title: title,
+                ),
+                const Positioned(child: BuildImportantInfoFlag())
+              ],
             ),
             BuildRowDetails(
               isLast: false,
               isFirst: true,
               firstText: locale.education_level,
-              secondText: reversedLevels[postDetails.educationLevel]!,
+              secondText: reversEducationLevels[educationLevel]!,
             ),
             BuildRowDetails(
               isLast: false,
               firstText: locale.grade,
-              secondText: postDetails.grade,
+              secondText: reversedGrades[grade]!,
             ),
             BuildRowDetails(
               isLast: false,
               firstText: locale.education_type,
-              secondText: postDetails.educationType,
+              secondText: reversedEducationType[educationType]!,
             ),
             BuildRowDetails(
               isLast: false,
               firstText: locale.education_year,
-              secondText: postDetails.bookEdition,
+              secondText: bookEdition,
             ),
             BuildRowDetails(
               firstText: locale.term,
-              secondText: postDetails.semester,
+              secondText: reversedSemesters[semester]!,
             ),
             SizedBox(
               height: 4.h,
             ),
-            const BuildInteractionCard(),
+            BuildInteractionCard(
+              postIdUrl: id,
+            ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               child: const BuildContactCard(name: 'أمجد حسام الدين'),

@@ -72,6 +72,7 @@ class GetStartScreen extends StatelessWidget {
           padding:
               EdgeInsets.only(top: h / 17.5, left: w / 22.5, right: w / 22.5),
           child: BuildDefaultButton(
+              withBorder: false,
               onTap: () {
                 Navigator.pushReplacementNamed(context, 'createAccount');
               },

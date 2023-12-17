@@ -171,7 +171,9 @@ class OtpScreen extends StatelessWidget {
                                 text: locale.confirm,
                                 color: ColorConstant.primaryColor,
                                 elevation: 4,
-                                context: context)
+                                context: context,
+                                withBorder: false,
+                              )
                             : const Center(
                                 child: CircularProgressIndicator(
                                   color: ColorConstant.primaryColor,
@@ -207,16 +209,18 @@ class OtpScreen extends StatelessWidget {
           if (state.otpModel.message == 'OTP Verified Successfully') {
             Navigator.pushReplacementNamed(context, 'verifiedEmail');
           } else {
-            snakBarMessage(
+            snackBarMessage(
                 snackbarState: SnackbarState.error,
                 context: context,
-                message: state.otpModel.message.toString());
+                message: state.otpModel.message.toString(),
+                duration: const Duration(seconds: 2));
           }
         } else if (state is FailedVerifyOtpState) {
-          snakBarMessage(
+          snackBarMessage(
               snackbarState: SnackbarState.error,
               context: context,
-              message: state.error);
+              message: state.error,
+              duration: const Duration(seconds: 2));
         }
       },
     );
