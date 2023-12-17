@@ -20,16 +20,13 @@ import 'package:kotobekia/controller/profile/profile_cubit.dart';
 import 'package:kotobekia/l10n/l10n.dart';
 import 'package:kotobekia/layout/home_layout.dart';
 import 'package:kotobekia/modules/change_language/change_language.dart';
-import 'package:kotobekia/modules/change_passwrod/chnage_password_screen.dart';
 import 'package:kotobekia/modules/create_account/create_account_screen.dart';
 import 'package:kotobekia/modules/favorite_adds/favorite_adds_.dart';
-import 'package:kotobekia/modules/enter_new_password/enter_new_password_screen.dart';
 import 'package:kotobekia/modules/get_start/get_start_screen.dart';
 import 'package:kotobekia/modules/login/Login_screen.dart';
 import 'package:kotobekia/modules/modify_profile/modify_profile.dart';
 import 'package:kotobekia/modules/otp/otp_screen.dart';
 import 'package:kotobekia/modules/verified_email/verified_email_screen.dart';
-import 'package:kotobekia/shared/component/snakbar_message.dart';
 import 'package:kotobekia/shared/component/snakbar_message.dart';
 import 'package:kotobekia/shared/constants/app/app_constant.dart';
 import 'package:kotobekia/shared/constants/images/images_constant.dart';
@@ -66,8 +63,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthenticationCubit(),
         ),
         BlocProvider(
-          create: (context) => ChatCubit()..
-          getUsersConversation(token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzRlMDVkODVjZDBkYTczZmRhYmE5NSIsImZ1bGxOYW1lIjoibG9sbyIsImVtYWlsIjoibG9sQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiZ2VuZGVyIjoibWFsZSIsImJpcnRoRGF0ZSI6IjIwMDAtMDYtMTVUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTcwMjE1ODUxNX0.DZFqXXOWPD1KJEPXTHykAqPlmQ_hTQbjsRs2H6UyncA'),
+          create: (context) => ChatCubit(),
         ),
         BlocProvider(
           create: (context) => OtpCubit(),
@@ -96,7 +92,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (ctx) => InternetCubit()..checkConnectivity(),
         ),
-
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),

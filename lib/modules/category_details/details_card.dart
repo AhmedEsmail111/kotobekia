@@ -97,7 +97,7 @@ class BuildCardDetails extends StatelessWidget {
                 .displayMedium!
                 .copyWith(fontWeight: FontWeight.w400, color: Colors.black),
             textAlign: TextAlign.start,
-            maxLines: 3,
+            
             overflow: TextOverflow.ellipsis,
             textDirection: HelperFunctions.isArabic(description)
                 ? TextDirection.rtl
