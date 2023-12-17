@@ -75,7 +75,7 @@ class BuildDefaultTextField extends StatelessWidget {
                   enabled: isEnabled,
                   onChanged: onChange,
                   maxLength: maxLenght,
-                  maxLines: maxLines,
+                  maxLines: maxLines ?? 1,
                   controller: controller,
                   style: Theme.of(context).textTheme.displayLarge!.copyWith(
                         color: ColorConstant.blackColor,

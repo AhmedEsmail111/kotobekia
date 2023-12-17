@@ -72,8 +72,9 @@ class HomeScreen extends StatelessWidget {
             color: ColorConstant.primaryColor,
             onRefresh: () async {
               await homeCubit.getHomePosts(
-                  noInternet: locale.no_internet,
-                  weakInternet: locale.weak_internet);
+                noInternet: locale.no_internet,
+                weakInternet: locale.weak_internet,
+              );
             },
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),

@@ -37,7 +37,7 @@ class BuildContactCard extends StatelessWidget {
                 color: ColorConstant.whiteColor,
               ),
               width: double.infinity,
-              height: 100.h,
+              height: 110.h,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
