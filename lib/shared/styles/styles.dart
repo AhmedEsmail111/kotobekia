@@ -16,7 +16,7 @@ ThemeData lightTheme({required double width, required double height}) =>
             fontSize: width/20,
             fontWeight: FontWeight.w900),
         bodyMedium: TextStyle(
-          fontFamily: 'NotoSansArabic-Regular',
+          fontFamily: 'Poppins-ExtraLight',
           fontSize: width/25,
         ),
         titleMedium: TextStyle(
@@ -29,7 +29,7 @@ ThemeData lightTheme({required double width, required double height}) =>
           fontSize: width/22.8,
         ),
         titleLarge: TextStyle(
-          fontFamily: 'NotoSansArabic-Regular',
+          fontFamily: 'Amaranth-Bold',
           fontSize: width/12.5,
           color: ColorConstant.primaryColor,
           fontWeight: FontWeight.bold

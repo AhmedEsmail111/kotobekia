@@ -10,7 +10,9 @@ import 'package:kotobekia/controller/home/home_cubit.dart';
 import 'package:kotobekia/controller/otp/otp_cubit.dart';
 import 'package:kotobekia/l10n/l10n.dart';
 import 'package:kotobekia/layout/home_layout.dart';
+import 'package:kotobekia/modules/change_passwrod/chnage_password_screen.dart';
 import 'package:kotobekia/modules/create_account/create_account_screen.dart';
+import 'package:kotobekia/modules/enter_new_password/enter_new_password_screen.dart';
 import 'package:kotobekia/modules/get_start/get_start_screen.dart';
 import 'package:kotobekia/modules/login/Login_screen.dart';
 import 'package:kotobekia/modules/otp/otp_screen.dart';
@@ -32,7 +34,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DioHelper.init();
   await CacheHelper.init();
-  // await CacheHelper.deleteAllData();
   Bloc.observer = MyBlocObserver();
 
   runApp(const MyApp());
@@ -51,7 +52,8 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthenticationCubit(),
         ),
         BlocProvider(
-          create: (context) => ChatCubit(),
+          create: (context) => ChatCubit()..
+          getUsersConversation(token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzRlMDVkODVjZDBkYTczZmRhYmE5NSIsImZ1bGxOYW1lIjoibG9sbyIsImVtYWlsIjoibG9sQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiZ2VuZGVyIjoibWFsZSIsImJpcnRoRGF0ZSI6IjIwMDAtMDYtMTVUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTcwMjE1ODUxNX0.DZFqXXOWPD1KJEPXTHykAqPlmQ_hTQbjsRs2H6UyncA'),
         ),
         BlocProvider(
           create: (context) => OtpCubit(),
@@ -59,6 +61,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (ctx) => HomeCubit()..getHomePosts(),
         ),
+
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),
@@ -81,7 +84,7 @@ class MyApp extends StatelessWidget {
                   'message': (context) => const MessageScreen(),
                   'chat': (context) => const ChatScreen(),
                 },
-                locale:authenticationCubit.locale ,
+                locale: authenticationCubit.locale,
                 localizationsDelegates: const [
                   AppLocalizations.delegate,
                   GlobalMaterialLocalizations.delegate,

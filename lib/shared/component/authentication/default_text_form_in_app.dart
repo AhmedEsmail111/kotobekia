@@ -23,6 +23,7 @@ class BuildDefaultTextField extends StatelessWidget {
   final Icon? prefixIcons;
   final AuthenticationCubit ?cubit;
   final int ?numberOfFormPass;
+  final bool withEyeVisible;
   const BuildDefaultTextField(
       {super.key,
          this.cubit,
@@ -40,7 +41,8 @@ class BuildDefaultTextField extends StatelessWidget {
       this.controller,
       this.onSaved,
       this.onValidate,
-      required this.isObscured, required bool withEyeVisible});
+      required this.isObscured,
+        required this.withEyeVisible});
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +91,7 @@ class BuildDefaultTextField extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                         borderSide: BorderSide.none),
                     prefixIcon: prefixIcons,
-                    suffixIcon: isObscured
+                    suffixIcon: withEyeVisible
                         ? InkWell(
                             onTap:() {
                               cubit?.changeVisiabilityPassword(numberOfFormPass!);

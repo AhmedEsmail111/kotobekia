@@ -61,7 +61,7 @@ class BuildUserRowInMessage extends StatelessWidget {
           alignment: Alignment.bottomLeft,
           children: [
             Image.asset(
-              ImageConstant.userDefaultImage,
+              ImageConstant.userMaleImage,
               height: 47.w,
               width: 47.w,
               fit: BoxFit.cover,

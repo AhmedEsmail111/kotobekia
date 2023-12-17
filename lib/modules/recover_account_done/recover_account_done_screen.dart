@@ -62,7 +62,7 @@ class RecoverAccountDoneScreen extends StatelessWidget {
                       SizedBox(
                         height: 160.h,
                       ),
-                      Image.asset(ImageConstant.coverAccountDone),
+                      Image.asset(ImageConstant.recoverDoneImage),
                       SizedBox(
                         height: 40.h,
                       ),

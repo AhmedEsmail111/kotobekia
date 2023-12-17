@@ -78,8 +78,9 @@ class ChangePasswordScreen extends StatelessWidget {
                       SizedBox(
                         height: 20.h,
                       ),
-                      InkWell(
+                      GestureDetector(
                         onTap: () {
+                          Navigator.pushNamed(context, 'otp');
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,

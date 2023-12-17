@@ -20,9 +20,9 @@ class CacheHelper {
     if (value is int) return await sharedPreferences!.setInt(key, value);
   }
 
-  static Future<bool?> deleteAllData() async {
-    return await sharedPreferences!.clear();
-  }
+  // static Future<bool?> deleteAllData() async {
+  //   return await sharedPreferences!.clear();
+  // }
 
   static Future<bool?> removeData({required String key}) async {
     return await sharedPreferences!.remove(key);

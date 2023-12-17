@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 
 class BuildBackIcon extends StatelessWidget {
-
   final BuildContext cntx;
   const BuildBackIcon({super.key,
   required this.cntx});

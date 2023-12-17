@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kotobekia/shared/constants/api/api_constant.dart';
 import 'package:kotobekia/shared/constants/app/app_constant.dart';
 import 'package:kotobekia/shared/network/local/local.dart';
+import 'package:kotobekia/shared/network/remote/remote.dart';
 
 import '../../models/user_model/user_model.dart';
 import '../../shared/component/authentication/gender_row_in_auth.dart';
@@ -16,7 +17,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(AuthenticationInitial());
 
   UserModel? userModel;
-  final dio = Dio();
   static AuthenticationCubit get(context) => BlocProvider.of(context);
 
   void userCreateAccount({
@@ -29,8 +29,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(LoadingUserCreateAccountState());
 
     try {
-      final Response response = await dio.post(
-        ApiConstant.userCreateAccountUrl,
+      final Response response = await DioHelper.postData(
+        url: ApiConstant.userCreateAccountUrl,
         data: {
           'fullName': name,
           'email': email,
@@ -64,7 +64,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(LoadingUserLoginState());
 
     try {
-      final Response response = await dio.post(ApiConstant.userLoginUrl,
+      final Response response =  await DioHelper.postData(
+          url: ApiConstant.userLoginUrl,
           data: {'email': email, 'password': password});
 
       print(response.data.toString());

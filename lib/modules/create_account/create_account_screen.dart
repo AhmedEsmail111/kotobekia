@@ -249,7 +249,7 @@ class CreateAccountScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               BuildDefaultTextField(
-                                withEyeVisible: ,
+                                withEyeVisible: false,
                                   backGroundColor: Colors.white,
                                   maxLenght: 2,
                                   inputType: TextInputType.number,
@@ -268,6 +268,7 @@ class CreateAccountScreen extends StatelessWidget {
                                   height: h / 17.5,
                                   isObscured: false),
                               BuildDefaultTextField(
+                                  withEyeVisible: false,
                                   backGroundColor: Colors.white,
                                   maxLenght: 2,
                                   inputType: TextInputType.number,
@@ -286,6 +287,7 @@ class CreateAccountScreen extends StatelessWidget {
                                   height: h / 17.5,
                                   isObscured: false),
                               BuildDefaultTextField(
+                                  withEyeVisible: false,
                                   backGroundColor: Colors.white,
                                   inputType: TextInputType.number,
                                   withText: false,

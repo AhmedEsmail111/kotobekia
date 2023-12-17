@@ -30,7 +30,6 @@ class OtpCubit extends Cubit<OtpState> {
     emit(OtpCollectResultState());
   }
 
-  final dio = Dio();
   OtpModel? otpModel;
 
   void verifyOtp({

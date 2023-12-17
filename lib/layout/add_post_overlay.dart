@@ -468,20 +468,20 @@ class BuildAddPostOverlay extends StatelessWidget {
                           backgroundColor: ColorConstant.primaryColor,
                         ),
                         onPressed: () {
-                          // submit(
-                          //   homeCubit: homeCubit,
-                          //   context: context,
-                          //   title: enteredTitle,
-                          //   description: enteredDescription,
-                          //   price: enteredPrice,
-                          //   educationLevel: enteredEducationLevel,
-                          //   educationType: enteredEducationType,
-                          //   grade: enteredGrade,
-                          //   region: enteredRegion,
-                          //   semester: enteredSemester,
-                          //   bookEdition: enteredBookEdition,
-                          //   booksCount: enteredBooksCount,
-                          // );
+                          submit(
+                            homeCubit: homeCubit,
+                            context: context,
+                            title: enteredTitle,
+                            description: enteredDescription,
+                            price: enteredPrice,
+                            educationLevel: enteredEducationLevel,
+                            educationType: enteredEducationType,
+                            grade: enteredGrade,
+                            region: enteredRegion,
+                            semester: enteredSemester,
+                            bookEdition: enteredBookEdition,
+                            booksCount: enteredBooksCount,
+                          );
                         },
                         child: Text(
                           locale.submit,
@@ -501,48 +501,48 @@ class BuildAddPostOverlay extends StatelessWidget {
     );
   }
 
-  // void submit({
-  //   required HomeCubit homeCubit,
-  //   required BuildContext context,
-  //   required String title,
-  //   required String description,
-  //   required String price,
-  //   required String educationLevel,
-  //   required String educationType,
-  //   required String grade,
-  //   required String region,
-  //   required String semester,
-  //   required String bookEdition,
-  //   required String booksCount,
-  // }) {
-  //   print(homeCubit.isAddingPost);
-  //   if (homeCubit.selectedImages.isEmpty) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text(
-  //           'من فضلك قم بإختيار  صور الإعلان',
-  //           textAlign: TextAlign.center,
-  //         ),
-  //       ),
-  //     );
-  //   }
-  //   if (formKey.currentState!.validate()) {
-  //     formKey.currentState!.save();
-  //
-  //     homeCubit.sendNewPost(
-  //       title: title,
-  //       description: description,
-  //       price: price,
-  //       educationLevel: levels[educationLevel]!,
-  //       educationType: educationType,
-  //       grade: grade,
-  //       location: region,
-  //       semester: semester,
-  //       images: homeCubit.selectedImages,
-  //       bookEdition: bookEdition,
-  //       numberOfBooks: booksCount,
-  //     );
-  //     Navigator.pop(context);
-  //   }
-  // }
+  void submit({
+    required HomeCubit homeCubit,
+    required BuildContext context,
+    required String title,
+    required String description,
+    required String price,
+    required String educationLevel,
+    required String educationType,
+    required String grade,
+    required String region,
+    required String semester,
+    required String bookEdition,
+    required String booksCount,
+  }) {
+    print(homeCubit.isAddingPost);
+    if (homeCubit.selectedImages.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'من فضلك قم بإختيار  صور الإعلان',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+
+      homeCubit.sendNewPost(
+        title: title,
+        description: description,
+        price: price,
+        educationLevel: levels[educationLevel]!,
+        educationType: educationType,
+        grade: grade,
+        location: region,
+        semester: semester,
+        images: homeCubit.selectedImages,
+        bookEdition: bookEdition,
+        numberOfBooks: booksCount,
+      );
+      Navigator.pop(context);
+    }
+  }
 }

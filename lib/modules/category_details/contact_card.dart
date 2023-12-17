@@ -97,7 +97,7 @@ class BuildContactCard extends StatelessWidget {
                   CircleAvatar(
                     backgroundColor: ColorConstant.whiteColor,
                     child: Image.asset(
-                      ImageConstant.userDefaultImage,
+                      ImageConstant.userMaleImage,
                       fit: BoxFit.cover,
                       width: 60,
                       height: 60,
