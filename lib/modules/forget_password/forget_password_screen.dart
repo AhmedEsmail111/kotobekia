@@ -50,7 +50,6 @@ class ForgetPasswordScreen extends StatelessWidget {
                     height: 69.h,
                   ),
                   BuildDefaultTextField(
-                      withEyeVisible: false,
                       backGroundColor: Colors.white,
                       maxLenght: 320,
                       controller: emailController,

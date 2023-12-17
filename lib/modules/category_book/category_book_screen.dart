@@ -53,14 +53,14 @@ class CategoryBooksScreen extends StatelessWidget {
           categoryCubit.isThereOtherData,
         );
 
-        return PopScope(
-          onPopInvoked: (e) {
+        return WillPopScope(
+          onWillPop: () async{
             categoryCubit.posts = [];
             categoryCubit.isThereOtherData = true;
             categoryCubit.page = 1;
             categoryCubit.changeLayout(true);
+            return true;
           },
-          canPop: true,
           child: Scaffold(
             appBar: AppBar(
               leading: const BuildBackButton(

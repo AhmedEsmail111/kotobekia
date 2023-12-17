@@ -74,6 +74,7 @@ class RecoverAccountDoneScreen extends StatelessWidget {
                       ),
 
                       BuildDefaultButton(
+                        withBorder: false,
                           onTap: () {
                             if (formKey.currentState!.validate()) {}
                           },

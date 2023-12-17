@@ -37,7 +37,7 @@ class BuildContactCard extends StatelessWidget {
                 color: ColorConstant.whiteColor,
               ),
               width: double.infinity,
-              height: 100.h,
+              height: 110.h,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -92,7 +92,7 @@ class BuildContactCard extends StatelessWidget {
                         CircleAvatar(
                           backgroundColor: ColorConstant.whiteColor,
                           child: Image.asset(
-                            ImageConstant.userDefaultImage,
+                            ImageConstant.userMaleImage,
                             fit: BoxFit.cover,
                             width: 60,
                             height: 60,

@@ -14,7 +14,6 @@ class BuildUserInfoCard extends StatelessWidget {
     return Card(
       color: ColorConstant.whiteColor,
       child: Container(
-        height: 68.h,
         width: double.infinity,
         padding: EdgeInsets.all(8.w),
         decoration: BoxDecoration(

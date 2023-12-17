@@ -26,7 +26,7 @@ class ModifyProfileScreen extends StatelessWidget {
                 CircleAvatar(
                   radius: 50.w,
                   backgroundImage: const AssetImage(
-                    ImageConstant.userDefaultImage,
+                    ImageConstant.userMaleImage,
                   ),
                 ),
                 SizedBox(

@@ -1,4 +1,6 @@
 class ApiConstant{
+  static const baseurl='https://kotobekia-backend.onrender.com/api';
+
   static const getConversation='/v1/conversations/get';
   static const getSpecificCategoryMethodUrl = '/v1/levels/specific/';
   static const userCreateAccountUrl='/v1/auth/signUp';
