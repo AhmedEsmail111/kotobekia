@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kotobekia/shared/component/home/price_container.dart';
 import 'package:kotobekia/shared/helper/functions.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
@@ -214,32 +215,7 @@ class BuildRectangleCardPost extends StatelessWidget {
                                   ),
                         ),
                         const Spacer(),
-                        Container(
-                          alignment: Alignment.center,
-                          width: 38.w,
-                          height: 20.h,
-                          decoration: BoxDecoration(
-                              color: price == 0
-                                  ? ColorConstant.primaryColor.withOpacity(0.2)
-                                  : const Color(0xFFD0E6F3),
-                              borderRadius: BorderRadius.circular(
-                                  MediaQuery.sizeOf(context).width / 30)),
-                          child: Text(
-                            price == 0
-                                ? locale!.free
-                                : '$price ${locale!.currency}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: price == 0
-                                      ? ColorConstant.primaryColor
-                                      : const Color(0xFF1077FB),
-                                ),
-                          ),
-                        ),
+                        BuildPriceContainer(price: price, locale: locale),
                       ],
                     ),
                   ),
@@ -304,146 +280,3 @@ class BuildRectangleCardPost extends StatelessWidget {
     );
   }
 }
-// Text(
-//   softWrap: true,
-//   overflow: TextOverflow.ellipsis,
-//   maxLines: 3,
-//   description,
-//   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//         fontSize: 10.sp,
-//         fontWeight: FontWeight.w600,
-//       ),
-// ),
-
-// Column(
-//   children: [
-//     Container(
-//       alignment: Alignment.centerRight,
-//       child: Text(
-//         title,
-//         overflow: TextOverflow.ellipsis,
-//         maxLines: 1,
-//         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-//               fontSize: 13.sp,
-//               fontWeight: FontWeight.w700,
-//             ),
-//       ),
-//     ),
-//     Text(
-//       overflow: TextOverflow.ellipsis,
-//       maxLines: 1,
-//       description,
-//       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//             fontSize: 10.sp,
-//             fontWeight: FontWeight.w400,
-//           ),
-//     ),
-//     SizedBox(
-//       height: MediaQuery.sizeOf(context).width / 55,
-//     ),
-//     Row(
-//       children: [
-//         Icon(
-//           SolarIconsOutline.book,
-//           size: 10.h,
-//         ),
-//         SizedBox(
-//           width: MediaQuery.sizeOf(context).width / 60,
-//         ),
-//         Text(
-//           '$numberOfBooks',
-//           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//               fontSize: 10.sp, fontWeight: FontWeight.w900),
-//         ),
-//         SizedBox(
-//           width: MediaQuery.sizeOf(context).width / 55,
-//         ),
-//         Icon(
-//           SolarIconsOutline.eye,
-//           size: 10.h,
-//         ),
-//         SizedBox(
-//           width: MediaQuery.sizeOf(context).width / 55,
-//         ),
-//         Text(
-//           '$numberOfWatcher',
-//           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//                 fontSize: 10.sp,
-//                 fontWeight: FontWeight.w900,
-//               ),
-//         ),
-//         Spacer(),
-//         Container(
-//           alignment: Alignment.center,
-//           width: 38.w,
-//           height: 20.h,
-//           decoration: BoxDecoration(
-//               color: price == 0
-//                   ? primaryColor.withOpacity(0.2)
-//                   : const Color(0xFFD0E6F3),
-//               borderRadius: BorderRadius.circular(
-//                   MediaQuery.sizeOf(context).width / 30)),
-//           child: Text(
-//             price == 0 ? 'مجاناً' : '$price ج',
-//             style:
-//                 Theme.of(context).textTheme.titleLarge!.copyWith(
-//                       // textBaseline: TextBaseline.alphabetic,
-//                       fontSize: 12.sp,
-//                       fontWeight: FontWeight.w400,
-//                       color: price == 0
-//                           ? primaryColor
-//                           : const Color(0xFF1077FB),
-//                     ),
-//           ),
-//         ),
-//       ],
-//     ),
-//     SizedBox(
-//       height: MediaQuery.sizeOf(context).width / 85,
-//     ),
-//     Container(
-//       alignment: Alignment.centerRight,
-//       child: Text(
-//         educationLevel,
-//         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//               fontSize: 10.sp,
-//               fontWeight: FontWeight.w400,
-//             ),
-//       ),
-//     ),
-//     Row(
-//       children: [
-//         Icon(
-//           SolarIconsOutline.mapPoint,
-//           size: 10.h,
-//         ),
-//         SizedBox(
-//           width: MediaQuery.sizeOf(context).width / 90,
-//         ),
-//         Text(
-//           location,
-//           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//                 fontSize: 10.sp,
-//                 fontWeight: FontWeight.w500,
-//               ),
-//         ),
-//         SizedBox(
-//           width: MediaQuery.sizeOf(context).width / 55,
-//         ),
-//         const Spacer(),
-//         Icon(
-//           SolarIconsOutline.clockCircle,
-//           size: 10.h,
-//         ),
-//         SizedBox(
-//           width: MediaQuery.sizeOf(context).width / 120,
-//         ),
-//         Text(
-//           'منذ 5 ايام',
-//           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//               fontSize: 10.sp, fontWeight: FontWeight.w500),
-//         ),
-//       ],
-//     ),
-//   ],
-// )

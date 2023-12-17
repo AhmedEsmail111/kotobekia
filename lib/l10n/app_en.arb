@@ -4,10 +4,10 @@
   "my_posts": "My Ads",
   "messages": "Messages",
   "account": "Account",
-  "kindergarten": "Kindergarten",
-  "primary": "Primary Education",
-  "preparatory": "Preparatory Education",
-  "secondary": "Secondary Education",
+  "kindergarten": "KG",
+  "primary": "Primary",
+  "preparatory": "MidLevel",
+  "secondary": "Secondary",
   "general": "General",
   "see_more": "See More",
   "grade_one": "first",
@@ -194,7 +194,9 @@
   "weak_internet":"Please connect to strong internet to be able to fetch the data for you" ,
   "snackbar_no_internet":"No Internet connection Please connect to a network",
   "connection_restored":"Connection restored",
-  "overpriced_message":"price can't be more than 30 pound for each book"
+  "overpriced_message":"price can't be more than 30 pound for each book",
+  "no_more_message":"no more data to be loaded"
+  
 
 
 

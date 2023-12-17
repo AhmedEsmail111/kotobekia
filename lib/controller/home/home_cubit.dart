@@ -41,7 +41,7 @@ class HomeCubit extends Cubit<HomeStates> {
     emit(ChangeBottomNavBarHomeState());
   }
 
-  void getHomePosts(
+  Future<void> getHomePosts(
       {required String noInternet, required String weakInternet}) async {
     if (await HelperFunctions.hasConnection()) {
       try {

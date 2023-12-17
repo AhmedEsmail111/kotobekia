@@ -55,19 +55,25 @@ class DioHelper {
     return await dio!.put(url, data: data);
   }
 
-  static Future<Response> sendNewPostData({
-    required String title,
-    required String description,
-    required String price,
-    required String educationLevel,
-    required String educationType,
-    required String grade,
-    required String bookEdition,
-    required String cityLocation,
-    required String semester,
-    required List<File> images,
-    required String numberOfBooks,
-  }) async {
+  static Future<Response> sendNewPostData(
+      {required String title,
+      required String description,
+      required String price,
+      required String educationLevel,
+      required String educationType,
+      required String grade,
+      required String bookEdition,
+      required String cityLocation,
+      required String semester,
+      required List<File> images,
+      required String numberOfBooks,
+      String lang = 'en',
+      String? token}) async {
+    dio!.options.headers = {
+      'Content-Type': 'application/json',
+      'lang': lang,
+      if (token != null) 'token': token,
+    };
 // create a form data
     final formData = FormData();
     formData.fields.addAll([

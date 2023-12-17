@@ -4,18 +4,18 @@
   "my_posts": "إعلاناتي",
   "messages": "الرسائل",
   "account": "الحساب",
-  "kindergarten": "رياض الأطفال",
-  "primary": "التعليم الابتدائي",
-  "preparatory": "التعليم الإعدادي",
-  "secondary": "التعليم الثانوي",
+  "kindergarten": "حضانة",
+  "primary": "ابتدائي",
+  "preparatory": "إعدادي",
+  "secondary": "ثانوي",
   "general": "عام",
   "see_more": "المزيد",
-  "grade_one": "الصف الأول",
-  "grade_two": "الصف الثاني",
-  "grade_three": "الصف الثالث",
-  "grade_four": "الصف الرابع",
-  "grade_five": "الصف الخامس",
-  "grade_six": "الصف السادس",
+  "grade_one": "الأول",
+  "grade_two": "الثاني",
+  "grade_three": "الثالث",
+  "grade_four": "الرابع",
+  "grade_five": "الخامس",
+  "grade_six": "السادس",
   "now": "الآن",
   "today": "اليوم",
   "yesterday": "أمس",
@@ -193,7 +193,8 @@
   "weak_internet":"من فضلك اتصل بشبكة انترنت قوية ثم قم بإعادة المحاولة",
   "snackbar_no_internet":" لا يوجد إتصال بالأنترنت , من فضلك قم بإعادة الإتصال",
   "connection_restored":"تم إعادة الأتصال",
-  "overpriced_message":"السعر ينبغي أن لا يزيد عن 30 جنيها لكل كتاب"
+  "overpriced_message":"السعر ينبغي أن لا يزيد عن 30 جنيها لكل كتاب",
+  "no_more_message":"لا يوجد إعلانات أخرى"
   
 
  

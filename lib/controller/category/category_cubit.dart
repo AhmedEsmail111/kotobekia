@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kotobekia/controller/category/category_states.dart';
 import 'package:kotobekia/models/category_model/specific_category_model.dart';
+import 'package:kotobekia/shared/component/snakbar_message.dart';
 import 'package:kotobekia/shared/constants/api/api_constant.dart';
 import 'package:kotobekia/shared/helper/functions.dart';
 import 'package:kotobekia/shared/network/remote/remote.dart';
@@ -25,11 +26,12 @@ class CategoryCubit extends Cubit<CategoryStates> {
   bool isLoading = false;
   bool isThereOtherData = true;
   SpecificCategoryModel? specificCategoryModel;
-  void getCategory(
+  Future<void> getCategory(
       {required String category,
       required BuildContext context,
       required String noInternet,
-      required String weakInternet}) async {
+      required String weakInternet,
+      required String noMore}) async {
     if (isThereOtherData &&
         page != null &&
         await HelperFunctions.hasConnection() &&
@@ -91,6 +93,14 @@ class CategoryCubit extends Cubit<CategoryStates> {
       }
     } else if (!await HelperFunctions.hasConnection()) {
       emit(GetCategoryDataInternetFailureState(message: noInternet));
+    } else {
+      if (context.mounted) {
+        snackBarMessage(
+            context: context,
+            message: noMore,
+            snackbarState: SnackbarState.inValid,
+            duration: const Duration(seconds: 2));
+      }
     }
   }
 
@@ -99,7 +109,8 @@ class CategoryCubit extends Cubit<CategoryStates> {
       {required String category,
       required BuildContext context,
       required String noInternet,
-      required String weakInternet}) {
+      required String weakInternet,
+      required noMore}) {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
@@ -108,6 +119,7 @@ class CategoryCubit extends Cubit<CategoryStates> {
             context: context,
             noInternet: noInternet,
             weakInternet: weakInternet,
+            noMore: noMore,
           );
         }
       }

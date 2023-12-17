@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kotobekia/shared/component/home/price_container.dart';
 import 'package:kotobekia/shared/helper/functions.dart';
 import 'package:solar_icons/solar_icons.dart';
 
@@ -215,28 +216,7 @@ class BuildPosts extends StatelessWidget {
                         ),
                   ),
                   const Spacer(),
-                  Container(
-                    alignment: Alignment.center,
-                    width: 38.w,
-                    height: 20.h,
-                    decoration: BoxDecoration(
-                        color: price == 0
-                            ? ColorConstant.primaryColor.withOpacity(0.2)
-                            : const Color(0xFFD0E6F3),
-                        borderRadius: BorderRadius.circular(
-                            MediaQuery.sizeOf(context).width / 30)),
-                    child: Text(
-                      price == 0 ? locale!.free : '$price ${locale!.currency}',
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            // textBaseline: TextBaseline.alphabetic,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: price == 0
-                                ? ColorConstant.primaryColor
-                                : const Color(0xFF1077FB),
-                          ),
-                    ),
-                  ),
+                  BuildPriceContainer(price: price, locale: locale),
                 ],
               ),
               Container(

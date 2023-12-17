@@ -60,24 +60,25 @@ class AddPostCubit extends Cubit<AddPostStates> {
     required BuildContext context,
     required String noInternet,
     required String weakInternet,
+    required String token,
   }) async {
     if (await HelperFunctions.hasConnection()) {
       try {
         isAddingPost = true;
         emit(SendNewPostLoading());
         final response = await DioHelper.sendNewPostData(
-          title: title,
-          description: description,
-          price: price,
-          educationLevel: educationLevel,
-          educationType: educationType,
-          grade: grade,
-          bookEdition: bookEdition,
-          cityLocation: cityLocation,
-          semester: semester,
-          images: images,
-          numberOfBooks: numberOfBooks,
-        );
+            title: title,
+            description: description,
+            price: price,
+            educationLevel: educationLevel,
+            educationType: educationType,
+            grade: grade,
+            bookEdition: bookEdition,
+            cityLocation: cityLocation,
+            semester: semester,
+            images: images,
+            numberOfBooks: numberOfBooks,
+            token: token);
 
         isAddingPost = false;
 
@@ -136,8 +137,11 @@ class AddPostCubit extends Cubit<AddPostStates> {
   }
 
   var educationLevel = '';
-  void changeEducationLevel(String value) {
+  int? levelIndex;
+  void changeEducationLevel(String value, int index) {
+    levelIndex = index;
     educationLevel = value;
+    print('$educationLevel  $levelIndex');
     if (educationLevel == levels[1]) {
       isPrimary = true;
     } else {
@@ -153,21 +157,29 @@ class AddPostCubit extends Cubit<AddPostStates> {
   }
 
   var enteredGrade = '';
-  void changeGrade(String value) {
+  int? gradeIndex;
+  void changeGrade(String value, int index) {
+    gradeIndex = index;
     enteredGrade = value;
-    print(enteredGrade + educationLevel);
+    print('$enteredGrade  $gradeIndex');
     emit(UserChangingGradeAddPostState());
   }
 
   var enteredEducationType = '';
-  void changeEducationType(String value) {
+  int? typeIndex;
+  void changeEducationType(String value, int index) {
+    typeIndex = index;
     enteredEducationType = value;
+    print('$enteredEducationType $typeIndex');
     emit(UserChangingEducationTypeAddPostState());
   }
 
   var enteredSemester = '';
-  void changeSemester(String value) {
+  int? semesterIndex;
+  void changeSemester(String value, int index) {
+    semesterIndex = index;
     enteredSemester = value;
+    print('$enteredSemester $semesterIndex');
     emit(UserChangingSemesterAddPostState());
   }
 
@@ -184,11 +196,20 @@ class AddPostCubit extends Cubit<AddPostStates> {
     emit(UserChangingBooksCountAddPostState());
   }
 
-  var index = 0;
+  var priceIndex = 0;
 
   void togglePriceButton(int num) {
-    index = num;
+    priceIndex = num;
     emit(TogglePriceButton());
+  }
+
+  void resetData() {
+    levelIndex = null;
+    gradeIndex = null;
+    typeIndex = null;
+    semesterIndex = null;
+    priceIndex = 0;
+    emit(ResetDataOnPop());
   }
 
   // dropDownItems for the Regions

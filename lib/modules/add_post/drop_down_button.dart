@@ -10,9 +10,10 @@ class BuildDropDownButton extends StatelessWidget {
   final String dropDownHint;
   final String errorMessage;
   final List<String> items;
-  // final String? selectedValue;
+  final String? value;
   final String text;
   final IconData? icon;
+
   final void Function(String? value)? onSelect;
   final void Function(String? value)? onSave;
   const BuildDropDownButton({
@@ -24,7 +25,7 @@ class BuildDropDownButton extends StatelessWidget {
     this.onSave,
     required this.errorMessage,
     this.icon,
-    // this.selectedValue,
+    this.value,
   });
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class BuildDropDownButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
           ),
           child: DropdownButtonFormField(
-            // value: selectedValue,
+            value: value,
             menuMaxHeight: 300.h,
             icon: Icon(
               SolarIconsOutline.altArrowDown,
@@ -75,15 +76,15 @@ class BuildDropDownButton extends StatelessWidget {
                     )
                   : null,
             ),
-            items: items.map((level) {
+            items: items.map((item) {
               return DropdownMenuItem(
-                value: level,
+                value: item,
                 child: Container(
                   height: 50,
                   alignment: Alignment.topCenter,
                   child: RichText(
                     text: TextSpan(
-                      text: level,
+                      text: item,
                       style: DefaultTextStyle.of(context).style,
                     ),
                   ),

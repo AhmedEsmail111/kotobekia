@@ -29,15 +29,19 @@ class CategoryBooksScreen extends StatelessWidget {
     final locale = AppLocalizations.of(context);
 
     CategoryCubit.get(context).handleScroll(
-        category: levels[categoryIndex],
-        context: context,
-        noInternet: locale!.no_internet,
-        weakInternet: locale.weak_internet);
+      category: levels[categoryIndex],
+      context: context,
+      noInternet: locale!.no_internet,
+      weakInternet: locale.weak_internet,
+      noMore: locale.no_more_message,
+    );
     CategoryCubit.get(context).getCategory(
-        category: levels[categoryIndex],
-        context: context,
-        noInternet: locale.no_internet,
-        weakInternet: locale.weak_internet);
+      category: levels[categoryIndex],
+      context: context,
+      noInternet: locale.no_internet,
+      weakInternet: locale.weak_internet,
+      noMore: locale.no_more_message,
+    );
 
     return BlocConsumer<CategoryCubit, CategoryStates>(
       listener: (ctx, state) {},
@@ -45,7 +49,9 @@ class CategoryBooksScreen extends StatelessWidget {
         final categoryCubit = CategoryCubit.get(context);
         print(categoryCubit.posts.length);
         print(categoryCubit.page);
-        print(categoryCubit.isThereOtherData);
+        print(
+          categoryCubit.isThereOtherData,
+        );
 
         return PopScope(
           onPopInvoked: (e) {
@@ -57,30 +63,31 @@ class CategoryBooksScreen extends StatelessWidget {
           canPop: true,
           child: Scaffold(
             appBar: AppBar(
-                leading: const BuildBackButton(
-                  hasBackground: false,
-                ),
-                bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(5),
-                  child: Container(),
-                ),
-                actions: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      SolarIconsOutline.tuning_2,
-                      size: 19.w,
-                    ),
+              leading: const BuildBackButton(
+                hasBackground: false,
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(5),
+                child: Container(),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    SolarIconsOutline.tuning_2,
+                    size: 19.w,
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      SolarIconsOutline.bell,
-                      size: 19.w,
-                    ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    SolarIconsOutline.bell,
+                    size: 19.w,
                   ),
-                ],
-                title: const BuildSearchContainer()),
+                ),
+              ],
+              title: const BuildSearchContainer(),
+            ),
             body: SafeArea(
               child: Column(
                 children: [
@@ -90,33 +97,34 @@ class CategoryBooksScreen extends StatelessWidget {
                   //       "https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg",
                   // ),
                   Container(
-                      margin: EdgeInsets.only(
-                        left: 16.w,
-                        right: 16.w,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            category,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              categoryCubit.changeLayout(!categoryCubit.isGrid);
-                            },
-                            icon: !categoryCubit.isGrid
-                                ? Icon(
-                                    SolarIconsOutline.widget,
-                                    size: 32.w,
-                                  )
-                                : Icon(
-                                    SolarIconsOutline.hamburgerMenu,
-                                    size: 32.w,
-                                  ),
-                          ),
-                        ],
-                      )),
+                    margin: EdgeInsets.only(
+                      left: 16.w,
+                      right: 16.w,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          category,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            categoryCubit.changeLayout(!categoryCubit.isGrid);
+                          },
+                          icon: !categoryCubit.isGrid
+                              ? Icon(
+                                  SolarIconsOutline.widget,
+                                  size: 32.w,
+                                )
+                              : Icon(
+                                  SolarIconsOutline.hamburgerMenu,
+                                  size: 32.w,
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
                   if (state is GetCategoryDataLoadingState &&
                       state.isFirstFetch)
                     SizedBox(

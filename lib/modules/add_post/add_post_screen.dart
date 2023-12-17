@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/add_post/add_post_cubit.dart';
 import 'package:kotobekia/controller/add_post/add_post_states.dart';
+import 'package:kotobekia/modules/add_post/button.dart';
 import 'package:kotobekia/modules/add_post/drop_down_button.dart';
 import 'package:kotobekia/shared/component/authentication/default_button_in_app.dart';
 import 'package:kotobekia/shared/component/authentication/default_text_form_in_app.dart';
@@ -14,14 +15,14 @@ import 'package:solar_icons/solar_icons.dart';
 
 class AddPostScreen extends StatelessWidget {
   AddPostScreen({super.key});
+
   final formKey = GlobalKey<FormState>();
+
 // to be able to manipulate the text and clear it when the user press the free button
   final priceTextEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context);
-    final sentMessageSnackBar = locale!.choose_all_message;
-    final selectImagesMessage = locale.images_not_choesen_message;
+    final locale = AppLocalizations.of(context)!;
 
     // to be able to match the backend requirements
     final grades = {
@@ -33,19 +34,19 @@ class AddPostScreen extends StatelessWidget {
       locale.grade_six: 'grade_six',
     };
 
-    final semesterDropDownItems = {
+    final semesters = {
       locale.first: 'first',
       locale.second: 'second',
       locale.both: 'both'
     };
 
-    final educationTypeDropDownItems = {
+    final educationTypes = {
       locale.general_type: 'general',
       locale.azhar: 'azhar',
       locale.any_type: 'other',
     };
 
-    final educationLevelsDropDownItems = {
+    final educationLevels = {
       locale.kindergarten: '655b4ec133dd362ae53081f7',
       locale.primary: '655b4ecd33dd362ae53081f9',
       locale.preparatory: '655b4ee433dd362ae53081fb',
@@ -277,13 +278,13 @@ class AddPostScreen extends StatelessWidget {
                           height: 4.h,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           textBaseline: TextBaseline.ideographic,
                           children: [
                             BuildDefaultTextField(
                               controller: priceTextEditingController,
-                              isEnabled: addPostCubit.index == 0,
+                              isEnabled: addPostCubit.priceIndex == 0,
                               onChange: (value) {
                                 addPostCubit.changePrice(value);
                               },
@@ -292,7 +293,7 @@ class AddPostScreen extends StatelessWidget {
                               hintText: '',
                               backGroundColor: ColorConstant.whiteColor,
                               context: context,
-                              width: MediaQuery.of(context).size.width / 2.6,
+                              width: MediaQuery.of(context).size.width / 3,
                               height: 50.h,
                               maxLenght: 5,
                               isObscured: false,
@@ -302,14 +303,14 @@ class AddPostScreen extends StatelessWidget {
                               onValidate: (value) {
                                 if (value == null ||
                                     value.trim().isEmpty &&
-                                        addPostCubit.index == 0) {
+                                        addPostCubit.priceIndex == 0) {
                                   return locale.price_error_message;
                                 } else if (!checkPrice(
                                       numberOfBooks:
                                           addPostCubit.enteredBooksCount,
                                       bookPrice: addPostCubit.enteredPrice,
                                     ) &&
-                                    addPostCubit.index == 0) {
+                                    addPostCubit.priceIndex == 0) {
                                   return '';
                                 }
                                 return null;
@@ -317,18 +318,19 @@ class AddPostScreen extends StatelessWidget {
                             ),
                             Text(locale.or),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 2.6,
+                              width: MediaQuery.of(context).size.width / 3,
                               height: 40.h,
                               child: Container(
-                                decoration: addPostCubit.index == 1
+                                decoration: addPostCubit.priceIndex == 1
                                     ? BoxDecoration(
-                                        borderRadius: BorderRadius.circular(14),
+                                        borderRadius: BorderRadius.circular(15),
                                         border: Border.all(
+                                            width: 2,
                                             color: ColorConstant.blackColor))
                                     : null,
                                 child: BuildDefaultButton(
                                   onTap: () {
-                                    if (addPostCubit.index == 0) {
+                                    if (addPostCubit.priceIndex == 0) {
                                       priceTextEditingController.clear();
                                       addPostCubit.togglePriceButton(1);
                                     } else {
@@ -352,7 +354,7 @@ class AddPostScreen extends StatelessWidget {
                               numberOfBooks: addPostCubit.enteredBooksCount,
                               bookPrice: addPostCubit.enteredPrice,
                             ) &&
-                            addPostCubit.index == 0)
+                            addPostCubit.priceIndex == 0)
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 4.w),
                             child: Text(
@@ -401,71 +403,247 @@ class AddPostScreen extends StatelessWidget {
                             return null;
                           },
                         ),
-                        BuildDropDownButton(
-                          dropDownHint: locale.your_education_level,
-                          errorMessage: locale.level_error_message,
-                          items: educationLevelsDropDownItems.keys.toList(),
-                          text: locale.education_level,
-                          onSelect: (value) {
-                            if (value != null) {
-                              addPostCubit.changeEducationLevel(
-                                  educationLevelsDropDownItems[value]!);
-                            }
-                          },
-                          onSave: (value) {
-                            if (value != null) {
-                              addPostCubit.changeEducationLevel(
-                                  educationLevelsDropDownItems[value]!);
-                            }
-                          },
+                        Text(
+                          locale.education_level,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontWeight: FontWeight.w500),
                         ),
-                        BuildDropDownButton(
-                          dropDownHint: locale.your_grade,
-                          errorMessage: locale.grade_error_message,
-                          items:
-                              // addPostCubit.isPrimary
-                              //     ?
-                              grades.keys.toList()
-                          // :
-                          // grades.keys.toList().sublist(0, 3)
-                          ,
-                          text: locale.grade,
-                          onSelect: (value) {
-                            addPostCubit.changeGrade(grades[value]!);
-                          },
-                          onSave: (value) {
-                            if (value != null) {
-                              addPostCubit.changeGrade(grades[value]!);
-                            }
-                          },
+                        SizedBox(
+                          height: 8.h,
                         ),
-                        BuildDropDownButton(
-                          dropDownHint: locale.your_education_type,
-                          errorMessage: locale.type_error_message,
-                          items: educationTypeDropDownItems.keys.toList(),
-                          text: locale.education_type,
-                          onSelect: (value) {
-                            addPostCubit.changeEducationType(
-                                educationTypeDropDownItems[value]!);
-                          },
-                          onSave: (value) {
-                            addPostCubit.changeEducationType(
-                                educationTypeDropDownItems[value]!);
-                          },
+                        Wrap(
+                          alignment: WrapAlignment.start,
+                          runAlignment: WrapAlignment.start,
+                          spacing: 16.w,
+                          runSpacing: 12.w,
+                          children: List.generate(
+                            5,
+                            (index) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: ColorConstant.whiteColor,
+                                border: addPostCubit.levelIndex == index
+                                    ? Border.all(
+                                        width: 2,
+                                        color: ColorConstant.primaryColor)
+                                    : null,
+                              ),
+                              child: BuildAddButton(
+                                onTap: () {
+                                  if (index == 0 || index == 1) {
+                                    addPostCubit.enteredGrade = '';
+                                    addPostCubit.gradeIndex = null;
+                                  }
+
+                                  addPostCubit.changeEducationLevel(
+                                    educationLevels.values.toList()[index],
+                                    index,
+                                  );
+                                },
+                                text: educationLevels.keys.toList()[index],
+                                color: ColorConstant.whiteColor,
+                              ),
+                            ),
+                          ),
                         ),
-                        BuildDropDownButton(
-                          dropDownHint: locale.your_semester,
-                          errorMessage: locale.semester_error_message,
-                          items: semesterDropDownItems.keys.toList(),
-                          text: locale.term,
-                          onSelect: (value) {
-                            addPostCubit
-                                .changeSemester(semesterDropDownItems[value]!);
-                          },
-                          onSave: (value) {
-                            addPostCubit
-                                .changeSemester(semesterDropDownItems[value]!);
-                          },
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Text(
+                          locale.grade,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        addPostCubit.educationLevel ==
+                                educationLevels.values.toList()[0]
+                            ? Wrap(
+                                alignment: WrapAlignment.start,
+                                runAlignment: WrapAlignment.start,
+                                spacing: 16.w,
+                                runSpacing: 12.w,
+                                children: List.generate(
+                                  2,
+                                  (index) => Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: ColorConstant.whiteColor,
+                                      border: addPostCubit.gradeIndex == index
+                                          ? Border.all(
+                                              width: 2,
+                                              color: ColorConstant.primaryColor)
+                                          : null,
+                                    ),
+                                    width:
+                                        MediaQuery.of(context).size.width / 3.8,
+                                    child: BuildAddButton(
+                                      onTap: () {
+                                        addPostCubit.changeGrade(
+                                            grades.values.toList()[index],
+                                            index);
+                                      },
+                                      text: grades.keys.toList()[index],
+                                      color: ColorConstant.whiteColor,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Wrap(
+                                alignment: WrapAlignment.start,
+                                runAlignment: WrapAlignment.start,
+                                spacing: 16.w,
+                                runSpacing: 12.w,
+                                children: addPostCubit.isPrimary
+                                    ? List.generate(
+                                        6,
+                                        (index) => Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(14),
+                                            color: ColorConstant.whiteColor,
+                                            border:
+                                                addPostCubit.gradeIndex == index
+                                                    ? Border.all(
+                                                        width: 2,
+                                                        color: ColorConstant
+                                                            .primaryColor)
+                                                    : null,
+                                          ),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              3.8,
+                                          child: BuildAddButton(
+                                            onTap: () {
+                                              addPostCubit.changeGrade(
+                                                  grades.values.toList()[index],
+                                                  index);
+                                            },
+                                            text: grades.keys.toList()[index],
+                                            color: ColorConstant.whiteColor,
+                                          ),
+                                        ),
+                                      )
+                                    : List.generate(
+                                        3,
+                                        (index) => Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(14),
+                                            color: ColorConstant.whiteColor,
+                                            border:
+                                                addPostCubit.gradeIndex == index
+                                                    ? Border.all(
+                                                        width: 2,
+                                                        color: ColorConstant
+                                                            .primaryColor)
+                                                    : null,
+                                          ),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              3.8,
+                                          child: BuildAddButton(
+                                            onTap: () {
+                                              addPostCubit.changeGrade(
+                                                  grades.values.toList()[index],
+                                                  index);
+                                            },
+                                            text: grades.keys.toList()[index],
+                                            color: ColorConstant.whiteColor,
+                                          ),
+                                        ),
+                                      ),
+                              ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Text(
+                          locale.education_type,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        Wrap(
+                          alignment: WrapAlignment.start,
+                          runAlignment: WrapAlignment.start,
+                          spacing: 16.w,
+                          runSpacing: 12.w,
+                          children: List.generate(
+                            3,
+                            (index) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: ColorConstant.whiteColor,
+                                border: addPostCubit.typeIndex == index
+                                    ? Border.all(
+                                        width: 2,
+                                        color: ColorConstant.primaryColor,
+                                      )
+                                    : null,
+                              ),
+                              child: BuildAddButton(
+                                onTap: () {
+                                  addPostCubit.changeEducationType(
+                                      educationTypes.values.toList()[index],
+                                      index);
+                                },
+                                text: educationTypes.keys.toList()[index],
+                                color: ColorConstant.whiteColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Text(
+                          locale.term,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        Wrap(
+                          alignment: WrapAlignment.start,
+                          runAlignment: WrapAlignment.start,
+                          spacing: 16.w,
+                          runSpacing: 12.w,
+                          children: List.generate(
+                            3,
+                            (index) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: ColorConstant.whiteColor,
+                                border: addPostCubit.semesterIndex == index
+                                    ? Border.all(
+                                        width: 2,
+                                        color: ColorConstant.primaryColor)
+                                    : null,
+                              ),
+                              child: BuildAddButton(
+                                onTap: () {
+                                  addPostCubit.changeSemester(
+                                      semesters.values.toList()[index], index);
+                                },
+                                text: semesters.keys.toList()[index],
+                                color: ColorConstant.whiteColor,
+                              ),
+                            ),
+                          ),
                         ),
                         BuildDropDownButton(
                           errorMessage: locale.edition_error_message,
@@ -482,33 +660,6 @@ class AddPostScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Text(
-                  //   locale.location_on_map,
-                  //   style: Theme.of(context)
-                  //       .textTheme
-                  //       .titleMedium!
-                  //       .copyWith(fontWeight: FontWeight.w500),
-                  // ),
-                  // Container(
-                  //   alignment: Alignment.center,
-                  //   margin: EdgeInsets.only(bottom: 8.h),
-                  //   decoration: BoxDecoration(
-                  //     color: ColorConstant.whiteColor,
-                  //     borderRadius: BorderRadius.circular(14),
-                  //     border: Border.all(
-                  //       color: const Color(0xFFC8C5C5),
-                  //     ),
-                  //   ),
-                  //   height: 147.h,
-                  //   width: double.infinity,
-                  //   child: addPostCubit.locationImageUrl != null
-                  //       ? Image.network('src')
-                  //       : Icon(
-                  //           SolarIconsOutline.mapPoint,
-                  //           size: 40.h,
-                  //           color: ColorConstant.secondaryColor,
-                  //         ),
-                  // ),
                   SizedBox(
                     height: 24.h,
                   ),
@@ -527,7 +678,7 @@ class AddPostScreen extends StatelessWidget {
                                 context: context,
                                 title: addPostCubit.enteredTitle,
                                 description: addPostCubit.enteredDescription,
-                                price: addPostCubit.index == 0
+                                price: addPostCubit.priceIndex == 0
                                     ? addPostCubit.enteredPrice
                                     : '0',
                                 educationLevel: addPostCubit.educationLevel,
@@ -538,8 +689,6 @@ class AddPostScreen extends StatelessWidget {
                                 semester: addPostCubit.enteredSemester,
                                 bookEdition: addPostCubit.enteredBookEdition,
                                 booksCount: addPostCubit.enteredBooksCount,
-                                message: sentMessageSnackBar,
-                                selectImagesMessage: selectImagesMessage,
                                 locale: locale,
                               );
                             }
@@ -575,15 +724,26 @@ class AddPostScreen extends StatelessWidget {
       required String semester,
       required String bookEdition,
       required String booksCount,
-      required String message,
-      required String selectImagesMessage,
       required AppLocalizations locale}) {
     if (addPostCubit.selectedImages.isEmpty) {
       snackBarMessage(
           context: context,
-          message: selectImagesMessage,
+          message: locale.images_not_choesen_message,
           snackbarState: SnackbarState.error,
           duration: const Duration(seconds: 2));
+      return;
+    }
+
+    if (addPostCubit.levelIndex == null ||
+        addPostCubit.gradeIndex == null ||
+        addPostCubit.typeIndex == null ||
+        addPostCubit.semesterIndex == null) {
+      snackBarMessage(
+        context: context,
+        message: locale.choose_all_message,
+        snackbarState: SnackbarState.error,
+        duration: const Duration(seconds: 2),
+      );
       return;
     }
 
@@ -599,21 +759,22 @@ class AddPostScreen extends StatelessWidget {
     print('bookEdition $bookEdition');
 
     addPostCubit.sendNewPost(
-      title: title,
-      description: description,
-      price: price,
-      educationLevel: educationLevel,
-      educationType: educationType,
-      grade: grade,
-      cityLocation: region,
-      semester: semester,
-      images: addPostCubit.selectedImages,
-      bookEdition: bookEdition,
-      numberOfBooks: booksCount,
-      context: context,
-      noInternet: locale.no_internet,
-      weakInternet: locale.weak_internet,
-    );
+        title: title,
+        description: description,
+        price: price,
+        educationLevel: educationLevel,
+        educationType: educationType,
+        grade: grade,
+        cityLocation: region,
+        semester: semester,
+        images: addPostCubit.selectedImages,
+        bookEdition: bookEdition,
+        numberOfBooks: booksCount,
+        context: context,
+        noInternet: locale.no_internet,
+        weakInternet: locale.weak_internet,
+        token:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzRlMDU4ODVjZDBkYTczZmRhYmE5MiIsImZ1bGxOYW1lIjoiTW9qYW5hZCIsImVtYWlsIjoibW9qYW5hZEBrb3RvYmVraWEuY29tIiwicm9sZSI6InVzZXIiLCJpc0NvbmZpcm1lZCI6ZmFsc2UsImlhdCI6MTcwMjE1ODQyNH0.j0VMeWdxwoy7idBLUI-jvWD0r38MS0o_s4goAL_Gp4k');
   }
 
   bool checkPrice({required String numberOfBooks, required String bookPrice}) {
