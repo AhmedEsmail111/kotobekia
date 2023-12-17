@@ -41,6 +41,7 @@ class ChatScreen extends StatelessWidget {
                     height: h / 21,
                   ),
                   BuildDefaultTextField(
+                    withEyeVisible: false,
                       prefixIcons: const Icon(Icons.search),
                       backGroundColor: ColorConstant.foregroundColor,
                       inputType: TextInputType.text,

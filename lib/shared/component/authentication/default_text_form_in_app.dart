@@ -40,7 +40,7 @@ class BuildDefaultTextField extends StatelessWidget {
       this.controller,
       this.onSaved,
       this.onValidate,
-      required this.isObscured});
+      required this.isObscured, required bool withEyeVisible});
 
   @override
   Widget build(BuildContext context) {
