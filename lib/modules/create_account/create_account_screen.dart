@@ -104,6 +104,7 @@ class CreateAccountScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           BuildDefaultTextField(
+                            withEyeVisible: false,
                               backGroundColor: Colors.white,
                               maxLenght: 100,
                               controller: nameController,
@@ -125,6 +126,7 @@ class CreateAccountScreen extends StatelessWidget {
                             height: h / 52,
                           ),
                           BuildDefaultTextField(
+                            withEyeVisible: false,
                               backGroundColor: Colors.white,
                               maxLenght: 320,
                               controller: emailController,
@@ -150,6 +152,7 @@ class CreateAccountScreen extends StatelessWidget {
                             height: h / 52,
                           ),
                           BuildDefaultTextField(
+                            withEyeVisible: true,
                               cubit: cubit,
                               backGroundColor: Colors.white,
                               maxLenght: 128,
@@ -175,6 +178,7 @@ class CreateAccountScreen extends StatelessWidget {
                             height: h / 52,
                           ),
                           BuildDefaultTextField(
+                            withEyeVisible: true,
                               cubit: cubit,
                               backGroundColor: Colors.white,
                               maxLenght: 128,
@@ -247,6 +251,7 @@ class CreateAccountScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               BuildDefaultTextField(
+                                withEyeVisible: false,
                                   backGroundColor: Colors.white,
                                   maxLenght: 2,
                                   inputType: TextInputType.number,
@@ -265,6 +270,7 @@ class CreateAccountScreen extends StatelessWidget {
                                   height: h / 17.5,
                                   isObscured: false),
                               BuildDefaultTextField(
+                                  withEyeVisible: false,
                                   backGroundColor: Colors.white,
                                   maxLenght: 2,
                                   inputType: TextInputType.number,
@@ -283,6 +289,7 @@ class CreateAccountScreen extends StatelessWidget {
                                   height: h / 17.5,
                                   isObscured: false),
                               BuildDefaultTextField(
+                                  withEyeVisible: false,
                                   backGroundColor: Colors.white,
                                   inputType: TextInputType.number,
                                   withText: false,

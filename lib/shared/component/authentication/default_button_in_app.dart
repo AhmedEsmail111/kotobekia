@@ -20,7 +20,7 @@ class BuildDefaultButton extends StatelessWidget {
     required this.color,
     required this.elevation,
     required this.context,
-    required this.withBorder,
+    this.withBorder=false,
   });
 
   @override

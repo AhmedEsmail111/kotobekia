@@ -42,26 +42,6 @@ class User {
   String? createdAt;
   String? updatedAt;
 
-  User(
-      {this.fullName,
-        this.email,
-        this.password,
-        this.phoneNumber,
-        this.birthDate,
-        this.role,
-        this.gender,
-        this.termsAndConditions,
-        // this.yourAds,
-        // this.favorite,
-        this.provider,
-        this.isActive,
-        this.isConfirmed,
-        this.isBlocked,
-        this.lastVisited,
-        this.sId,
-        this.iV,
-        this.createdAt,
-        this.updatedAt});
 
   User.fromJson(Map<String, dynamic> json) {
     fullName = json['fullName'];

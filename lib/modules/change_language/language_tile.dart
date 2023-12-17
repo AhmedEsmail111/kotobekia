@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BuildLanguageTile extends StatelessWidget {
   final String text;
-
   final bool isClicked;
   final void Function(bool? status)? onClick;
 
@@ -33,15 +32,3 @@ class BuildLanguageTile extends StatelessWidget {
     );
   }
 }
-// ListTile(
-//       onTap: onClick,
-    
-//       title: Text(
-//         text,
-//         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//               fontSize: 18.sp,
-//              fontWeight: FontWeight.w500
-//             ),
-//       ),
-//       trailing: isClicked
-//           ?

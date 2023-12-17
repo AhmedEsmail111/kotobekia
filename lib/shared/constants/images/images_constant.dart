@@ -4,7 +4,9 @@ class ImageConstant{
  static const String splashAnimationImage='assets/images/splash_animation.gif';
  static const String messageImage='assets/images/message 2.png';
  static const String doneVerifiedEmailImage='assets/images/rafiki.png';
- static const String userDefaultImage='assets/images/man .png';
+ static const String userMaleImage='assets/images/man .png';
+ static const String userFemaleImage='assets/images/img.png';
  static const String palestineImage='assets/images/palestine.png';
  static const String palestineMapImage='assets/images/palestine _map.png';
+ static const String recoverDoneImage='assets/images/palestine _map.png';
 }

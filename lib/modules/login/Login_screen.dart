@@ -85,6 +85,7 @@ class LoginScreen extends StatelessWidget {
                             height: h / 52,
                           ),
                           BuildDefaultTextField(
+                              withEyeVisible: true,
                               backGroundColor: Colors.white,
                               maxLenght: 128,
                               controller: passwordController,

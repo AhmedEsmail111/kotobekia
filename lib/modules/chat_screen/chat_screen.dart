@@ -26,145 +26,100 @@ class ChatScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = context.read<ChatCubit>();
         return Scaffold(
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding:
-                  EdgeInsets.only(left: w / 26, right: w / 26, top: h / 14),
-              child: Column(
-                children: [
-                  Text(
-                    locale!.messages,
-                    style: font.titleMedium!.copyWith(fontSize: w / 21),
-                  ),
-                  SizedBox(
-                    height: h / 21,
-                  ),
-                  BuildDefaultTextField(
-                      prefixIcons: const Icon(Icons.search),
-                      backGroundColor: ColorConstant.foregroundColor,
-                      inputType: TextInputType.text,
-                      withText: false,
-                      hintText: locale.search_by_name,
-                      context: context,
-                      controller: searchController,
-                      width: double.infinity,
-                      height: h / 16.8,
-                      maxLenght: 225,
-                      isObscured: false),
-                  SizedBox(
-                    height: h / 58,
-                  ),
-                  BuildSecurityGuideLines(h: h, w: w, font: font),
-                  SizedBox(
-                    height: h / 48,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(18.h),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(w / 30),
-                    ),
+          body: cubit.conversationModel != null
+              ? SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: w / 26, right: w / 26, top: h / 14),
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            BuildCheckTypeChat(
-                                cubit: cubit,
-                                numberOfChecked: 1,
-                                h: h,
-                                w: w,
-                                font: font,
-                                text: locale.all,
-                                numberOfMessage: 20),
-                            BuildCheckTypeChat(
-                              cubit: cubit,
-                              numberOfChecked: 2,
-                              h: h,
-                              w: w,
-                              font: font,
-                              text: locale.requested,
-                              numberOfMessage: 3,
-                            ),
-                            BuildCheckTypeChat(
-                              cubit: cubit,
-                              numberOfChecked: 3,
-                              h: h,
-                              w: w,
-                              font: font,
-                              text: locale.offered,
-                              numberOfMessage: 0,
-                            )
-                          ],
+                        Text(
+                          locale!.messages,
+                          style: font.titleMedium!.copyWith(fontSize: w / 21),
                         ),
                         SizedBox(
-                          height: 6.h,
+                          height: h / 21,
                         ),
-                        const Divider(
-                            color: ColorConstant.midGrayColor, thickness: 1),
-                        if (cubit.checkedTypeChat == 1)
-                          ListView.separated(
-                              padding: EdgeInsets.only(top: 6.h),
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(context, 'message');
-                                  },
-                                  child: BuildUsersChat(
-                                    font: font,
-                                    image: ImageConstant.userDefaultImage,
-                                    name: 'محمد احمد ',
-                                    lastMessage: 'بكام لو سمحت',
-                                    status: 'منذ يومان',
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) =>
-                                  const BuildDividerLine(
-                                    thickness: 1,
-                                  ),
-                              itemCount: 20),
-                        if (cubit.checkedTypeChat == 2)
-                          ListView.separated(
-                              padding: EdgeInsets.only(top: 6.h),
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return BuildUsersChat(
-                                  font: font,
-                                  image: ImageConstant.userDefaultImage,
-                                  name: 'توينكز',
-                                  lastMessage: 'انا عايز واحد من ده',
-                                  status: 'الان',
-                                );
-                              },
-                              separatorBuilder: (context, index) =>
-                                  const BuildDividerLine(
-                                    thickness: 1,
-                                  ),
-                              itemCount: 3),
-                        if (cubit.checkedTypeChat == 3)
-                          Container(
-                            alignment: Alignment.center,
+                        BuildDefaultTextField(
+                            withEyeVisible: false,
+                            prefixIcons: const Icon(Icons.search),
+                            backGroundColor: ColorConstant.foregroundColor,
+                            inputType: TextInputType.text,
+                            withText: false,
+                            hintText: locale.search_by_name,
+                            context: context,
+                            controller: searchController,
                             width: double.infinity,
-                            height: 200,
-                            child: Text(
-                              'NO Users',
-                              style:
-                                  font.headlineMedium!.copyWith(fontSize: 20),
-                            ),
+                            height: h / 16.8,
+                            maxLenght: 225,
+                            isObscured: false),
+                        SizedBox(
+                          height: h / 58,
+                        ),
+                        BuildSecurityGuideLines(h: h, w: w, font: font),
+                        SizedBox(
+                          height: h / 48,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(18.h),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(w / 30),
                           ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'شات',
+                                    style: font.titleMedium,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 6.h,
+                              ),
+                              const Divider(
+                                  color: ColorConstant.midGrayColor,
+                                  thickness: 1),
+                              ListView.separated(
+                                  padding: EdgeInsets.only(top: 6.h),
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(context, 'message');
+                                      },
+                                      child: BuildUsersChat(
+                                        font: font,
+                                        image:
+                                            cubit.users[index].gender == 'male'
+                                                ? ImageConstant.userMaleImage
+                                                : ImageConstant.userFemaleImage,
+                                        name: cubit.users[index].fullName!,
+                                        lastMessage: 'بكام لو سمحت',
+                                        status: 'منذ يومان',
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) =>
+                                      const BuildDividerLine(),
+                                  itemCount: cubit.users.length),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  )
-                ],
+                  ),
+                )
+              :const Center(
+                child: CircularProgressIndicator(
+                    color: ColorConstant.primaryColor,
+                  ),
               ),
-            ),
-          ),
         );
       },
       listener: (context, state) {},

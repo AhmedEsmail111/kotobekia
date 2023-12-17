@@ -25,12 +25,13 @@ class BuildDefaultTextField extends StatelessWidget {
   final int? numberOfFormPass;
   final int? maxLines;
   final void Function(String)? onChange;
-
+  final bool withEyeVisible;
   final bool? isEnabled;
   const BuildDefaultTextField({
     super.key,
     this.cubit,
     this.numberOfFormPass,
+    this.withEyeVisible = false,
     required this.inputType,
     required this.withText,
     required this.hintText,
@@ -102,7 +103,7 @@ class BuildDefaultTextField extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                         borderSide: BorderSide.none),
                     prefixIcon: prefixIcons,
-                    suffixIcon: isObscured
+                    suffixIcon: withEyeVisible
                         ? InkWell(
                             onTap: () {
                               cubit?.changeVisiabilityPassword(
