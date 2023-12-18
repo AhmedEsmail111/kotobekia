@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class BuildAddButton extends StatelessWidget {
+class BuildOptionButton extends StatelessWidget {
   final Color color;
   final String text;
   final void Function()? onTap;
 
-  const BuildAddButton(
+  const BuildOptionButton(
       {super.key, required this.color, required this.text, this.onTap});
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,8 @@ class BuildAddButton extends StatelessWidget {
       ),
       child: TextButton(
         style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 16.w)),
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+        ),
         onPressed: onTap,
         child: Text(
           text,

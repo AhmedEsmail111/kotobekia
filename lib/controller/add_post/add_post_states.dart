@@ -39,3 +39,5 @@ class SendNewPostInternetFailure extends AddPostStates {
 }
 
 class ResetDataOnPop extends AddPostStates {}
+
+class HasErrorState extends AddPostStates {}

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
-
-// homeCubit.educationLevelsDropDownItems[1]
-//           'المرحلة التعليمية',
 
 class BuildDropDownButton extends StatelessWidget {
   final String dropDownHint;
@@ -12,6 +10,7 @@ class BuildDropDownButton extends StatelessWidget {
   final List<String> items;
   final String? value;
   final String text;
+  final bool optional;
   final IconData? icon;
 
   final void Function(String? value)? onSelect;
@@ -26,23 +25,40 @@ class BuildDropDownButton extends StatelessWidget {
     required this.errorMessage,
     this.icon,
     this.value,
+    this.optional = false,
   });
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           height: 16.h,
         ),
-        if (icon == null)
-          Text(
-            text,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium!
-                .copyWith(fontWeight: FontWeight.w500),
-          ),
+        Row(
+          children: [
+            if (icon == null)
+              Text(
+                text,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontWeight: FontWeight.w500),
+              ),
+            SizedBox(
+              width: 4.w,
+            ),
+            if (optional)
+              Text(
+                '(${locale.optional})',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14.sp,
+                    ),
+              ),
+          ],
+        ),
         SizedBox(
           height: 4.h,
         ),
@@ -93,12 +109,14 @@ class BuildDropDownButton extends StatelessWidget {
             }).toList(),
             onChanged: onSelect,
             onSaved: onSave,
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return errorMessage;
-              }
-              return null;
-            },
+            validator: optional == false
+                ? (String? value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return errorMessage;
+                    }
+                    return null;
+                  }
+                : null,
           ),
         ),
       ],

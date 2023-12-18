@@ -20,6 +20,8 @@ class BuildProfileTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      dense: true,
+      horizontalTitleGap: 8.w,
       onTap: onClick,
       leading: Icon(icon, color: iconColor),
       title: Text(

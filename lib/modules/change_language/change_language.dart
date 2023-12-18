@@ -22,16 +22,14 @@ class ChangeLanguageScreen extends StatelessWidget {
       builder: (ctx, state) {
         final languageCubit = LanguageCubit.get(context);
 
-        return WillPopScope(
-          onWillPop: ()async {
+        return PopScope(
+          onPopInvoked: (_) async {
             languageCubit.arabicStatus =
-            CacheHelper.getData(key: AppConstant.languageKey) == 'ar'
-                ? true
-                : false;
+                CacheHelper.getData(key: AppConstant.languageKey) == 'ar'
+                    ? true
+                    : false;
             languageCubit.englishStatus = !languageCubit.arabicStatus;
-            return true;
           },
-
           child: Scaffold(
             body: SafeArea(
                 child: Padding(

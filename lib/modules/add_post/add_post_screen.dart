@@ -4,8 +4,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/add_post/add_post_cubit.dart';
 import 'package:kotobekia/controller/add_post/add_post_states.dart';
+import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/modules/add_post/button.dart';
 import 'package:kotobekia/modules/add_post/drop_down_button.dart';
+import 'package:kotobekia/modules/add_post/row_above_options.dart';
 import 'package:kotobekia/shared/component/authentication/default_button_in_app.dart';
 import 'package:kotobekia/shared/component/authentication/default_text_form_in_app.dart';
 import 'package:kotobekia/shared/component/dialogue_message.dart';
@@ -191,15 +193,9 @@ class AddPostScreen extends StatelessWidget {
                           },
                         ),
                         SizedBox(
-                          height: 5.h,
+                          height: 16.h,
                         ),
-                        Text(
-                          locale.post_title,
-                          style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                        ),
+                        BuildRowAboveOptions(text: locale.post_title),
                         SizedBox(
                           height: 4.h,
                         ),
@@ -213,6 +209,9 @@ class AddPostScreen extends StatelessWidget {
                           height: 50.h,
                           maxLenght: 35,
                           isObscured: false,
+                          onChange: (value) {
+                            addPostCubit.changeTitle(value);
+                          },
                           onSaved: (value) {
                             if (value != null) {
                               addPostCubit.changeTitle(value);
@@ -229,15 +228,9 @@ class AddPostScreen extends StatelessWidget {
                           },
                         ),
                         SizedBox(
-                          height: 5.h,
+                          height: 16.h,
                         ),
-                        Text(
-                          locale.post_description,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(fontWeight: FontWeight.w500),
-                        ),
+                        BuildRowAboveOptions(text: locale.post_description),
                         SizedBox(
                           height: 4.h,
                         ),
@@ -249,7 +242,7 @@ class AddPostScreen extends StatelessWidget {
                           context: context,
                           width: double.infinity,
                           height: 50.h,
-                          maxLenght: 300,
+                          maxLenght: 250,
                           maxLines: 3,
                           isObscured: false,
                           onSaved: (value) {
@@ -258,22 +251,56 @@ class AddPostScreen extends StatelessWidget {
                           onValidate: (value) {
                             if (value == null || value.trim().isEmpty) {
                               return locale.description_error_message;
-                            } else if (value.trim().length < 60) {
-                              return locale.description_error_message_2;
                             }
                             return null;
                           },
                         ),
                         SizedBox(
-                          height: 5.h,
+                          height: 16.h,
                         ),
-                        Text(
-                          locale.price,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(fontWeight: FontWeight.w500),
+                        BuildRowAboveOptions(text: locale.education_level),
+                        SizedBox(
+                          height: 8.h,
                         ),
+                        Wrap(
+                          alignment: WrapAlignment.start,
+                          runAlignment: WrapAlignment.start,
+                          spacing: 16.w,
+                          runSpacing: 12.w,
+                          children: List.generate(
+                            5,
+                            (index) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: ColorConstant.whiteColor,
+                                border: addPostCubit.levelIndex == index
+                                    ? Border.all(
+                                        width: 2,
+                                        color: ColorConstant.primaryColor)
+                                    : null,
+                              ),
+                              child: BuildOptionButton(
+                                onTap: () {
+                                  if (index == 0 || index == 1) {
+                                    addPostCubit.enteredGrade = '';
+                                    addPostCubit.gradeIndex = null;
+                                  }
+
+                                  addPostCubit.changeEducationLevel(
+                                    educationLevels.values.toList()[index],
+                                    index,
+                                  );
+                                },
+                                text: educationLevels.keys.toList()[index],
+                                color: ColorConstant.whiteColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        BuildRowAboveOptions(text: locale.price),
                         SizedBox(
                           height: 4.h,
                         ),
@@ -310,7 +337,8 @@ class AddPostScreen extends StatelessWidget {
                                           addPostCubit.enteredBooksCount,
                                       bookPrice: addPostCubit.enteredPrice,
                                     ) &&
-                                    addPostCubit.priceIndex == 0) {
+                                    addPostCubit.priceIndex == 0 &&
+                                    addPostCubit.educationLevel != levels[4]) {
                                   return '';
                                 }
                                 return null;
@@ -354,7 +382,8 @@ class AddPostScreen extends StatelessWidget {
                               numberOfBooks: addPostCubit.enteredBooksCount,
                               bookPrice: addPostCubit.enteredPrice,
                             ) &&
-                            addPostCubit.priceIndex == 0)
+                            addPostCubit.priceIndex == 0 &&
+                            addPostCubit.educationLevel != levels[4])
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 4.w),
                             child: Text(
@@ -368,15 +397,9 @@ class AddPostScreen extends StatelessWidget {
                             ),
                           ),
                         SizedBox(
-                          height: 8.h,
+                          height: 16.h,
                         ),
-                        Text(
-                          locale.books_count,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(fontWeight: FontWeight.w500),
-                        ),
+                        BuildRowAboveOptions(text: locale.books_count),
                         SizedBox(
                           height: 4.h,
                         ),
@@ -403,63 +426,15 @@ class AddPostScreen extends StatelessWidget {
                             return null;
                           },
                         ),
-                        Text(
-                          locale.education_level,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 8.h,
-                        ),
-                        Wrap(
-                          alignment: WrapAlignment.start,
-                          runAlignment: WrapAlignment.start,
-                          spacing: 16.w,
-                          runSpacing: 12.w,
-                          children: List.generate(
-                            5,
-                            (index) => Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
-                                color: ColorConstant.whiteColor,
-                                border: addPostCubit.levelIndex == index
-                                    ? Border.all(
-                                        width: 2,
-                                        color: ColorConstant.primaryColor)
-                                    : null,
-                              ),
-                              child: BuildAddButton(
-                                onTap: () {
-                                  if (index == 0 || index == 1) {
-                                    addPostCubit.enteredGrade = '';
-                                    addPostCubit.gradeIndex = null;
-                                  }
-
-                                  addPostCubit.changeEducationLevel(
-                                    educationLevels.values.toList()[index],
-                                    index,
-                                  );
-                                },
-                                text: educationLevels.keys.toList()[index],
-                                color: ColorConstant.whiteColor,
-                              ),
-                            ),
-                          ),
-                        ),
                         SizedBox(
                           height: 16.h,
                         ),
-                        Text(
-                          locale.grade,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(fontWeight: FontWeight.w500),
+                        BuildRowAboveOptions(
+                          text: locale.grade,
+                          optional: true,
                         ),
                         SizedBox(
-                          height: 8.h,
+                          height: 16.h,
                         ),
                         addPostCubit.educationLevel ==
                                 educationLevels.values.toList()[0]
@@ -472,7 +447,7 @@ class AddPostScreen extends StatelessWidget {
                                   2,
                                   (index) => Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
+                                      borderRadius: BorderRadius.circular(14),
                                       color: ColorConstant.whiteColor,
                                       border: addPostCubit.gradeIndex == index
                                           ? Border.all(
@@ -482,11 +457,15 @@ class AddPostScreen extends StatelessWidget {
                                     ),
                                     width:
                                         MediaQuery.of(context).size.width / 3.8,
-                                    child: BuildAddButton(
+                                    child: BuildOptionButton(
                                       onTap: () {
-                                        addPostCubit.changeGrade(
-                                            grades.values.toList()[index],
-                                            index);
+                                        if (addPostCubit.gradeIndex == index) {
+                                          addPostCubit.changeGrade('', null);
+                                        } else {
+                                          addPostCubit.changeGrade(
+                                              grades.values.toList()[index],
+                                              index);
+                                        }
                                       },
                                       text: grades.keys.toList()[index],
                                       color: ColorConstant.whiteColor,
@@ -519,11 +498,18 @@ class AddPostScreen extends StatelessWidget {
                                                   .size
                                                   .width /
                                               3.8,
-                                          child: BuildAddButton(
+                                          child: BuildOptionButton(
                                             onTap: () {
-                                              addPostCubit.changeGrade(
+                                              if (addPostCubit.gradeIndex ==
+                                                  index) {
+                                                addPostCubit.changeGrade(
+                                                    '', null);
+                                              } else {
+                                                addPostCubit.changeGrade(
                                                   grades.values.toList()[index],
-                                                  index);
+                                                  index,
+                                                );
+                                              }
                                             },
                                             text: grades.keys.toList()[index],
                                             color: ColorConstant.whiteColor,
@@ -549,11 +535,18 @@ class AddPostScreen extends StatelessWidget {
                                                   .size
                                                   .width /
                                               3.8,
-                                          child: BuildAddButton(
+                                          child: BuildOptionButton(
                                             onTap: () {
-                                              addPostCubit.changeGrade(
+                                              if (addPostCubit.gradeIndex ==
+                                                  index) {
+                                                addPostCubit.changeGrade(
+                                                    '', null);
+                                              } else {
+                                                addPostCubit.changeGrade(
                                                   grades.values.toList()[index],
-                                                  index);
+                                                  index,
+                                                );
+                                              }
                                             },
                                             text: grades.keys.toList()[index],
                                             color: ColorConstant.whiteColor,
@@ -564,12 +557,9 @@ class AddPostScreen extends StatelessWidget {
                         SizedBox(
                           height: 16.h,
                         ),
-                        Text(
-                          locale.education_type,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(fontWeight: FontWeight.w500),
+                        BuildRowAboveOptions(
+                          text: locale.education_type,
+                          optional: true,
                         ),
                         SizedBox(
                           height: 8.h,
@@ -592,11 +582,19 @@ class AddPostScreen extends StatelessWidget {
                                       )
                                     : null,
                               ),
-                              child: BuildAddButton(
+                              child: BuildOptionButton(
                                 onTap: () {
-                                  addPostCubit.changeEducationType(
+                                  if (addPostCubit.typeIndex == index) {
+                                    addPostCubit.changeEducationType(
+                                      '',
+                                      null,
+                                    );
+                                  } else {
+                                    addPostCubit.changeEducationType(
                                       educationTypes.values.toList()[index],
-                                      index);
+                                      index,
+                                    );
+                                  }
                                 },
                                 text: educationTypes.keys.toList()[index],
                                 color: ColorConstant.whiteColor,
@@ -607,12 +605,9 @@ class AddPostScreen extends StatelessWidget {
                         SizedBox(
                           height: 16.h,
                         ),
-                        Text(
-                          locale.term,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(fontWeight: FontWeight.w500),
+                        BuildRowAboveOptions(
+                          text: locale.term,
+                          optional: true,
                         ),
                         SizedBox(
                           height: 8.h,
@@ -634,10 +629,19 @@ class AddPostScreen extends StatelessWidget {
                                         color: ColorConstant.primaryColor)
                                     : null,
                               ),
-                              child: BuildAddButton(
+                              child: BuildOptionButton(
                                 onTap: () {
-                                  addPostCubit.changeSemester(
-                                      semesters.values.toList()[index], index);
+                                  if (addPostCubit.semesterIndex == index) {
+                                    addPostCubit.changeSemester(
+                                      '',
+                                      null,
+                                    );
+                                  } else {
+                                    addPostCubit.changeSemester(
+                                      semesters.values.toList()[index],
+                                      index,
+                                    );
+                                  }
                                 },
                                 text: semesters.keys.toList()[index],
                                 color: ColorConstant.whiteColor,
@@ -646,15 +650,18 @@ class AddPostScreen extends StatelessWidget {
                           ),
                         ),
                         BuildDropDownButton(
+                          optional: true,
                           errorMessage: locale.edition_error_message,
                           dropDownHint: locale.your_book_edition,
                           items: addPostCubit.yearsDropDownItems,
                           text: locale.education_year,
                           onSelect: (value) {
-                            addPostCubit.changeBookEdition(value!);
+                            if (value != null) {
+                              addPostCubit.changeBookEdition(value);
+                            }
                           },
                           onSave: (value) {
-                            addPostCubit.changeBookEdition(value!);
+                            addPostCubit.changeBookEdition(value ?? '');
                           },
                         )
                       ],
@@ -728,16 +735,13 @@ class AddPostScreen extends StatelessWidget {
     if (addPostCubit.selectedImages.isEmpty) {
       snackBarMessage(
           context: context,
-          message: locale.images_not_choesen_message,
+          message: locale.choose_level,
           snackbarState: SnackbarState.error,
           duration: const Duration(seconds: 2));
       return;
     }
 
-    if (addPostCubit.levelIndex == null ||
-        addPostCubit.gradeIndex == null ||
-        addPostCubit.typeIndex == null ||
-        addPostCubit.semesterIndex == null) {
+    if (addPostCubit.levelIndex == null) {
       snackBarMessage(
         context: context,
         message: locale.choose_all_message,
@@ -784,7 +788,7 @@ class AddPostScreen extends StatelessWidget {
 
     var limit = 0;
     if (number != null) {
-      limit = number * 30;
+      limit = number * 45;
     }
     return price <= limit;
   }

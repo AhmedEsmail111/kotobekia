@@ -184,7 +184,7 @@
   "title_error_message":"please enter a title",
   "title_error_message_2":"The title should be at least 5 characters long",
   "description_error_message":"please enter a description",
-  "description_error_message_2":"Description should be at least 60 characters long",
+  "choose_level":"please choose your educationLevel",
   "price_error_message":"enter a price",
 
   "books_count_error_message":"enter booksCount",
@@ -194,8 +194,9 @@
   "weak_internet":"Please connect to strong internet to be able to fetch the data for you" ,
   "snackbar_no_internet":"No Internet connection Please connect to a network",
   "connection_restored":"Connection restored",
-  "overpriced_message":"price can't be more than 30 pound for each book",
-  "no_more_message":"no more data to be loaded"
+  "overpriced_message":"price can't be more than 45 pound for each book",
+  "no_more_message":"no more data to be loaded",
+  "optional":"optional"
   
 
 

@@ -19,7 +19,7 @@ class BuildRowLikeAppBar extends StatelessWidget {
           darkBackground: color,
         ),
         Container(
-          width: MediaQuery.of(context).size.width / 1.6,
+          width: MediaQuery.of(context).size.width / 1.4,
           alignment: Alignment.center,
           child: Text(
             text,

@@ -29,7 +29,7 @@ class BuildGrid extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 8.w),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: categoryCubit.isLoading ? 1 : 2,
-              mainAxisExtent: 275.h,
+              childAspectRatio: 0.49.h,
             ),
             physics: const BouncingScrollPhysics(),
             // isLoading will only be true when he tries to fetch other pages(more date)
@@ -88,7 +88,7 @@ class BuildGrid extends StatelessWidget {
                   imageHeight: 135.h,
                   borderRadius: BorderRadius.circular(14),
                   cardElevation: 2,
-                  height: 275.h,
+                  // height: 275.h,
                   width: MediaQuery.of(context).size.width / 2.2,
                   contentPadding: EdgeInsets.all(8.w),
                   cardBorder: Border.all(color: const Color(0xFFEDEDED)),

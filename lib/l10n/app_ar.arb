@@ -184,7 +184,7 @@
   "title_error_message":"من فضلك أدخل عنوان البوست",
   "title_error_message_2":"العنوان لابد أن يكون أكبر من 5 أحرف",
   "description_error_message":"من فضلك أدخل وصف الإعلان",
-  "description_error_message_2":"الوصف ينبغي أن يكون أكثر من 60 حرفا",
+  "choose_level":"من فضلك اختر المستوى التعليمي",
   "price_error_message":"أدخل سعر الكتب",
   "books_count_error_message":"أدخل عدد الكتب",
   "images_not_choesen_message":"من فضلك قم بإختيار صور الإعلان",
@@ -193,9 +193,9 @@
   "weak_internet":"من فضلك اتصل بشبكة انترنت قوية ثم قم بإعادة المحاولة",
   "snackbar_no_internet":" لا يوجد إتصال بالأنترنت , من فضلك قم بإعادة الإتصال",
   "connection_restored":"تم إعادة الأتصال",
-  "overpriced_message":"السعر ينبغي أن لا يزيد عن 30 جنيها لكل كتاب",
-  "no_more_message":"لا يوجد إعلانات أخرى"
-  
+  "overpriced_message":"السعر ينبغي أن لا يزيد عن 45 جنيها لكل كتاب",
+  "no_more_message":"لا يوجد إعلانات أخرى",
+  "optional":"إختياري"
 
  
 }

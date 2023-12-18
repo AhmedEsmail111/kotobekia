@@ -133,6 +133,9 @@ class BuildPosts extends StatelessWidget {
                     bottom: 0,
                     right: 0,
                     child: IconButton(
+                      style: IconButton.styleFrom(
+                          backgroundColor:
+                              const Color(0xFFD7D7D8).withOpacity(0.5)),
                       icon: const Icon(
                         SolarIconsOutline.heart,
                         color: ColorConstant.whiteColor,

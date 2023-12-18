@@ -64,6 +64,7 @@ class AddPostCubit extends Cubit<AddPostStates> {
   }) async {
     if (await HelperFunctions.hasConnection()) {
       try {
+        // isThereError = false;
         isAddingPost = true;
         emit(SendNewPostLoading());
         final response = await DioHelper.sendNewPostData(
@@ -158,7 +159,7 @@ class AddPostCubit extends Cubit<AddPostStates> {
 
   var enteredGrade = '';
   int? gradeIndex;
-  void changeGrade(String value, int index) {
+  void changeGrade(String value, int? index) {
     gradeIndex = index;
     enteredGrade = value;
     print('$enteredGrade  $gradeIndex');
@@ -167,7 +168,7 @@ class AddPostCubit extends Cubit<AddPostStates> {
 
   var enteredEducationType = '';
   int? typeIndex;
-  void changeEducationType(String value, int index) {
+  void changeEducationType(String value, int? index) {
     typeIndex = index;
     enteredEducationType = value;
     print('$enteredEducationType $typeIndex');
@@ -176,7 +177,7 @@ class AddPostCubit extends Cubit<AddPostStates> {
 
   var enteredSemester = '';
   int? semesterIndex;
-  void changeSemester(String value, int index) {
+  void changeSemester(String value, int? index) {
     semesterIndex = index;
     enteredSemester = value;
     print('$enteredSemester $semesterIndex');
@@ -211,6 +212,12 @@ class AddPostCubit extends Cubit<AddPostStates> {
     priceIndex = 0;
     emit(ResetDataOnPop());
   }
+
+  // var isThereError = false;
+  // void detectError() {
+  //   isThereError = true;
+  //   emit(HasErrorState());
+  // }
 
   // dropDownItems for the Regions
   final List<String> regionsDropDownItem = [
