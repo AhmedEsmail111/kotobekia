@@ -19,7 +19,7 @@ class VerifiedEmailScreen extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushNamed(context, '');
+            Navigator.pushNamed(context, 'homeLayout');
           });
         }
         return Scaffold(

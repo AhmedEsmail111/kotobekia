@@ -104,7 +104,9 @@ class ModifyProfileScreen extends StatelessWidget {
                 ),
                 BuildDefaultButton(
                   withBorder: true,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, 'changePassword');
+                  },
                   text: locale.modify_password,
                   color: ColorConstant.whiteColor,
                   elevation: 0,

@@ -30,7 +30,7 @@ class BuildDefaultButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          elevation: elevation,
+          elevation: 2,
           shape: RoundedRectangleBorder(
             side: withBorder
                 ? const BorderSide(color: ColorConstant.primaryColor)

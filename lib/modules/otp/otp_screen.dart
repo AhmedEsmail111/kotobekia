@@ -4,7 +4,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kotobekia/controller/otp/otp_cubit.dart';
 import 'package:kotobekia/shared/component/authentication/default_button_in_app.dart';
 import 'package:kotobekia/shared/component/authentication/row_text_and_link.dart';
+import 'package:kotobekia/shared/constants/app/app_constant.dart';
 import 'package:kotobekia/shared/constants/images/images_constant.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
 
 import '../../shared/component/authentication/otp_container.dart';
 import '../../shared/component/snakbar_message.dart';
@@ -43,6 +45,8 @@ class OtpScreen extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       Navigator.pop(context);
+                      CacheHelper.removeData(key: AppConstant.token);
+                      CacheHelper.removeData(key: AppConstant.otpScreen);
                     },
                     child: Container(
                       width: w / 14,
@@ -208,6 +212,7 @@ class OtpScreen extends StatelessWidget {
         if (state is SuccessVerifyOtpState) {
           if (state.otpModel.message == 'OTP Verified Successfully') {
             Navigator.pushReplacementNamed(context, 'verifiedEmail');
+
           } else {
             snackBarMessage(
                 snackbarState: SnackbarState.error,

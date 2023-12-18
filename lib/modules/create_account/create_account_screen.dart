@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kotobekia/shared/component/snakbar_message.dart';
+import 'package:kotobekia/shared/constants/app/app_constant.dart';
 import 'package:kotobekia/shared/constants/icons/icons_constant.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
 
 import '../../controller/authentication/authentication_cubit.dart';
 import '../../shared/component/authentication/button_authentication_services.dart';
@@ -42,6 +44,8 @@ class CreateAccountScreen extends StatelessWidget {
           } else {
             Navigator.pushNamed(context, 'otp',
                 arguments: emailController.text);
+            CacheHelper.saveData(key: AppConstant.token, value: state.userModel.token);
+            CacheHelper.saveData(key: AppConstant.otpScreen, value: 1);
           }
         } else if (state is FailedUserCreateAccountState) {
           snackBarMessage(

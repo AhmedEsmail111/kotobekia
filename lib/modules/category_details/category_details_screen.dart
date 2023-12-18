@@ -6,6 +6,8 @@ import 'package:kotobekia/modules/category_details/details_card.dart';
 import 'package:kotobekia/modules/category_details/important_info_flag.dart';
 import 'package:kotobekia/shared/component/back_button.dart';
 import 'package:kotobekia/shared/component/home/add_section.dart';
+import 'package:kotobekia/shared/constants/app/app_constant.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
@@ -139,7 +141,7 @@ class CategoryDetailsScreen extends StatelessWidget {
                       height: 30.h,
                       alignment: Alignment.center,
                       child: Text(
-                        '${images.length} ${locale!.images}',
+                        '${images.length} ${locale.images}',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w900,
@@ -154,7 +156,17 @@ class CategoryDetailsScreen extends StatelessWidget {
                     height: 50.h,
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, 'getStart');
+                        if(CacheHelper.getData(key: AppConstant.token)!=null&&
+                            CacheHelper.getData(key: AppConstant.otpScreen)==null){
+                          Navigator.pushNamed(context, 'otp');
+                        }else {
+                          if(CacheHelper.getData(key: AppConstant.token)==null&&
+                              CacheHelper.getData(key: AppConstant.otpScreen)==null){
+                            Navigator.pushNamed(context, 'getStart');
+                          }else{
+                            //do add favourite post
+                          }
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(

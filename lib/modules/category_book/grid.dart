@@ -29,7 +29,7 @@ class BuildGrid extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 8.w),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: categoryCubit.isLoading ? 1 : 2,
-              mainAxisExtent: 275.h,
+              childAspectRatio: 0.5.h
             ),
             physics: const BouncingScrollPhysics(),
             // isLoading will only be true when he tries to fetch other pages(more date)

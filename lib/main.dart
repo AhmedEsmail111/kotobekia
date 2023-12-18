@@ -24,6 +24,7 @@ import 'package:kotobekia/modules/change_passwrod/chnage_password_screen.dart';
 import 'package:kotobekia/modules/create_account/create_account_screen.dart';
 import 'package:kotobekia/modules/favorite_adds/favorite_adds_.dart';
 import 'package:kotobekia/modules/enter_new_password/enter_new_password_screen.dart';
+import 'package:kotobekia/modules/forget_password/forget_password_screen.dart';
 import 'package:kotobekia/modules/get_start/get_start_screen.dart';
 import 'package:kotobekia/modules/login/Login_screen.dart';
 import 'package:kotobekia/modules/modify_profile/modify_profile.dart';
@@ -49,12 +50,20 @@ void main() async {
   await DioHelper.init();
   await CacheHelper.init();
   Bloc.observer = MyBlocObserver();
-
-  runApp(const MyApp());
+  Widget widget;
+  if(CacheHelper.getData(key: AppConstant.otpScreen)==null
+  &&CacheHelper.getData(key: AppConstant.token)!=null
+  ){
+    widget=const OtpScreen();
+  }else{
+    widget=const LayoutScreen();
+  }
+  runApp(MyApp(widget: widget,));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final Widget widget;
+  const MyApp( {super.key,required this.widget});
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +119,7 @@ class MyApp extends StatelessWidget {
               final profileCubit = LanguageCubit.get(_);
               return MaterialApp(
                   routes: {
-                    'homeLayout': (context) => LayoutScreen(),
+                    'homeLayout': (context) => const LayoutScreen(),
                     'getStart': (context) => const GetStartScreen(),
                     'createAccount': (context) => const CreateAccountScreen(),
                     'login': (context) => const LoginScreen(),
@@ -118,6 +127,8 @@ class MyApp extends StatelessWidget {
                     'otp': (context) => const OtpScreen(),
                     'message': (context) => const MessageScreen(),
                     'chat': (context) => const ChatScreen(),
+                    'changePassword': (context) => const ChangePasswordScreen(),
+                    'forgetPassword': (context) => const ForgetPasswordScreen(),
                     'modifyProfile': (context) => const ModifyProfileScreen(),
                     'favoriteAdds': (context) => const FavoriteAddsScreen(),
                     'changeLanguage': (context) => const ChangeLanguageScreen(),
@@ -159,7 +170,7 @@ class MyApp extends StatelessWidget {
                                         key: AppConstant.languageKey) ==
                                     null
                                 ? const LanguageScreen()
-                                : LayoutScreen(),
+                                : widget,
                             duration: 3500,
                             splashIconSize: width / 0.7,
                             pageTransitionType: PageTransitionType.fade,
@@ -167,7 +178,7 @@ class MyApp extends StatelessWidget {
                             splash: ImageConstant.splashAnimationImage,
                             splashTransition: SplashTransition.fadeTransition,
                           )
-                        : LayoutScreen(),
+                        : widget,
                   ));
             },
           );
