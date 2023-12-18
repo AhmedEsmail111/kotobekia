@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kotobekia/controller/authentication/authentication_cubit.dart';
+import 'package:kotobekia/shared/constants/app/app_constant.dart';
 import 'package:kotobekia/shared/constants/icons/icons_constant.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
 
 import '../../shared/component/authentication/button_authentication_services.dart';
 import '../../shared/component/authentication/default_button_in_app.dart';
@@ -133,15 +135,20 @@ class LoginScreen extends StatelessWidget {
                           SizedBox(
                             height: h / 50,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                locale.forgot_password,
-                                style: font.displayMedium!.copyWith(
-                                    fontWeight: FontWeight.w600, fontSize: 14),
-                              )
-                            ],
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context,'forgetPassword');
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  locale.forgot_password,
+                                  style: font.displayMedium!.copyWith(
+                                      fontWeight: FontWeight.w600, fontSize: 14),
+                                )
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: h / 55,
@@ -200,7 +207,9 @@ class LoginScreen extends StatelessWidget {
                 message: state.userModel.message.toString(),
                 duration: const Duration(seconds: 2));
           } else {
-            Navigator.pushNamed(context, '');
+            Navigator.pushNamed(context, 'homeLayout');
+            CacheHelper.saveData(key: AppConstant.token, value: state.userModel.token);
+            CacheHelper.saveData(key: AppConstant.otpScreen, value: 1);
           }
         } else if (state is FailedUserLoginState) {
           snackBarMessage(

@@ -20,8 +20,10 @@ import 'package:kotobekia/controller/profile/profile_cubit.dart';
 import 'package:kotobekia/l10n/l10n.dart';
 import 'package:kotobekia/layout/home_layout.dart';
 import 'package:kotobekia/modules/change_language/change_language.dart';
+import 'package:kotobekia/modules/change_passwrod/chnage_password_screen.dart';
 import 'package:kotobekia/modules/create_account/create_account_screen.dart';
 import 'package:kotobekia/modules/favorite_adds/favorite_adds_.dart';
+import 'package:kotobekia/modules/forget_password/forget_password_screen.dart';
 import 'package:kotobekia/modules/get_start/get_start_screen.dart';
 import 'package:kotobekia/modules/login/Login_screen.dart';
 import 'package:kotobekia/modules/modify_profile/modify_profile.dart';
@@ -46,12 +48,21 @@ void main() async {
   await DioHelper.init();
   await CacheHelper.init();
   Bloc.observer = MyBlocObserver();
-
-  runApp(const MyApp());
+  Widget widget;
+  if (CacheHelper.getData(key: AppConstant.otpScreen) == null &&
+      CacheHelper.getData(key: AppConstant.token) != null) {
+    widget = const OtpScreen();
+  } else {
+    widget = const LayoutScreen();
+  }
+  runApp(MyApp(
+    widget: widget,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final Widget widget;
+  const MyApp({super.key, required this.widget});
 
   @override
   Widget build(BuildContext context) {
@@ -107,70 +118,72 @@ class MyApp extends StatelessWidget {
             builder: (ctx, state) {
               final languageCubit = LanguageCubit.get(_);
               return MaterialApp(
-                routes: {
-                  'homeLayout': (context) => LayoutScreen(),
-                  'getStart': (context) => const GetStartScreen(),
-                  'createAccount': (context) => const CreateAccountScreen(),
-                  'login': (context) => const LoginScreen(),
-                  'verifiedEmail': (context) => const VerifiedEmailScreen(),
-                  'otp': (context) => const OtpScreen(),
-                  'message': (context) => const MessageScreen(),
-                  'chat': (context) => const ChatScreen(),
-                  'modifyProfile': (context) => const ModifyProfileScreen(),
-                  'favoriteAdds': (context) => const FavoriteAddsScreen(),
-                  'changeLanguage': (context) => const ChangeLanguageScreen(),
-                },
-                locale: languageCubit.locale,
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate
-                ],
-                supportedLocales: L10n.all,
-                debugShowCheckedModeBanner: false,
-                themeMode: ThemeMode.light,
-                theme: lightTheme(width: width, height: height),
-                home: BlocListener<InternetCubit, InternetStates>(
-                  listener: (ctx, state) {
-                    final locale = AppLocalizations.of(ctx);
-                    if (state is InternetNotConnected) {
-                      snackBarMessage(
-                        context: ctx,
-                        message: locale!.snackbar_no_internet,
-                        snackbarState: SnackbarState.error,
-                        duration: const Duration(days: 1),
-                      );
-                    }
-                    if (state is InternetConnected && !state.isFirst) {
-                      snackBarMessage(
-                          context: ctx,
-                          message: locale!.connection_restored,
-                          snackbarState: SnackbarState.success,
-                          duration: const Duration(seconds: 2));
-                    }
+                  routes: {
+                    'homeLayout': (context) => const LayoutScreen(),
+                    'getStart': (context) => const GetStartScreen(),
+                    'createAccount': (context) => const CreateAccountScreen(),
+                    'login': (context) => const LoginScreen(),
+                    'verifiedEmail': (context) => const VerifiedEmailScreen(),
+                    'otp': (context) => const OtpScreen(),
+                    'message': (context) => const MessageScreen(),
+                    'chat': (context) => const ChatScreen(),
+                    'changePassword': (context) => const ChangePasswordScreen(),
+                    'forgetPassword': (context) => const ForgetPasswordScreen(),
+                    'modifyProfile': (context) => const ModifyProfileScreen(),
+                    'favoriteAdds': (context) => const FavoriteAddsScreen(),
+                    'changeLanguage': (context) => const ChangeLanguageScreen(),
                   },
-                  child:
-                      CacheHelper.getData(key: AppConstant.languageKey) == null
-                          ? AnimatedSplashScreen(
-                              nextScreen:
-                                  //  CacheHelper.getData(
-                                  //             key: AppConstant.languageKey) ==
-                                  //         null
-                                  //     ?
-                                  const LanguageScreen()
-                              // : LayoutScreen()
-                              ,
-                              duration: 3500,
-                              splashIconSize: width / 0.7,
-                              pageTransitionType: PageTransitionType.fade,
-                              backgroundColor: ColorConstant.backgroundColor,
-                              splash: ImageConstant.splashAnimationImage,
-                              splashTransition: SplashTransition.fadeTransition,
-                            )
-                          : LayoutScreen(),
-                ),
-              );
+                  locale: languageCubit.locale,
+                  localizationsDelegates: const [
+                    AppLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate
+                  ],
+                  supportedLocales: L10n.all,
+                  debugShowCheckedModeBanner: false,
+                  themeMode: ThemeMode.light,
+                  theme: lightTheme(width: width, height: height),
+                  home: BlocListener<InternetCubit, InternetStates>(
+                    listener: (ctx, state) {
+                      final locale = AppLocalizations.of(ctx);
+                      if (state is InternetNotConnected) {
+                        snackBarMessage(
+                          context: ctx,
+                          message: locale!.snackbar_no_internet,
+                          snackbarState: SnackbarState.error,
+                          duration: const Duration(days: 1),
+                        );
+                      }
+                      if (state is InternetConnected && !state.isFirst) {
+                        snackBarMessage(
+                            context: ctx,
+                            message: locale!.connection_restored,
+                            snackbarState: SnackbarState.success,
+                            duration: const Duration(seconds: 2));
+                      }
+                    },
+                    child: CacheHelper.getData(key: AppConstant.languageKey) ==
+                            null
+                        ? AnimatedSplashScreen(
+                            nextScreen:
+                                // CacheHelper.getData(
+                                //             key: AppConstant.languageKey) ==
+                                //         null
+                                //     ?
+                                const LanguageScreen()
+                            // :
+                            // widget
+                            ,
+                            duration: 3500,
+                            splashIconSize: width / 0.7,
+                            pageTransitionType: PageTransitionType.fade,
+                            backgroundColor: ColorConstant.backgroundColor,
+                            splash: ImageConstant.splashAnimationImage,
+                            splashTransition: SplashTransition.fadeTransition,
+                          )
+                        : widget,
+                  ));
             },
           );
         },

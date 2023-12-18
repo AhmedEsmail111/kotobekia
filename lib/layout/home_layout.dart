@@ -15,6 +15,7 @@ class LayoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
     // ignore: unused_local_variable
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     final h = MediaQuery.of(context).size.height;
 
     final locale = AppLocalizations.of(context);
