@@ -13,6 +13,8 @@ class SuccessUserCreateAccountState extends AuthenticationState {
   SuccessUserCreateAccountState(this.userModel);
 }
 
+
+
 class FailedUserCreateAccountState extends AuthenticationState {
   final String error;
 

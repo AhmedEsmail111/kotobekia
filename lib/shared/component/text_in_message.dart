@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../styles/colors.dart';
 
@@ -8,31 +11,44 @@ class BuildTextMessage extends StatelessWidget {
   final TextTheme font;
   final String text;
   final bool sender;
-
-  const BuildTextMessage({super.key, required this.font, required this.text,required this.sender});
+  final String date;
+  const BuildTextMessage({super.key, required this.font,
+    required this.text,required this.sender,required this.date});
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context);
+
+    String formattedDate = DateFormat('EEEE, h:mm a').
+    format(DateTime.parse(date));
     return Padding(
       padding: EdgeInsets.only(left: 15.w, right: 15.w),
       child: Align(
-        alignment: sender
+        alignment:sender
             ? AlignmentDirectional.centerStart
             : AlignmentDirectional.centerEnd,
-        child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 10.h),
-            decoration: BoxDecoration(
-                color: sender?ColorConstant.primaryColor:ColorConstant.foregroundColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.r),
-                  topRight: Radius.circular(20.r),
-                  bottomLeft: sender?Radius.circular(20.r):const Radius.circular(0),
-                  bottomRight: sender?const Radius.circular(0):Radius.circular(20.r),
+        child: Column(
+          crossAxisAlignment:sender? CrossAxisAlignment.start:CrossAxisAlignment.end,
+          children: [
+            Container(
+                padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 10.h),
+                decoration: BoxDecoration(
+                    color: sender?ColorConstant.primaryColor:ColorConstant.foregroundColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.r),
+                      topRight: Radius.circular(20.r),
+                      bottomLeft: sender?Radius.circular(20.r):const Radius.circular(0),
+                      bottomRight: sender?const Radius.circular(0):Radius.circular(20.r),
+                    )),
+                child: Text(
+                  text.trim(),
+                  style: font.titleMedium!.copyWith(fontSize: 12.sp,fontWeight: FontWeight.w500),
                 )),
-            child: Text(
-              text,
-              style: font.titleMedium!.copyWith(fontSize: 12.sp),
-            )),
+            Text(formattedDate,
+              style: font.displayMedium!.copyWith(fontSize: 8.
+              sp,color: Colors.grey,fontWeight: FontWeight.w700),)
+          ],
+        ),
       ),
     );
   }

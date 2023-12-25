@@ -45,6 +45,8 @@ class AddPostCubit extends Cubit<AddPostStates> {
   }
 
   bool isAddingPost = false;
+
+
   void sendNewPost({
     required String title,
     required String description,

@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/chat/chat_cubit.dart';
+import 'package:kotobekia/modules/message_screen/message_screen.dart';
 import 'package:kotobekia/shared/component/authentication/default_text_form_in_app.dart';
 import 'package:kotobekia/shared/component/divider_line.dart';
 import 'package:kotobekia/shared/component/security_guidelines.dart';
 import 'package:kotobekia/shared/component/users_chat.dart';
 import 'package:kotobekia/shared/constants/images/images_constant.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 
 import '../../shared/component/check_type_chat.dart';
@@ -91,23 +93,32 @@ class ChatScreen extends StatelessWidget {
                                   itemBuilder: (context, index) {
                                     return InkWell(
                                       onTap: () {
-                                        Navigator.pushNamed(context, 'message');
+                                        cubit.openUserConversation(
+                                            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzRlMDVkODVjZDBkYTczZmRhYmE5NSIsImZ1bGxOYW1lIjoibG9sbyIsImVtYWlsIjoibG9sQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiZ2VuZGVyIjoibWFsZSIsImJpcnRoRGF0ZSI6IjIwMDAtMDYtMTVUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTcwMjE1ODUxNX0.DZFqXXOWPD1KJEPXTHykAqPlmQ_hTQbjsRs2H6UyncA',
+                                            receiverId: cubit.otherUsers[index].sId!);
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                        return MessageScreen(index: index,
+                                            convId: cubit.conversationModel!.conversations![index].sId!,
+                                            name:cubit.otherUsers[index].fullName!, male:cubit.otherUsers[index].gender == 'male'
+                                                ? true
+                                                : false);
+                                        },));
                                       },
                                       child: BuildUsersChat(
                                         font: font,
                                         image:
-                                            cubit.users[index].gender == 'male'
+                                            cubit.otherUsers[index].gender == 'male'
                                                 ? ImageConstant.userMaleImage
                                                 : ImageConstant.userFemaleImage,
-                                        name: cubit.users[index].fullName!,
-                                        lastMessage: 'بكام لو سمحت',
+                                        name: cubit.otherUsers[index].fullName!,
+                                        lastMessage: cubit.conversationModel!.conversations![index].latestMessage!.message!,
                                         status: 'منذ يومان',
                                       ),
                                     );
                                   },
                                   separatorBuilder: (context, index) =>
                                       const BuildDividerLine(),
-                                  itemCount: cubit.users.length),
+                                  itemCount: cubit.otherUsers.length),
                             ],
                           ),
                         )

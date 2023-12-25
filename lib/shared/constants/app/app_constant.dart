@@ -8,4 +8,5 @@ class AppConstant {
   static const String otpScreen='otp';
   static const languageKey = 'userLanguage';
   static const baseShareUrl = 'https://kotobekia.vercel.app';
+  static const String socketURL = "http://localhost:3000";
 }

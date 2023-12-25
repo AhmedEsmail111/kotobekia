@@ -37,7 +37,7 @@ class DioHelper {
     dio!.options.headers = {
       'Content-Type': 'application/json',
       'lang': lang,
-      if (token != null) 'Authorization': token,
+      if (token != null) 'token': token,
     };
     return await dio!.post(url, data: data);
   }
@@ -50,7 +50,7 @@ class DioHelper {
     dio!.options.headers = {
       'Content-Type': 'application/json',
       'lang': lang,
-      if (token != null) 'Authorization': token,
+      if (token != null) 'token': token,
     };
     return await dio!.put(url, data: data);
   }

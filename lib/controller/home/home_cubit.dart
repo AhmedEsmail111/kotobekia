@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:kotobekia/controller/home/home_state.dart';
+import 'package:kotobekia/models/identity_user_model/identity_user_model.dart';
 import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/modules/add_post/add_post_screen.dart';
 import 'package:kotobekia/modules/chat_screen/chat_screen.dart';
@@ -27,6 +29,15 @@ class HomeCubit extends Cubit<HomeStates> {
     const ChatScreen(),
     const ProfileScreen(),
   ];
+
+  IdentityUserModel ?identityUserModel;
+  void getIdentityUser({
+    required String token,
+  }) {
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+    identityUserModel = IdentityUserModel.fromJson(decodedToken);
+    emit(SuccessGetIdentityUserState(identityUserModel!));
+  }
   HomePostsModel? homePostsModel;
   var currentIndex = 0;
   List<Post> kindergartenPosts = [];
