@@ -9,8 +9,9 @@ import '../constants/images/images_constant.dart';
 class BuildUserRowInMessage extends StatelessWidget {
   final TextTheme font;
   final String name;
+  final bool male;
   const BuildUserRowInMessage(
-      {super.key, required this.font, required this.name});
+      {super.key, required this.font, required this.name,required this.male});
 
   @override
   Widget build(BuildContext context) {
@@ -22,46 +23,42 @@ class BuildUserRowInMessage extends StatelessWidget {
           size: 28.w,
           color: ColorConstant.primaryColor,
         ),
-        SizedBox(
-          width: 40.w,
-        ),
+        const Spacer(),
         Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'امجد حسام الدين',
+              name,
               style: font.titleMedium!.copyWith(fontSize: 16.sp),
             ),
-            Row(
-              children: [
-                Material(
-                    elevation: 2,
-                    borderRadius: BorderRadius.circular(10.r),
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: 32.w, height: 14.h,
-                      //child: SpinKitThreeBounce(color: Colors.black45,size: 16.w,),)),
-                    )),
-                SizedBox(
-                  width: 2.w,
-                ),
-                Text(
-                  locale!.typing,
-                  style: font.displayMedium!
-                      .copyWith(fontSize: 12.sp, fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     Material(
+            //         elevation: 2,
+            //         borderRadius: BorderRadius.circular(10.r),
+            //         child: Container(
+            //           alignment: Alignment.center,
+            //           width: 32.w, height: 14.h,
+            //           //child: SpinKitThreeBounce(color: Colors.black45,size: 16.w,),)),
+            //         )),
+            //     SizedBox(
+            //       width: 2.w,
+            //     ),
+            //     Text(
+            //       locale!.typing,
+            //       style: font.displayMedium!
+            //           .copyWith(fontSize: 12.sp, fontWeight: FontWeight.bold),
+            //     )
+            //   ],
+            // ),
           ],
         ),
-        SizedBox(
-          width: 61.w,
-        ),
+        const Spacer(),
         Stack(
           alignment: Alignment.bottomLeft,
           children: [
             Image.asset(
-              ImageConstant.userMaleImage,
+              male?ImageConstant.userMaleImage:
+              ImageConstant.userFemaleImage,
               height: 47.w,
               width: 47.w,
               fit: BoxFit.cover,
@@ -76,7 +73,7 @@ class BuildUserRowInMessage extends StatelessWidget {
           ],
         ),
         SizedBox(
-          width: 12.w,
+          width: 20.w,
         ),
         GestureDetector(
             onTap: () {

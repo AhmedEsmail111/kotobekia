@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:kotobekia/controller/add_post/add_post_cubit.dart';
 import 'package:kotobekia/controller/authentication/authentication_cubit.dart';
 import 'package:kotobekia/controller/category/category_cubit.dart';
@@ -32,6 +33,8 @@ import 'package:kotobekia/modules/otp/otp_screen.dart';
 import 'package:kotobekia/modules/search/search_screen.dart';
 import 'package:kotobekia/modules/verified_email/verified_email_screen.dart';
 import 'package:kotobekia/shared/component/snakbar_message.dart';
+import 'package:kotobekia/shared/component/snakbar_message.dart';
+import 'package:kotobekia/shared/constants/api/api_constant.dart';
 import 'package:kotobekia/shared/constants/app/app_constant.dart';
 import 'package:kotobekia/shared/constants/images/images_constant.dart';
 import 'package:kotobekia/shared/network/local/local.dart';
@@ -39,6 +42,7 @@ import 'package:kotobekia/shared/network/remote/remote.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:kotobekia/shared/styles/styles.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'modules/chat_screen/chat_screen.dart';
 import 'modules/choose_anguage/languages_screen.dart';
@@ -57,9 +61,14 @@ void main() async {
   } else {
     widget = const LayoutScreen();
   }
+<<<<<<< HEAD
   runApp(MyApp(
     widget: widget,
   ));
+=======
+
+  runApp(MyApp(widget: widget,));
+>>>>>>> origin/halawany
 }
 
 class MyApp extends StatelessWidget {
@@ -76,19 +85,17 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthenticationCubit(),
         ),
         BlocProvider(
-          create: (ctx) => FavoritesCubit()..getFavPosts(),
-        ),
-        BlocProvider(
-          create: (context) => ChatCubit()
-            ..getUsersConversation(
-                token:
-                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzRlMDVkODVjZDBkYTczZmRhYmE5NSIsImZ1bGxOYW1lIjoibG9sbyIsImVtYWlsIjoibG9sQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiZ2VuZGVyIjoibWFsZSIsImJpcnRoRGF0ZSI6IjIwMDAtMDYtMTVUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTcwMjE1ODUxNX0.DZFqXXOWPD1KJEPXTHykAqPlmQ_hTQbjsRs2H6UyncA'),
+          create: (context) => ChatCubit()..
+          getUsersConversation(token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzRlMDVkODVjZDBkYTczZmRhYmE5NSIsImZ1bGxOYW1lIjoibG9sbyIsImVtYWlsIjoibG9sQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiZ2VuZGVyIjoibWFsZSIsImJpcnRoRGF0ZSI6IjIwMDAtMDYtMTVUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTcwMjE1ODUxNX0.DZFqXXOWPD1KJEPXTHykAqPlmQ_hTQbjsRs2H6UyncA')
+          ..socketConnect(),
         ),
         BlocProvider(
           create: (context) => OtpCubit(),
         ),
         BlocProvider(
-          create: (ctx) => HomeCubit(),
+          create: (ctx) => HomeCubit()..
+          getIdentityUser(token: CacheHelper.
+          getData(key: AppConstant.token)),
         ),
         BlocProvider(
           create: (ctx) => CategoryCubit(),
@@ -131,7 +138,6 @@ class MyApp extends StatelessWidget {
                     'login': (context) => const LoginScreen(),
                     'verifiedEmail': (context) => const VerifiedEmailScreen(),
                     'otp': (context) => const OtpScreen(),
-                    'message': (context) => const MessageScreen(),
                     'chat': (context) => const ChatScreen(),
                     'changePassword': (context) => const ChangePasswordScreen(),
                     'forgetPassword': (context) => const ForgetPasswordScreen(),

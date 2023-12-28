@@ -21,3 +21,47 @@ class FailedUsersConversationState extends ChatState {
 
   FailedUsersConversationState(this.error);
 }
+
+
+
+class LoadingOpenUserConversationState extends ChatState {}
+
+class SuccessOpenUserConversationState extends ChatState {
+  final ConversationModel userModel;
+
+  SuccessOpenUserConversationState(this.userModel);
+}
+
+class FailedOpenUserConversationState extends ChatState {
+  final String error;
+
+  FailedOpenUserConversationState(this.error);
+}
+
+
+class LoadingGetMessageState extends ChatState {}
+
+class SuccessGetMessageState extends ChatState {}
+
+class SuccessConnectSocketState extends ChatState {}
+
+class SuccessReciveMessageSocketState extends ChatState {}
+
+class FailedGetMessageState extends ChatState {
+  final String error;
+
+  FailedGetMessageState(this.error);
+}
+
+class LoadingSendMessageState extends ChatState {}
+
+class SuccessSendMessageState extends ChatState {
+
+}
+
+class FailedSendMessageState extends ChatState {
+  final String error;
+
+  FailedSendMessageState(this.error);
+}
+

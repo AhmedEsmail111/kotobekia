@@ -52,8 +52,15 @@ class BuildUsersChat extends StatelessWidget {
               style: font.bodyLarge!
                   .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w600),
             ),
-            Text(lastMessage,
-                style: font.displayMedium!.copyWith(fontSize: 12.sp)),
+            SizedBox(
+              width: 180.w,
+              child: Text(lastMessage,
+                  overflow: TextOverflow.ellipsis,
+                  style: font.displayMedium!.copyWith(
+                      fontSize: 12.sp,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500)),
+            ),
           ],
         ),
         Spacer(),
