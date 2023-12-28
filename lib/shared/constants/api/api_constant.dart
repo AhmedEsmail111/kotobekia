@@ -1,5 +1,5 @@
 class ApiConstant {
-  static const baseurl = 'https://kotobekia-backend.onrender.com/api';
+  static const baseurl = 'https://kotobekia-back.onrender.com/api';
 
   static const getConversation = '/v1/conversations/get';
   static const getSpecificCategoryMethodUrl = '/v1/levels/specific/';
@@ -11,4 +11,7 @@ class ApiConstant {
   static const addNewPostUrlMethod = '/v1/posts';
   static const addToFavMethodUrl = '/v1/posts/add-to-favorite/';
   static const removeFromFavMethodUrl = '/v1/posts/remove-from-favorite/';
+  static const getFavPostsMethodUrl = '/v1/user/my-favorites';
+  static const getUserPostsMethodUrl = '/v1/user/my-posts';
+  static const getSpecificUserMethodUrl = '/v1/user/specific/';
 }

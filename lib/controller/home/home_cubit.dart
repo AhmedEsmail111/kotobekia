@@ -9,7 +9,7 @@ import 'package:kotobekia/modules/add_post/add_post_screen.dart';
 import 'package:kotobekia/modules/chat_screen/chat_screen.dart';
 import 'package:kotobekia/modules/home/home_screen.dart';
 import 'package:kotobekia/modules/profile/profile_screen.dart';
-import 'package:kotobekia/modules/user_adds/user_adds_screen.dart';
+import 'package:kotobekia/modules/user_ads/user_ads_screen.dart';
 import 'package:kotobekia/shared/constants/api/api_constant.dart';
 import 'package:kotobekia/shared/helper/functions.dart';
 import 'package:kotobekia/shared/network/remote/remote.dart';
@@ -22,11 +22,12 @@ class HomeCubit extends Cubit<HomeStates> {
   static HomeCubit get(context) => BlocProvider.of(context);
   List<Widget> screens = [
     const HomeScreen(),
-    const UserAddsScreen(),
+    const UserAdsScreen(),
     AddPostScreen(),
     const ChatScreen(),
     const ProfileScreen(),
   ];
+
   HomePostsModel? homePostsModel;
   var currentIndex = 0;
   List<Post> kindergartenPosts = [];
@@ -71,8 +72,10 @@ class HomeCubit extends Cubit<HomeStates> {
         generalPosts = homePostsModel!.result[4].posts
             .where((element) => element.educationLevel == levels[4])
             .toList();
+        print(primaryPosts.length);
         emit(GetHomeDataSuccessHomeState());
       } catch (error) {
+        print(error.toString());
         if (error is SocketException) {
           emit(GetHomeDataInternetFailureHomeState(message: weakInternet));
         }
@@ -85,10 +88,9 @@ class HomeCubit extends Cubit<HomeStates> {
             error is DioException &&
                 error.type == DioExceptionType.receiveTimeout) {
           emit(GetHomeDataInternetFailureHomeState(message: weakInternet));
+        } else {
+          emit(GetHomeDataFailureHomeState());
         }
-        // else {
-        //   emit(GetHomeDataFailureHomeState());
-        // }
       }
     } else {
       emit(GetHomeDataInternetFailureHomeState(message: noInternet));

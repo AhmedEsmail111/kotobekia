@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/category/category_cubit.dart';
 import 'package:kotobekia/controller/category/category_states.dart';
-import 'package:kotobekia/models/category_model/specific_category_model.dart';
+import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/modules/category_details/category_details_screen.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 
@@ -15,14 +15,13 @@ class BuildList extends StatelessWidget {
   const BuildList({
     super.key,
     required this.data,
-    required this.categoryIndex,
   });
-  final List<Result> data;
-  final int categoryIndex;
+  final List<Post> data;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CategoryCubit, CategoryStates>(builder: (ctx, state) {
-      final categoryCubit = CategoryCubit.get(context);
+      final categoryCubit = CategoryCubit.get(ctx);
       return Expanded(
         child: ListView.builder(
           controller: categoryCubit.scrollController,
@@ -67,9 +66,11 @@ class BuildList extends StatelessWidget {
                       city: data[index].city,
                       createdAt: data[index].createdAt,
                       postId: data[index].postId,
+                      user: data[index].createdBy,
                     ),
                   ),
                 ),
+                id: data[index].id,
                 title: data[index].title,
                 image: data[index].images[0],
                 price: data[index].price,

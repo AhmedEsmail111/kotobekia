@@ -155,7 +155,7 @@
   "help":"Help",
   "report_problem":"Report a Problem",
   "log_out":"Log out",
-  "interaction":"Interaction",
+  "interaction":"chats",
   "adds":"Adds",
   "personal_profile":"Personal Profile",
   "modify_password":"Modify Password",
@@ -196,9 +196,11 @@
   "connection_restored":"Connection restored",
   "overpriced_message":"price can't be more than 45 pound for each book",
   "no_more_message":"no more data to be loaded",
-  "optional":"optional"
-  
-
+  "optional":"optional",
+  "go_register_message":"You have to register first",
+  "have_no_profile_message":"you don't have an account yet, please",
+  "search_by_title":"search about a book title",
+  "have_no_post_message":"you don't have posts yet, create one and let's spread knowledge"
 
 
 }

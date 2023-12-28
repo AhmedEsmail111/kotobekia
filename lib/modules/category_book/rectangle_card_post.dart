@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kotobekia/controller/favorites/favorites_cubit.dart';
+import 'package:kotobekia/controller/favorites/favorites_states.dart';
 import 'package:kotobekia/shared/component/home/price_container.dart';
 import 'package:kotobekia/shared/helper/functions.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
@@ -16,6 +19,7 @@ class BuildRectangleCardPost extends StatelessWidget {
   final DateTime timeSince;
   final int numberOfWatcher;
   final int numberOfBooks;
+  final String id;
 
   final void Function() onTap;
   const BuildRectangleCardPost({
@@ -30,14 +34,15 @@ class BuildRectangleCardPost extends StatelessWidget {
     required this.numberOfBooks,
     required this.onTap,
     required this.timeSince,
+    required this.id,
   });
 
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context);
     final time = DateTime.now().difference(timeSince).inDays;
-
     final timeText = time <= 10 ? locale!.days : locale!.one_day_calender;
+    bool? isFavorite;
     //  to show returned education level based on the user's locale
     final reversEducationLevels = {
       '655b4ec133dd362ae53081f7': locale.kindergarten,
@@ -75,208 +80,238 @@ class BuildRectangleCardPost extends StatelessWidget {
       'aswan': locale.aswan,
     };
     final city = reversedRegions[cityLocation];
-    return Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            color: ColorConstant.whiteColor,
+    return BlocConsumer<FavoritesCubit, FavoritesStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        final favCubit = FavoritesCubit.get(context);
+        final favePostsModel = favCubit.favPostsModel;
+        if (favePostsModel != null) {
+          isFavorite = HelperFunctions.isFav(favePostsModel.posts, id);
+        }
+        return Card(
+          elevation: 1,
+          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: const Color(0xFFC8C5C5)),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-          width: double.infinity,
-          height: 178.h,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Stack(
+          child: GestureDetector(
+            onTap: onTap,
+            child: Container(
+              decoration: BoxDecoration(
+                color: ColorConstant.whiteColor,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: const Color(0xFFC8C5C5)),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+              width: double.infinity,
+              height: 178.h,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ClipRRect(
-                    clipBehavior: Clip.hardEdge,
-                    borderRadius: BorderRadius.circular(
-                      14.sp,
-                    ),
-                    child: Image.network(
-                      width: MediaQuery.of(context).size.width / 2.6,
-                      height: 158.h,
-                      fit: BoxFit.cover,
-                      'https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg',
-                    ),
-                  ),
-                  Positioned(
-                    right: 1,
-                    bottom: 1,
-                    child: IconButton(
-                      icon: Icon(
-                        SolarIconsOutline.heart,
-                        color: ColorConstant.whiteColor,
-                        size: 20.h,
+                  Stack(
+                    children: [
+                      ClipRRect(
+                        clipBehavior: Clip.hardEdge,
+                        borderRadius: BorderRadius.circular(
+                          14.sp,
+                        ),
+                        child: Image.network(
+                          width: MediaQuery.of(context).size.width / 2.6,
+                          height: 158.h,
+                          fit: BoxFit.cover,
+                          'https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg',
+                        ),
                       ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, 'getStart');
-                      },
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                width: 8.w,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2.4,
-                    child: Text(
-                      title,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
+                      Positioned(
+                        right: 1,
+                        bottom: 1,
+                        child: IconButton(
+                          icon: Icon(
+                            isFavorite != null && isFavorite!
+                                ? SolarIconsBold.heart
+                                : SolarIconsOutline.heart,
+                            color: isFavorite != null && isFavorite!
+                                ? ColorConstant.dangerColor
+                                : const Color(0xFFD7D7D8),
+                            size: 26.w,
                           ),
-                      textDirection: HelperFunctions.isArabic(title)
-                          ? TextDirection.rtl
-                          : TextDirection.ltr,
-                    ),
+                          onPressed: () {
+                            if (HelperFunctions.hasUserRegistered()) {
+                              favCubit.handleLoveClick(
+                                status: isFavorite ?? false,
+                                postId: id,
+                              );
+                            } else {
+                              Navigator.pushNamed(context, 'getStart');
+                            }
+                          },
+                        ),
+                      )
+                    ],
                   ),
                   SizedBox(
-                    height: 6.h,
+                    width: 8.w,
                   ),
-                  Expanded(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width / 2.4,
-                      child: Text(
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        maxLines: 2,
-                        description,
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                        textDirection: HelperFunctions.isArabic(description)
-                            ? TextDirection.rtl
-                            : TextDirection.ltr,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    reversEducationLevels[educationLevel]!,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                    textDirection: HelperFunctions.isArabic(
-                            reversEducationLevels[educationLevel]!)
-                        ? TextDirection.rtl
-                        : TextDirection.ltr,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2.4,
-                    child: Row(
-                      children: [
-                        Icon(
-                          SolarIconsOutline.book,
-                          size: 10.h,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.sizeOf(context).width / 60,
-                        ),
-                        Text(
-                          '$numberOfBooks',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                  fontSize: 10.sp, fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.sizeOf(context).width / 55,
-                        ),
-                        Icon(
-                          SolarIconsOutline.eye,
-                          size: 10.h,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.sizeOf(context).width / 55,
-                        ),
-                        Text(
-                          '$numberOfWatcher',
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2.4,
+                        child: Text(
+                          title,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500,
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w700,
                                   ),
-                        ),
-                        const Spacer(),
-                        BuildPriceContainer(price: price, locale: locale),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 3,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2.4,
-                    child: Row(
-                      children: [
-                        Icon(
-                          SolarIconsOutline.mapPoint,
-                          size: 10.h,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.sizeOf(context).width / 90,
-                        ),
-                        Text(
-                          city!,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                          textDirection: HelperFunctions.isArabic(city)
+                          textDirection: HelperFunctions.isArabic(title)
                               ? TextDirection.rtl
                               : TextDirection.ltr,
                         ),
-                        SizedBox(
-                          width: MediaQuery.sizeOf(context).width / 55,
-                        ),
-                        const Spacer(),
-                        Icon(
-                          SolarIconsOutline.clockCircle,
-                          size: 10.h,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.sizeOf(context).width / 120,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 6,
+                      ),
+                      SizedBox(
+                        height: 6.h,
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 2.4,
                           child: Text(
-                            locale.time_since('$time $timeText'),
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            maxLines: 2,
+                            description,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
                                 .copyWith(
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500),
-                            overflow: TextOverflow.ellipsis,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                            textDirection: HelperFunctions.isArabic(description)
+                                ? TextDirection.rtl
+                                : TextDirection.ltr,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
+                      Text(
+                        reversEducationLevels[educationLevel]!,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                        textDirection: HelperFunctions.isArabic(
+                                reversEducationLevels[educationLevel]!)
+                            ? TextDirection.rtl
+                            : TextDirection.ltr,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2.4,
+                        child: Row(
+                          children: [
+                            Icon(
+                              SolarIconsOutline.book,
+                              size: 10.h,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width / 60,
+                            ),
+                            Text(
+                              '$numberOfBooks',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width / 55,
+                            ),
+                            Icon(
+                              SolarIconsOutline.eye,
+                              size: 10.h,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width / 55,
+                            ),
+                            Text(
+                              '$numberOfWatcher',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            ),
+                            const Spacer(),
+                            BuildPriceContainer(price: price, locale: locale),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 3,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2.4,
+                        child: Row(
+                          children: [
+                            Icon(
+                              SolarIconsOutline.mapPoint,
+                              size: 10.h,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width / 90,
+                            ),
+                            Text(
+                              city!,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                              textDirection: HelperFunctions.isArabic(city)
+                                  ? TextDirection.rtl
+                                  : TextDirection.ltr,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width / 55,
+                            ),
+                            const Spacer(),
+                            Icon(
+                              SolarIconsOutline.clockCircle,
+                              size: 10.h,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width / 120,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 6,
+                              child: Text(
+                                locale.time_since('$time $timeText'),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w500),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
                 ],
-              )
-            ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

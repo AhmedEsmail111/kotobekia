@@ -32,7 +32,7 @@ class DioHelper {
   static Future<Response> postData(
       {required url,
       Map<String, dynamic>? data,
-      String lang = 'en',
+      String lang = 'ar',
       String? token}) async {
     dio!.options.headers = {
       'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ class DioHelper {
   static Future<Response> putData(
       {required url,
       required Map<String, dynamic> data,
-      String lang = 'en',
+      String lang = 'ar',
       String? token}) async {
     dio!.options.headers = {
       'Content-Type': 'application/json',
@@ -55,20 +55,21 @@ class DioHelper {
     return await dio!.put(url, data: data);
   }
 
-  static Future<Response> sendNewPostData(
-      {required String title,
-      required String description,
-      required String price,
-      required String educationLevel,
-      required String educationType,
-      required String grade,
-      required String bookEdition,
-      required String cityLocation,
-      required String semester,
-      required List<File> images,
-      required String numberOfBooks,
-      String lang = 'en',
-      String? token}) async {
+  static Future<Response> sendNewPostData({
+    required String title,
+    required String description,
+    required String price,
+    required String educationLevel,
+    required String educationType,
+    required String grade,
+    required String bookEdition,
+    required String cityLocation,
+    required String semester,
+    required List<File> images,
+    required String numberOfBooks,
+    String lang = 'ar',
+    String? token,
+  }) async {
     dio!.options.headers = {
       'Content-Type': 'application/json',
       'lang': lang,
@@ -108,8 +109,6 @@ class DioHelper {
         ),
       );
     }
-
-    print(formData.files[1]);
 
     return await dio!.post(ApiConstant.addNewPostUrlMethod, data: formData);
   }

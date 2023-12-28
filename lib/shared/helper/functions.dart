@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:kotobekia/models/post_model/post_model.dart';
+import 'package:kotobekia/shared/constants/app/app_constant.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
 
 class HelperFunctions {
   static bool isArabic(String text) {
@@ -61,5 +64,20 @@ class HelperFunctions {
       isDeviceConnected = false;
     }
     return isDeviceConnected;
+  }
+
+  static bool hasUserRegistered() {
+    final token = CacheHelper.getData(key: AppConstant.token);
+
+    return token != null;
+  }
+
+  static bool isFav(List<Post> posts, String id) {
+    for (final post in posts) {
+      if (post.id == id) {
+        return true;
+      }
+    }
+    return false;
   }
 }

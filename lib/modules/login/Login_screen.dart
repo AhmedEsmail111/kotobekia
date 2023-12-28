@@ -137,7 +137,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.pushNamed(context,'forgetPassword');
+                              Navigator.pushNamed(context, 'forgetPassword');
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -145,7 +145,8 @@ class LoginScreen extends StatelessWidget {
                                 Text(
                                   locale.forgot_password,
                                   style: font.displayMedium!.copyWith(
-                                      fontWeight: FontWeight.w600, fontSize: 14),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14),
                                 )
                               ],
                             ),
@@ -208,7 +209,8 @@ class LoginScreen extends StatelessWidget {
                 duration: const Duration(seconds: 2));
           } else {
             Navigator.pushNamed(context, 'homeLayout');
-            CacheHelper.saveData(key: AppConstant.token, value: state.userModel.token);
+            CacheHelper.saveData(
+                key: AppConstant.token, value: state.userModel.token);
             CacheHelper.saveData(key: AppConstant.otpScreen, value: 1);
           }
         } else if (state is FailedUserLoginState) {

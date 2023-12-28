@@ -27,6 +27,7 @@ class BuildDefaultTextField extends StatelessWidget {
   final void Function(String)? onChange;
   final bool withEyeVisible;
   final bool? isEnabled;
+  final String? initialFieldValue;
   const BuildDefaultTextField({
     super.key,
     this.cubit,
@@ -49,6 +50,7 @@ class BuildDefaultTextField extends StatelessWidget {
     this.onChange,
     this.isEnabled,
     this.maxLines,
+    this.initialFieldValue,
   });
 
   @override
@@ -73,6 +75,7 @@ class BuildDefaultTextField extends StatelessWidget {
                   color: ColorConstant.backgroundColor,
                   borderRadius: BorderRadius.circular(15)),
               child: TextFormField(
+                  initialValue: initialFieldValue,
                   enabled: isEnabled,
                   onChanged: onChange,
                   maxLength: maxLenght,

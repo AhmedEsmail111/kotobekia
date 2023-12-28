@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kotobekia/controller/favorites/favorites_cubit.dart';
+import 'package:kotobekia/controller/favorites/favorites_states.dart';
 import 'package:kotobekia/shared/component/home/price_container.dart';
 import 'package:kotobekia/shared/helper/functions.dart';
 import 'package:solar_icons/solar_icons.dart';
@@ -10,6 +13,7 @@ import '../../styles/colors.dart';
 // card that contain about post books
 
 class BuildPosts extends StatelessWidget {
+  final String id;
   final String title;
   final String description;
   final int price;
@@ -50,13 +54,14 @@ class BuildPosts extends StatelessWidget {
     required this.onTap,
     this.cardBorder,
     required this.timeSince,
+    required this.id,
   });
 
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context);
     final time = DateTime.now().difference(timeSince).inDays;
-
+    bool? isFavorite;
     final timeText = time <= 10 ? locale!.days : locale!.one_day_calender;
     //  to show returned education level based on the user's locale
     final reversEducationLevels = {
@@ -95,7 +100,7 @@ class BuildPosts extends StatelessWidget {
       'luxor': locale.luxor,
       'aswan': locale.aswan,
     };
-    final city = reversedRegions[cityLocation];
+    final city = reversedRegions[cityLocation]!;
 
     return Card(
       elevation: cardElevation,
@@ -117,34 +122,64 @@ class BuildPosts extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Stack(children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                    14.sp,
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      14.sp,
+                    ),
+                    child: Image.network(
+                      width: imageWidth,
+                      height: imageHeight,
+                      fit: BoxFit.cover,
+                      'https://img.freepik.com/free-vector/hand-drawn-flat-design-stack-books-illustration_23-2149341898.jpg?w=740&t=st=1701695516~exp=1701696116~hmac=1ee8abb2afd856098988ec791155a2d564f92a9222648a3278485002899c990e',
+                    ),
                   ),
-                  child: Image.network(
-                    width: imageWidth,
-                    height: imageHeight,
-                    fit: BoxFit.cover,
-                    'https://img.freepik.com/free-vector/hand-drawn-flat-design-stack-books-illustration_23-2149341898.jpg?w=740&t=st=1701695516~exp=1701696116~hmac=1ee8abb2afd856098988ec791155a2d564f92a9222648a3278485002899c990e',
+                  BlocConsumer<FavoritesCubit, FavoritesStates>(
+                    listener: (context, state) {},
+                    builder: (context, state) {
+                      final favCubit = FavoritesCubit.get(context);
+                      final favePostsModel = favCubit.favPostsModel;
+                      if (favePostsModel != null) {
+                        isFavorite =
+                            HelperFunctions.isFav(favePostsModel.posts, id);
+                      }
+                      return Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: IconButton(
+                          style: IconButton.styleFrom(
+                              // backgroundColor:
+                              //     const Color(0xFFD7D7D8).withOpacity(0.4),
+                              ),
+                          icon: Icon(
+                            isFavorite != null && isFavorite!
+                                ? SolarIconsBold.heart
+                                : SolarIconsOutline.heart,
+                            color: isFavorite != null && isFavorite!
+                                ? ColorConstant.dangerColor
+                                : const Color(0xFFD7D7D8),
+                            size: 26.w,
+                          ),
+                          onPressed: state is AddToFavLoadingState ||
+                                  state is RemoveFromFavLoadingState
+                              ? null
+                              : () {
+                                  if (HelperFunctions.hasUserRegistered()) {
+                                    FavoritesCubit.get(context).handleLoveClick(
+                                      status: isFavorite ?? false,
+                                      postId: id,
+                                    );
+                                  } else {
+                                    Navigator.pushNamed(context, 'getStart');
+                                  }
+                                },
+                        ),
+                      );
+                    },
                   ),
-                ),
-                Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: IconButton(
-                      style: IconButton.styleFrom(
-                          backgroundColor:
-                              const Color(0xFFD7D7D8).withOpacity(0.5)),
-                      icon: const Icon(
-                        SolarIconsOutline.heart,
-                        color: ColorConstant.whiteColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, 'getStart');
-                      },
-                    ))
-              ]),
+                ],
+              ),
               Container(
                 alignment: HelperFunctions.isArabic(title)
                     ? Alignment.centerRight
@@ -245,7 +280,7 @@ class BuildPosts extends StatelessWidget {
                     width: 2.w,
                   ),
                   Text(
-                    city!,
+                    city,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontSize: 10.sp,
                           fontWeight: FontWeight.w500,
@@ -288,6 +323,8 @@ class BuildPosts extends StatelessWidget {
     );
   }
 }
+
+
 
 // custimize the radius and the elevation
 // add the logic to home screen

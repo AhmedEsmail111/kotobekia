@@ -4,18 +4,21 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/home/home_cubit.dart';
 import 'package:kotobekia/controller/home/home_state.dart';
+import 'package:kotobekia/shared/constants/app/app_constant.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
 class LayoutScreen extends StatelessWidget {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  const LayoutScreen({super.key});
 
-  LayoutScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final w = MediaQuery.of(context).size.width;
-    // ignore: unused_local_variable
+    print(CacheHelper.getData(key: AppConstant.token));
     final scaffoldKey = GlobalKey<ScaffoldState>();
+    final w = MediaQuery.of(context).size.width;
+    // // ignore: unused_local_variable
+    // final scaffoldKey = GlobalKey<ScaffoldState>();
     final h = MediaQuery.of(context).size.height;
 
     final locale = AppLocalizations.of(context);

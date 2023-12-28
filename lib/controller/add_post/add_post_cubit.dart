@@ -96,6 +96,7 @@ class AddPostCubit extends Cubit<AddPostStates> {
           print(response.data);
         }
       } catch (error) {
+        print(error.toString());
         isAddingPost = false;
         if (error is SocketException) {
           emit(SendNewPostInternetFailure(message: weakInternet));
@@ -109,6 +110,8 @@ class AddPostCubit extends Cubit<AddPostStates> {
             error is DioException &&
                 error.type == DioExceptionType.receiveTimeout) {
           emit(SendNewPostInternetFailure(message: weakInternet));
+        } else {
+          emit(SendNewPostFailure());
         }
       }
     } else {

@@ -115,7 +115,7 @@
   "male":"ذكر",
   "female":"أنثى",
   "full_name_hint":"احمد محمد علي",
-  "have_account":"؟لديك حساب",
+  "have_account":"لديك حساب بالفعل؟",
   "welcome_back":"مرحبا بعودتك يا صديقي.",
   "new_good":"يللا بينا نبدأ خير جديد ؟",
   "forgot_password":"هل نسيت الرقم السري ؟",
@@ -125,7 +125,7 @@
   "enter_otp":"أدخل رمز OTP",
   "otp_message":"تم إرسال كود OTP مكون من 4 ارقام علي بريدك الإلكتروني.",
   "enter_code":"قم بإدخال الكود:",
-  "have_no_otp":"لم تتلقى رمز OTP؟",
+  "have_no_otp":"لم تتلقى رمز؟ OTP",
   "resend_otp":"إعادة إرسال الكود",
   "confirm":"تأكيد",
   "done_verifying": "تم التحقق",
@@ -195,7 +195,11 @@
   "connection_restored":"تم إعادة الأتصال",
   "overpriced_message":"السعر ينبغي أن لا يزيد عن 45 جنيها لكل كتاب",
   "no_more_message":"لا يوجد إعلانات أخرى",
-  "optional":"إختياري"
+  "optional":"إختياري",
+  "go_register_message":"من فضلك قم بتسجيل الدخول أولا",
+  "have_no_profile_message":"عذرا أنت لا تمتلك حساب الى الآن  ",
+  "search_by_title":"ابحث عن اسم كتاب",
+  "have_no_post_message":"ليس لديك إعلانات حتى الآن, ساهم في نشر المعرفة"
 
  
 }

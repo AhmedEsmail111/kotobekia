@@ -6,16 +6,20 @@ class BuildProfileTile extends StatelessWidget {
   final IconData icon;
   final String text;
   final Color iconColor;
-  final bool switchIcon;
+  final bool withSwitchIcon;
   final void Function()? onClick;
+  final void Function(bool status)? onSwitchToggled;
+  final bool? switchStatus;
 
   const BuildProfileTile({
     super.key,
     required this.icon,
     required this.text,
-    required this.switchIcon,
+    required this.withSwitchIcon,
     required this.onClick,
     required this.iconColor,
+    this.onSwitchToggled,
+    this.switchStatus,
   });
   @override
   Widget build(BuildContext context) {
@@ -33,10 +37,12 @@ class BuildProfileTile extends StatelessWidget {
                   : Colors.black,
             ),
       ),
-      trailing: switchIcon
+      trailing: withSwitchIcon
           ? Switch(
-              value: false,
-              onChanged: (status) {},
+              value: switchStatus!,
+              onChanged: withSwitchIcon ? onSwitchToggled : null,
+              activeTrackColor: ColorConstant.secondaryColor,
+              inactiveTrackColor: ColorConstant.midGrayColor,
             )
           : null,
     );

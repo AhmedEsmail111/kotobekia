@@ -17,6 +17,7 @@ import 'package:kotobekia/controller/language/language_cubit.dart';
 import 'package:kotobekia/controller/language/language_states.dart';
 import 'package:kotobekia/controller/otp/otp_cubit.dart';
 import 'package:kotobekia/controller/profile/profile_cubit.dart';
+import 'package:kotobekia/controller/user_ads/user_ads_cubit.dart';
 import 'package:kotobekia/l10n/l10n.dart';
 import 'package:kotobekia/layout/home_layout.dart';
 import 'package:kotobekia/modules/change_language/change_language.dart';
@@ -28,6 +29,7 @@ import 'package:kotobekia/modules/get_start/get_start_screen.dart';
 import 'package:kotobekia/modules/login/Login_screen.dart';
 import 'package:kotobekia/modules/modify_profile/modify_profile.dart';
 import 'package:kotobekia/modules/otp/otp_screen.dart';
+import 'package:kotobekia/modules/search/search_screen.dart';
 import 'package:kotobekia/modules/verified_email/verified_email_screen.dart';
 import 'package:kotobekia/shared/component/snakbar_message.dart';
 import 'package:kotobekia/shared/constants/app/app_constant.dart';
@@ -74,6 +76,9 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthenticationCubit(),
         ),
         BlocProvider(
+          create: (ctx) => FavoritesCubit()..getFavPosts(),
+        ),
+        BlocProvider(
           create: (context) => ChatCubit()
             ..getUsersConversation(
                 token:
@@ -95,9 +100,6 @@ class MyApp extends StatelessWidget {
           create: (ctx) => ProfileCubit(),
         ),
         BlocProvider(
-          create: (ctx) => FavoritesCubit(),
-        ),
-        BlocProvider(
           create: (ctx) => CategoryDetailsCubit(),
         ),
         BlocProvider(
@@ -106,6 +108,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (ctx) => InternetCubit()..checkConnectivity(),
         ),
+        BlocProvider(
+          create: (ctx) => UserAddsCubit(),
+        )
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),
@@ -120,6 +125,7 @@ class MyApp extends StatelessWidget {
               return MaterialApp(
                   routes: {
                     'homeLayout': (context) => const LayoutScreen(),
+                    'searchScreen': (context) => const SearchScreen(),
                     'getStart': (context) => const GetStartScreen(),
                     'createAccount': (context) => const CreateAccountScreen(),
                     'login': (context) => const LoginScreen(),

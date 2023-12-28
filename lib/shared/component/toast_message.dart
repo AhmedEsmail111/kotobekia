@@ -4,6 +4,7 @@ import 'package:kotobekia/shared/styles/colors.dart';
 
 void buildToastMessage(
     {required String message, required ToastGravity gravity}) {
+  Fluttertoast.cancel();
   Fluttertoast.showToast(
       msg: message,
       toastLength: Toast.LENGTH_SHORT,

@@ -14,8 +14,7 @@ class BuildPalestine extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      height: 35.h,
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 2.w),
       color: const Color(0xFFECECEC),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

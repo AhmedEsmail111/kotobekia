@@ -1,12 +1,11 @@
-
 class UserModel {
   String? message;
   List<User>? user;
-  String ?token;
+  String? token;
 
-  UserModel.fromJson(Map<String,dynamic>json) {
-    message = json['message']??json['msgError'];
-    token=json['Token']??json['token'];
+  UserModel.fromJson(Map<String, dynamic> json) {
+    message = json['message'] ?? json['msgError'];
+    token = json['Token'] ?? json['token'];
     dynamic userJson = json['user'];
     if (userJson is List<dynamic>) {
       user = (json['user'] as List<dynamic>?)
@@ -15,9 +14,7 @@ class UserModel {
     } else if (userJson is Map<String, dynamic>) {
       user = [User.fromJson(userJson)];
     }
-
   }
-
 }
 
 class User {
@@ -41,7 +38,6 @@ class User {
   int? iV;
   String? createdAt;
   String? updatedAt;
-
 
   User.fromJson(Map<String, dynamic> json) {
     fullName = json['fullName'];
@@ -75,5 +71,4 @@ class User {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
-
 }

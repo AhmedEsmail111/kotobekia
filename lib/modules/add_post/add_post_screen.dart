@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kotobekia/controller/add_post/add_post_cubit.dart';
 import 'package:kotobekia/controller/add_post/add_post_states.dart';
 import 'package:kotobekia/models/post_model/post_model.dart';
@@ -12,6 +13,10 @@ import 'package:kotobekia/shared/component/authentication/default_button_in_app.
 import 'package:kotobekia/shared/component/authentication/default_text_form_in_app.dart';
 import 'package:kotobekia/shared/component/dialogue_message.dart';
 import 'package:kotobekia/shared/component/snakbar_message.dart';
+import 'package:kotobekia/shared/component/toast_message.dart';
+import 'package:kotobekia/shared/constants/app/app_constant.dart';
+import 'package:kotobekia/shared/helper/functions.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
@@ -680,24 +685,31 @@ class AddPostScreen extends StatelessWidget {
                           onTap: () {
                             if (formKey.currentState!.validate()) {
                               formKey.currentState!.save();
-                              submit(
-                                addPostCubit: addPostCubit,
-                                context: context,
-                                title: addPostCubit.enteredTitle,
-                                description: addPostCubit.enteredDescription,
-                                price: addPostCubit.priceIndex == 0
-                                    ? addPostCubit.enteredPrice
-                                    : '0',
-                                educationLevel: addPostCubit.educationLevel,
-                                educationType:
-                                    addPostCubit.enteredEducationType,
-                                grade: addPostCubit.enteredGrade,
-                                region: addPostCubit.enteredRegion,
-                                semester: addPostCubit.enteredSemester,
-                                bookEdition: addPostCubit.enteredBookEdition,
-                                booksCount: addPostCubit.enteredBooksCount,
-                                locale: locale,
-                              );
+                              if (HelperFunctions.hasUserRegistered()) {
+                                submit(
+                                  addPostCubit: addPostCubit,
+                                  context: context,
+                                  title: addPostCubit.enteredTitle,
+                                  description: addPostCubit.enteredDescription,
+                                  price: addPostCubit.priceIndex == 0
+                                      ? addPostCubit.enteredPrice
+                                      : '0',
+                                  educationLevel: addPostCubit.educationLevel,
+                                  educationType:
+                                      addPostCubit.enteredEducationType,
+                                  grade: addPostCubit.enteredGrade,
+                                  region: addPostCubit.enteredRegion,
+                                  semester: addPostCubit.enteredSemester,
+                                  bookEdition: addPostCubit.enteredBookEdition,
+                                  booksCount: addPostCubit.enteredBooksCount,
+                                  locale: locale,
+                                );
+                              } else {
+                                buildToastMessage(
+                                  message: locale.go_register_message,
+                                  gravity: ToastGravity.CENTER,
+                                );
+                              }
                             }
                           },
                           text: locale.submit,
@@ -763,22 +775,22 @@ class AddPostScreen extends StatelessWidget {
     print('bookEdition $bookEdition');
 
     addPostCubit.sendNewPost(
-        title: title,
-        description: description,
-        price: price,
-        educationLevel: educationLevel,
-        educationType: educationType,
-        grade: grade,
-        cityLocation: region,
-        semester: semester,
-        images: addPostCubit.selectedImages,
-        bookEdition: bookEdition,
-        numberOfBooks: booksCount,
-        context: context,
-        noInternet: locale.no_internet,
-        weakInternet: locale.weak_internet,
-        token:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzRlMDU4ODVjZDBkYTczZmRhYmE5MiIsImZ1bGxOYW1lIjoiTW9qYW5hZCIsImVtYWlsIjoibW9qYW5hZEBrb3RvYmVraWEuY29tIiwicm9sZSI6InVzZXIiLCJpc0NvbmZpcm1lZCI6ZmFsc2UsImlhdCI6MTcwMjE1ODQyNH0.j0VMeWdxwoy7idBLUI-jvWD0r38MS0o_s4goAL_Gp4k');
+      title: title,
+      description: description,
+      price: price,
+      educationLevel: educationLevel,
+      educationType: educationType,
+      grade: grade,
+      cityLocation: region,
+      semester: semester,
+      images: addPostCubit.selectedImages,
+      bookEdition: bookEdition,
+      numberOfBooks: booksCount,
+      context: context,
+      noInternet: locale.no_internet,
+      weakInternet: locale.weak_internet,
+      token: CacheHelper.getData(key: AppConstant.token),
+    );
   }
 
   bool checkPrice({required String numberOfBooks, required String bookPrice}) {

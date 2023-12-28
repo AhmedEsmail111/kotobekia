@@ -11,6 +11,8 @@ import 'package:kotobekia/shared/component/back_button.dart';
 import 'package:kotobekia/shared/component/home/dignity_flag.dart';
 import 'package:kotobekia/shared/component/home/search_container.dart';
 import 'package:kotobekia/shared/component/home/text_placeholder.dart';
+import 'package:kotobekia/shared/constants/app/app_constant.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
@@ -71,19 +73,23 @@ class CategoryBooksScreen extends StatelessWidget {
               ),
               actions: [
                 IconButton(
+                  padding:
+                      CacheHelper.getData(key: AppConstant.languageKey) == 'ar'
+                          ? EdgeInsets.only(left: 8.w)
+                          : EdgeInsets.only(right: 8.w),
                   onPressed: () {},
                   icon: Icon(
                     SolarIconsOutline.tuning_2,
                     size: 19.w,
                   ),
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    SolarIconsOutline.bell,
-                    size: 19.w,
-                  ),
-                ),
+                // IconButton(
+                //   onPressed: () {},
+                //   icon: Icon(
+                //     SolarIconsOutline.bell,
+                //     size: 19.w,
+                //   ),
+                // ),
               ],
               title: const BuildSearchContainer(),
             ),
@@ -143,10 +149,8 @@ class CategoryBooksScreen extends StatelessWidget {
                   categoryCubit.isGrid
                       ? BuildGrid(
                           data: categoryCubit.posts,
-                          categoryIndex: categoryIndex,
                         )
                       : BuildList(
-                          categoryIndex: categoryIndex,
                           data: categoryCubit.posts,
                         ),
                 ],

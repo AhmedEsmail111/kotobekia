@@ -9,7 +9,9 @@ class BuildSearchContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context);
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, 'searchScreen');
+      },
       child: Container(
         width: double.infinity,
         height: 38.h,

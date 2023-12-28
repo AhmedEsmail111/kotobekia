@@ -9,7 +9,7 @@ final levels = [
 
 class HomePostsModel {
   final String message;
-  final List<Outcome> result;
+  final List<Result> result;
 
   HomePostsModel({
     required this.message,
@@ -19,23 +19,23 @@ class HomePostsModel {
   factory HomePostsModel.fromJson(Map<String, dynamic> json) => HomePostsModel(
         message: json["message"],
         result: json["result"] != null
-            ? List<Outcome>.from(json["result"].map((x) => Outcome.fromJson(x)))
+            ? List<Result>.from(json["result"].map((x) => Result.fromJson(x)))
             : [],
       );
 }
 
-class Outcome {
+class Result {
   final String id;
   final String educationLevel;
   final List<Post> posts;
 
-  Outcome({
+  Result({
     required this.id,
     required this.educationLevel,
     required this.posts,
   });
 
-  factory Outcome.fromJson(Map<String, dynamic> json) => Outcome(
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["_id"],
         educationLevel: json["educationLevel"],
         posts: json["posts"] != null
@@ -45,6 +45,7 @@ class Outcome {
 }
 
 class Post {
+  final bool reported;
   final String id;
   final String title;
   final String description;
@@ -66,8 +67,10 @@ class Post {
   final DateTime createdAt;
   final DateTime? updatedAt;
   final int postId;
+  final CreatedBy createdBy;
 
   Post({
+    required this.reported,
     required this.id,
     required this.title,
     required this.description,
@@ -89,9 +92,11 @@ class Post {
     required this.createdAt,
     this.updatedAt,
     required this.postId,
+    required this.createdBy,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
+        reported: json["reported"] ?? false,
         id: json["_id"],
         title: json["title"],
         description: json["description"],
@@ -117,5 +122,33 @@ class Post {
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         postId: json["postId"],
+        createdBy: CreatedBy.fromJson(json["createdBy"]),
+      );
+}
+
+class CreatedBy {
+  final String id;
+  final String fullName;
+  final String email;
+  final String gender;
+  final bool isVerified;
+  final bool isBlocked;
+
+  CreatedBy({
+    required this.id,
+    required this.fullName,
+    required this.email,
+    required this.gender,
+    required this.isVerified,
+    required this.isBlocked,
+  });
+
+  factory CreatedBy.fromJson(Map<String, dynamic> json) => CreatedBy(
+        id: json["_id"],
+        fullName: json["fullName"],
+        email: json["email"],
+        gender: json["gender"],
+        isVerified: json["isVerified"],
+        isBlocked: json["isBlocked"],
       );
 }

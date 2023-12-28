@@ -4,11 +4,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/category_details/category_details_cubit.dart';
 import 'package:kotobekia/controller/category_details/category_details_states.dart';
+import 'package:kotobekia/controller/favorites/favorites_cubit.dart';
+import 'package:kotobekia/controller/favorites/favorites_states.dart';
+import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/modules/category_details/contact_card.dart';
 import 'package:kotobekia/modules/category_details/details_card.dart';
 import 'package:kotobekia/modules/category_details/important_info_flag.dart';
 import 'package:kotobekia/shared/component/back_button.dart';
 import 'package:kotobekia/shared/component/home/add_section.dart';
+import 'package:kotobekia/shared/helper/functions.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
@@ -18,8 +22,6 @@ import 'row_details.dart';
 class CategoryDetailsScreen extends StatelessWidget {
   const CategoryDetailsScreen({
     super.key,
-    // required this.postIndex,
-    // required this.categoryIndex,
     required this.id,
     required this.title,
     required this.description,
@@ -41,6 +43,7 @@ class CategoryDetailsScreen extends StatelessWidget {
     required this.createdAt,
     this.updatedAt,
     required this.postId,
+    required this.user,
   });
   // final int postIndex;
   // final int categoryIndex;
@@ -65,9 +68,11 @@ class CategoryDetailsScreen extends StatelessWidget {
   final DateTime createdAt;
   final DateTime? updatedAt;
   final int postId;
+  final CreatedBy user;
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context);
+    bool? isFavorite;
     //  to show returned education level based on the user's locale
     final reversEducationLevels = {
       '655b4ec133dd362ae53081f7': locale!.kindergarten,
@@ -114,6 +119,7 @@ class CategoryDetailsScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyLarge,
               )),
           body: SingleChildScrollView(
+            // physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
                 Container(
@@ -154,32 +160,53 @@ class CategoryDetailsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Positioned(
-                        right: 0,
-                        bottom: 0,
-                        width: 60.w,
-                        height: 50.h,
-                        child: InkWell(
-                          onTap: () {
-                            categoryDetailsCubit.handleLoveClick(
-                              status: false,
-                              postId: id,
-                            );
-                            // Navigator.pushNamed(context, 'getStart');
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: const Color(0xFFD7D7D8).withOpacity(0.5),
-                              // const Color.fromARGB(210, 243, 243, 239),
+                      BlocBuilder<FavoritesCubit, FavoritesStates>(
+                        builder: (ctx, state) {
+                          final favCubit = FavoritesCubit.get(context);
+                          final favePostsModel = favCubit.favPostsModel;
+                          if (favePostsModel != null) {
+                            isFavorite =
+                                HelperFunctions.isFav(favePostsModel.posts, id);
+                          }
+                          return Positioned(
+                            right: 0,
+                            bottom: 0,
+                            width: 60.w,
+                            height: 50.h,
+                            child: InkWell(
+                              onTap: () {
+                                if (HelperFunctions.hasUserRegistered()) {
+                                  FavoritesCubit.get(ctx).handleLoveClick(
+                                    status: isFavorite ?? false,
+                                    postId: id,
+                                  );
+                                } else {
+                                  Navigator.pushNamed(context, 'getStart');
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color:
+                                      const Color(0xFFD7D7D8).withOpacity(0.5),
+                                ),
+                                margin: EdgeInsets.all(8.w),
+                                width: 42.w,
+                                height: 30.h,
+                                alignment: Alignment.center,
+                                child: Icon(
+                                  isFavorite != null && isFavorite!
+                                      ? SolarIconsBold.heart
+                                      : SolarIconsOutline.heart,
+                                  color: isFavorite != null && isFavorite!
+                                      ? ColorConstant.dangerColor
+                                      : const Color(0xFFD7D7D8),
+                                  size: 26.w,
+                                ),
+                              ),
                             ),
-                            margin: EdgeInsets.all(8.w),
-                            width: 42.w,
-                            height: 30.h,
-                            alignment: Alignment.center,
-                            child: const Icon(SolarIconsOutline.heart),
-                          ),
-                        ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -224,12 +251,12 @@ class CategoryDetailsScreen extends StatelessWidget {
                 BuildRowDetails(
                   isLast: false,
                   firstText: locale.grade,
-                  secondText: reversedGrades[grade]!,
+                  secondText: reversedGrades[grade] ?? '',
                 ),
                 BuildRowDetails(
                   isLast: false,
                   firstText: locale.education_type,
-                  secondText: reversedEducationType[educationType]!,
+                  secondText: reversedEducationType[educationType] ?? '',
                 ),
                 BuildRowDetails(
                   isLast: false,
@@ -238,17 +265,17 @@ class CategoryDetailsScreen extends StatelessWidget {
                 ),
                 BuildRowDetails(
                   firstText: locale.term,
-                  secondText: reversedSemesters[semester]!,
+                  secondText: reversedSemesters[semester] ?? '',
                 ),
                 SizedBox(
                   height: 4.h,
                 ),
                 BuildInteractionCard(
-                  postIdUrl: id,
+                  postId: id,
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                  child: const BuildContactCard(name: 'أمجد حسام الدين'),
+                  child: BuildContactCard(name: user.fullName),
                 ),
                 const BuildAddsSection(
                   imageUrl:

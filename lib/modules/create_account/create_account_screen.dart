@@ -44,7 +44,8 @@ class CreateAccountScreen extends StatelessWidget {
           } else {
             Navigator.pushNamed(context, 'otp',
                 arguments: emailController.text);
-            CacheHelper.saveData(key: AppConstant.token, value: state.userModel.token);
+            CacheHelper.saveData(
+                key: AppConstant.token, value: state.userModel.token);
             CacheHelper.saveData(key: AppConstant.otpScreen, value: 1);
           }
         } else if (state is FailedUserCreateAccountState) {
@@ -108,7 +109,7 @@ class CreateAccountScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           BuildDefaultTextField(
-                            withEyeVisible: false,
+                              withEyeVisible: false,
                               backGroundColor: Colors.white,
                               maxLenght: 100,
                               controller: nameController,
@@ -130,7 +131,7 @@ class CreateAccountScreen extends StatelessWidget {
                             height: h / 52,
                           ),
                           BuildDefaultTextField(
-                            withEyeVisible: false,
+                              withEyeVisible: false,
                               backGroundColor: Colors.white,
                               maxLenght: 320,
                               controller: emailController,
@@ -156,7 +157,7 @@ class CreateAccountScreen extends StatelessWidget {
                             height: h / 52,
                           ),
                           BuildDefaultTextField(
-                            withEyeVisible: true,
+                              withEyeVisible: true,
                               cubit: cubit,
                               backGroundColor: Colors.white,
                               maxLenght: 128,
@@ -182,7 +183,7 @@ class CreateAccountScreen extends StatelessWidget {
                             height: h / 52,
                           ),
                           BuildDefaultTextField(
-                            withEyeVisible: true,
+                              withEyeVisible: true,
                               cubit: cubit,
                               backGroundColor: Colors.white,
                               maxLenght: 128,
@@ -255,7 +256,7 @@ class CreateAccountScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               BuildDefaultTextField(
-                                withEyeVisible: false,
+                                  withEyeVisible: false,
                                   backGroundColor: Colors.white,
                                   maxLenght: 2,
                                   inputType: TextInputType.number,
@@ -341,7 +342,8 @@ class CreateAccountScreen extends StatelessWidget {
                                 )
                               : const Center(
                                   child: CircularProgressIndicator(
-                                      color: ColorConstant.primaryColor)),
+                                      color: ColorConstant.primaryColor),
+                                ),
                           SizedBox(
                             height: h / 30,
                           ),
