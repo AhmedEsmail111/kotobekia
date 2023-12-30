@@ -208,7 +208,7 @@ class LoginScreen extends StatelessWidget {
                 message: state.userModel.message.toString(),
                 duration: const Duration(seconds: 2));
           } else {
-            Navigator.pushNamed(context, 'homeLayout');
+            Navigator.pushReplacementNamed(context, 'homeLayout');
             CacheHelper.saveData(
                 key: AppConstant.token, value: state.userModel.token);
             CacheHelper.saveData(key: AppConstant.otpScreen, value: 1);

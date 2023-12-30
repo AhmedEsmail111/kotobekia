@@ -7,10 +7,10 @@ import 'package:kotobekia/shared/helper/functions.dart';
 import 'package:kotobekia/shared/network/local/local.dart';
 import 'package:kotobekia/shared/network/remote/remote.dart';
 
-class UserAddsCubit extends Cubit<UserAddsStates> {
-  UserAddsCubit() : super(InitialUserAddsState());
+class UserAdsCubit extends Cubit<UserAdsStates> {
+  UserAdsCubit() : super(InitialUserAddsState());
 
-  static UserAddsCubit get(context) => BlocProvider.of(context);
+  static UserAdsCubit get(context) => BlocProvider.of(context);
   UserAdsModel? userAdsModel;
   void getUserPost() async {
     if (await HelperFunctions.hasConnection() &&
@@ -23,6 +23,7 @@ class UserAddsCubit extends Cubit<UserAddsStates> {
         );
 
         if (response.statusCode == 200) {
+          print(response.data);
           userAdsModel = UserAdsModel.fromJson(response.data);
           emit(GetUserAddsSuccessState());
           print('got user add successfully');

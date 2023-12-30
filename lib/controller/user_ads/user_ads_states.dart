@@ -1,11 +1,11 @@
-abstract class UserAddsStates {}
+abstract class UserAdsStates {}
 
-class InitialUserAddsState extends UserAddsStates {}
+class InitialUserAddsState extends UserAdsStates {}
 
-class GetUserAddsLoadingState extends UserAddsStates {}
+class GetUserAddsLoadingState extends UserAdsStates {}
 
-class GetUserAddsSuccessState extends UserAddsStates {}
+class GetUserAddsSuccessState extends UserAdsStates {}
 
-class GetUserAddsFailureState extends UserAddsStates {}
+class GetUserAddsFailureState extends UserAdsStates {}
 
-class GetUserAddsInternetFailureState extends UserAddsStates {}
+class GetUserAddsInternetFailureState extends UserAdsStates {}

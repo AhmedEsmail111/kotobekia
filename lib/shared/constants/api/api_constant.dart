@@ -17,4 +17,6 @@ class ApiConstant {
   static const getUserPostsMethodUrl = '/v1/user/my-posts';
   static const getSpecificUserMethodUrl = '/v1/user/specific/';
   static String getMessage(String id) => '/v1/messages/get/$id';
+  static const reportMethodUrl = '/v1/reports/report';
+  static const updateUserMethodUrl = '/v1/user/update/';
 }

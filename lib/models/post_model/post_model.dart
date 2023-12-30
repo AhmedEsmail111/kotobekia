@@ -57,7 +57,7 @@ class Post {
   final String educationLevel;
   final String? postStatus;
   final int views;
-  final String? feedback;
+  final String feedback;
   final int numberOfBooks;
   final String semester;
   final String educationType;
@@ -82,7 +82,7 @@ class Post {
     required this.educationLevel,
     this.postStatus,
     required this.views,
-    this.feedback,
+    required this.feedback,
     required this.numberOfBooks,
     required this.semester,
     required this.educationType,
@@ -122,7 +122,15 @@ class Post {
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         postId: json["postId"],
-        createdBy: CreatedBy.fromJson(json["createdBy"]),
+        createdBy: json["createdBy"] is Map<String, dynamic>
+            ? CreatedBy.fromJson(json["createdBy"])
+            : CreatedBy(
+                id: 'id',
+                fullName: 'fullName',
+                email: 'email',
+                gender: 'gender',
+                isVerified: false,
+                isBlocked: false),
       );
 }
 

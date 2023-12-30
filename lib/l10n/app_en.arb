@@ -198,7 +198,7 @@
   "no_more_message":"no more data to be loaded",
   "optional":"optional",
   "go_register_message":"You have to register first",
-  "have_no_profile_message":"you don't have an account yet, please",
+  "have_no_profile_message":"you don't have an account yet.",
   "search_by_title":"search about a book title",
   "have_no_post_message":"you don't have posts yet, create one and let's spread knowledge"
 

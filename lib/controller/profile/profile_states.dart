@@ -23,3 +23,9 @@ class GetUserDataSuccessState extends ProfileStates {}
 class GetUserDataFailureState extends ProfileStates {}
 
 class UserChangingGenderState extends ProfileStates {}
+
+class UpdateUserLoadingState extends ProfileStates {}
+
+class UpdateUserSuccessState extends ProfileStates {}
+
+class UpdateUserFailureState extends ProfileStates {}

@@ -1,6 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kotobekia/controller/category_details/category_details_states.dart';
+import 'package:kotobekia/shared/constants/api/api_constant.dart';
 import 'package:kotobekia/shared/constants/app/app_constant.dart';
+import 'package:kotobekia/shared/helper/functions.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
+import 'package:kotobekia/shared/network/remote/remote.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,6 +24,34 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsStates> {
       await launchUrl(phoneUrl);
     } else {
       print('Could not launch $phoneUrl');
+    }
+  }
+
+  void reportPost(String postId, String userId, String feedback) async {
+    if (HelperFunctions.hasUserRegistered()) {
+      try {
+        emit(ReportPostLoadingState());
+        final response = await DioHelper.postData(
+            url: ApiConstant.reportMethodUrl,
+            data: {
+              "report_type": "post",
+              "report_id": postId,
+              "reported_user_id": userId,
+              "user_feedback": feedback,
+            },
+            token: CacheHelper.getData(key: AppConstant.token));
+
+        if (response.statusCode == 200) {
+          print('sent report successfully');
+          emit(ReportPostSuccessState());
+        } else {
+          print('error sending report');
+          emit(ReportPostFailureState());
+        }
+      } catch (error) {
+        print(error);
+        emit(ReportPostFailureState());
+      }
     }
   }
 }

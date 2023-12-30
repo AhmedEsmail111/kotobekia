@@ -17,14 +17,16 @@ class ProfileCubit extends Cubit<ProfileStates> {
 
   IdentityUserModel? identityUserModel;
   void getIdentityUser({
-    required String token,
+    required String? token,
   }) async {
-    if (hasAccount) {
+    if (token != null) {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
       identityUserModel = IdentityUserModel.fromJson(decodedToken);
       if (identityUserModel != null) {
         await CacheHelper.saveData(
             key: AppConstant.userId, value: identityUserModel!.id);
+        await CacheHelper.saveData(
+            key: AppConstant.userGender, value: identityUserModel!.gender);
       }
       print(CacheHelper.getData(key: AppConstant.userId));
       emit(SuccessGetIdentityUserState(identityUserModel!));
@@ -36,6 +38,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
   void signOut() async {
     await CacheHelper.removeData(key: AppConstant.token);
     await CacheHelper.removeData(key: AppConstant.userId);
+    await CacheHelper.removeData(key: AppConstant.userGender);
     hasAccount = false;
     emit(SignOutState());
   }
@@ -63,10 +66,10 @@ class ProfileCubit extends Cubit<ProfileStates> {
       try {
         emit(GetUserDataLoadingState());
 
-        final id = CacheHelper.getData(key: AppConstant.userId);
+        final userId = CacheHelper.getData(key: AppConstant.userId);
         final token = CacheHelper.getData(key: AppConstant.token);
         final response = await DioHelper.getData(
-          url: '${ApiConstant.getSpecificUserMethodUrl}$id',
+          url: '${ApiConstant.getSpecificUserMethodUrl}$userId',
           token: token,
         );
 
@@ -86,7 +89,10 @@ class ProfileCubit extends Cubit<ProfileStates> {
     }
   }
 
-  gender genderValue = gender.Male;
+  gender genderValue =
+      CacheHelper.getData(key: AppConstant.userGender) == 'male'
+          ? gender.Male
+          : gender.Female;
 
   void changeGender(int value) {
     if (value == 0) {
@@ -97,9 +103,36 @@ class ProfileCubit extends Cubit<ProfileStates> {
     emit(UserChangingGenderState());
   }
 
-// vars to store the eteredData by the user in the modifyScreen
-  // String enteredFullName = '';
-  // String enteredEmail = '';
-  // String enteredGender = '';
-  // String enteredBirthDate = '';
+  void updateUser({
+    required String name,
+    required String email,
+    required String birthDate,
+    required String gender,
+  }) async {
+    try {
+      emit(UpdateUserLoadingState());
+      final token = CacheHelper.getData(key: AppConstant.token);
+      final userId = CacheHelper.getData(key: AppConstant.userId);
+      final response = await DioHelper.putData(
+        url: '${ApiConstant.updateUserMethodUrl}$userId',
+        data: {
+          "fullName": name,
+          "email": email,
+          "birthDate": birthDate,
+          "gender": gender
+        },
+        token: token,
+      );
+      if (response.statusCode == 200) {
+        emit(UpdateUserSuccessState());
+        print('updated user successfully');
+      } else {
+        emit(UpdateUserFailureState());
+        print('problem updating user');
+      }
+    } catch (error) {
+      print(error);
+      emit(UpdateUserFailureState());
+    }
+  }
 }

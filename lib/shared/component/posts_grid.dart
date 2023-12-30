@@ -50,6 +50,7 @@ class BuildPostsGrid extends StatelessWidget {
                     createdAt: data[index].createdAt,
                     postId: data[index].postId,
                     user: data[index].createdBy,
+                    feedback: data[index].feedback,
                   ),
                 ),
               ),

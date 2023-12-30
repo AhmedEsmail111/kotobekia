@@ -18,10 +18,8 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    if (ProfileCubit.get(context).identityUserModel == null) {
-      ProfileCubit.get(context)
-          .getIdentityUser(token: CacheHelper.getData(key: AppConstant.token));
-    }
+    ProfileCubit.get(context)
+        .getIdentityUser(token: CacheHelper.getData(key: AppConstant.token));
 
     ProfileCubit.get(context).getUser();
 // check if the there is a token stored before making the jwt request
@@ -32,6 +30,7 @@ class ProfileScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         final profileCubit = context.read<ProfileCubit>();
+
         return SingleChildScrollView(
           child: SafeArea(
             child: Padding(
@@ -56,20 +55,24 @@ class ProfileScreen extends StatelessWidget {
                         CircleAvatar(
                             radius: 40.w,
                             backgroundColor: const Color(0xFFD9D9D9),
-                            child: profileCubit.identityUserModel != null &&
-                                    profileCubit.identityUserModel!.gender ==
+                            child: profileCubit.userDataModel != null
+                                ? profileCubit.userDataModel!.user.gender ==
                                         'male'
-                                ? Image.asset(
-                                    ImageConstant.userMaleImage,
-                                    fit: BoxFit.cover,
-                                    width: 85.w,
-                                    height: 85.w,
-                                  )
-                                : Image.asset(
-                                    ImageConstant.userFemaleImage,
-                                    fit: BoxFit.cover,
-                                    width: 85.w,
-                                    height: 85.w,
+                                    ? Image.asset(
+                                        ImageConstant.userMaleImage,
+                                        fit: BoxFit.cover,
+                                        width: 85.w,
+                                        height: 85.w,
+                                      )
+                                    : Image.asset(
+                                        ImageConstant.userFemaleImage,
+                                        fit: BoxFit.cover,
+                                        width: 85.w,
+                                        height: 85.w,
+                                      )
+                                : Icon(
+                                    SolarIconsOutline.user,
+                                    size: 35.w,
                                   )),
                         Positioned(
                           right: 0,

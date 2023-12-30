@@ -12,15 +12,13 @@ class UserAdsScreen extends StatelessWidget {
   const UserAdsScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    if (UserAddsCubit.get(context).userAdsModel == null ||
-        UserAddsCubit.get(context).userAdsModel!.posts.isEmpty) {
-      UserAddsCubit.get(context).getUserPost();
-    }
+    UserAdsCubit.get(context).getUserPost();
+
     final locale = AppLocalizations.of(context)!;
-    return BlocConsumer<UserAddsCubit, UserAddsStates>(
+    return BlocConsumer<UserAdsCubit, UserAdsStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        final userAdsCubit = UserAddsCubit.get(context);
+        final userAdsCubit = UserAdsCubit.get(context);
         final userAdsModel = userAdsCubit.userAdsModel;
         return Scaffold(
           body: SafeArea(
@@ -42,7 +40,8 @@ class UserAdsScreen extends StatelessWidget {
                 ),
                 if (state is GetUserAddsLoadingState)
                   const BuildLoadingIndicator(),
-                if (HelperFunctions.hasUserRegistered())
+                if (HelperFunctions.hasUserRegistered() &&
+                    state is! GetUserAddsLoadingState)
                   BuildPostsGrid(
                     data: userAdsModel != null ? userAdsModel.posts : [],
                   ),
@@ -53,7 +52,9 @@ class UserAdsScreen extends StatelessWidget {
                       child: Text(locale.have_no_profile_message),
                     ),
                   ),
-                if (userAdsModel != null && userAdsModel.posts.isEmpty)
+                if (userAdsModel != null &&
+                    userAdsModel.posts.isEmpty &&
+                    state is! GetUserAddsLoadingState)
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 1.4,
                     child: Center(

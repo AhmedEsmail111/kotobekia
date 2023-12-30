@@ -12,7 +12,9 @@ import 'package:kotobekia/modules/category_details/details_card.dart';
 import 'package:kotobekia/modules/category_details/important_info_flag.dart';
 import 'package:kotobekia/shared/component/back_button.dart';
 import 'package:kotobekia/shared/component/home/add_section.dart';
+import 'package:kotobekia/shared/constants/app/app_constant.dart';
 import 'package:kotobekia/shared/helper/functions.dart';
+import 'package:kotobekia/shared/network/local/local.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 import 'package:solar_icons/solar_icons.dart';
 
@@ -33,7 +35,7 @@ class CategoryDetailsScreen extends StatelessWidget {
     required this.educationLevel,
     this.postStatus,
     required this.views,
-    this.feedback,
+    required this.feedback,
     required this.numberOfBooks,
     required this.semester,
     required this.educationType,
@@ -58,7 +60,7 @@ class CategoryDetailsScreen extends StatelessWidget {
   final String educationLevel;
   final String? postStatus;
   final int views;
-  final String? feedback;
+  final String feedback;
   final int numberOfBooks;
   final String semester;
   final String educationType;
@@ -71,6 +73,7 @@ class CategoryDetailsScreen extends StatelessWidget {
   final CreatedBy user;
   @override
   Widget build(BuildContext context) {
+    print(CacheHelper.getData(key: AppConstant.userId));
     final locale = AppLocalizations.of(context);
     bool? isFavorite;
     //  to show returned education level based on the user's locale
@@ -272,11 +275,15 @@ class CategoryDetailsScreen extends StatelessWidget {
                 ),
                 BuildInteractionCard(
                   postId: id,
+                  userId: user.id,
+                  feedback: feedback,
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                  child: BuildContactCard(name: user.fullName),
-                ),
+                if (user.id != CacheHelper.getData(key: AppConstant.userId))
+                  Container(
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    child: BuildContactCard(name: user.fullName),
+                  ),
                 const BuildAddsSection(
                   imageUrl:
                       'https://www.cairo24.com/UploadCache/libfiles/109/8/600x338o/558.jpg',

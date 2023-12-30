@@ -100,7 +100,7 @@ class BuildPosts extends StatelessWidget {
       'luxor': locale.luxor,
       'aswan': locale.aswan,
     };
-    final city = reversedRegions[cityLocation]!;
+    final city = reversedRegions[cityLocation];
 
     return Card(
       elevation: cardElevation,
@@ -280,12 +280,12 @@ class BuildPosts extends StatelessWidget {
                     width: 2.w,
                   ),
                   Text(
-                    city,
+                    city ?? '',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontSize: 10.sp,
                           fontWeight: FontWeight.w500,
                         ),
-                    textDirection: HelperFunctions.isArabic(city)
+                    textDirection: HelperFunctions.isArabic(city ?? '')
                         ? TextDirection.rtl
                         : TextDirection.ltr,
                     overflow: TextOverflow.ellipsis,

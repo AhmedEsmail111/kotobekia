@@ -12,9 +12,13 @@ import 'package:solar_icons/solar_icons.dart';
 
 class BuildInteractionCard extends StatelessWidget {
   final String postId;
+  final String userId;
+  final String feedback;
   const BuildInteractionCard({
     super.key,
     required this.postId,
+    required this.userId,
+    required this.feedback,
   });
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,8 @@ class BuildInteractionCard extends StatelessWidget {
     final locale = AppLocalizations.of(context)!;
     return BlocConsumer<CategoryDetailsCubit, CategoryDetailsStates>(
       listener: (ctx, state) {},
-      builder: (ctx, state) {
+      builder: (context, state) {
+        final categoryDetailsCubit = CategoryDetailsCubit.get(context);
         return Container(
           height: 100.h,
           width: double.infinity,
@@ -86,7 +91,13 @@ class BuildInteractionCard extends StatelessWidget {
                     },
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: state is ReportPostLoadingState ||
+                            !HelperFunctions.hasUserRegistered()
+                        ? null
+                        : () {
+                            categoryDetailsCubit.reportPost(
+                                postId, userId, feedback);
+                          },
                     label: Text(
                       locale.report,
                       style: Theme.of(context).textTheme.titleMedium,
@@ -99,7 +110,7 @@ class BuildInteractionCard extends StatelessWidget {
                   ),
                   TextButton.icon(
                     onPressed: () {
-                      CategoryDetailsCubit.get(ctx).sharePost(postId);
+                      categoryDetailsCubit.sharePost(postId);
                     },
                     label: Text(
                       locale.share,

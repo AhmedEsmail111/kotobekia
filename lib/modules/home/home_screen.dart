@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/home/home_cubit.dart';
 import 'package:kotobekia/controller/home/home_state.dart';
+import 'package:kotobekia/controller/profile/profile_cubit.dart';
 import 'package:kotobekia/modules/category_book/category_book_screen.dart';
 import 'package:kotobekia/modules/category_details/category_details_screen.dart';
 import 'package:kotobekia/shared/component/home/adds_section.dart';
@@ -22,6 +23,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!;
+    // to have the id of the user available the moment you open the app
+    ProfileCubit.get(context)
+        .getIdentityUser(token: CacheHelper.getData(key: AppConstant.token));
 
     if (HomeCubit.get(context).homePostsModel == null) {
       HomeCubit.get(context).getHomePosts(
@@ -131,41 +135,50 @@ class HomeScreen extends StatelessWidget {
                                         onTap: () => Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (ctx) => CategoryDetailsScreen(
-                                                id: kinderGartenPosts[index].id,
-                                                title: kinderGartenPosts[index]
-                                                    .title,
-                                                description:
-                                                    kinderGartenPosts[index]
-                                                        .description,
-                                                images: kinderGartenPosts[index]
-                                                    .images,
-                                                price: kinderGartenPosts[index]
-                                                    .price,
-                                                grade: kinderGartenPosts[index]
-                                                    .grade,
-                                                bookEdition:
-                                                    kinderGartenPosts[index]
-                                                        .bookEdition,
-                                                educationLevel:
-                                                    kinderGartenPosts[index]
-                                                        .educationLevel,
-                                                views: kinderGartenPosts[index]
-                                                    .views,
-                                                numberOfBooks:
-                                                    kinderGartenPosts[index]
-                                                        .numberOfBooks,
-                                                semester: kinderGartenPosts[index]
-                                                    .semester,
-                                                educationType:
-                                                    kinderGartenPosts[index]
-                                                        .educationType,
-                                                location: kinderGartenPosts[index]
-                                                    .location,
-                                                city: kinderGartenPosts[index].city,
-                                                createdAt: kinderGartenPosts[index].createdAt,
-                                                postId: kinderGartenPosts[index].postId,
-                                                user: kinderGartenPosts[index].createdBy),
+                                            builder: (ctx) =>
+                                                CategoryDetailsScreen(
+                                              id: kinderGartenPosts[index].id,
+                                              title: kinderGartenPosts[index]
+                                                  .title,
+                                              description:
+                                                  kinderGartenPosts[index]
+                                                      .description,
+                                              images: kinderGartenPosts[index]
+                                                  .images,
+                                              price: kinderGartenPosts[index]
+                                                  .price,
+                                              grade: kinderGartenPosts[index]
+                                                  .grade,
+                                              bookEdition:
+                                                  kinderGartenPosts[index]
+                                                      .bookEdition,
+                                              educationLevel:
+                                                  kinderGartenPosts[index]
+                                                      .educationLevel,
+                                              views: kinderGartenPosts[index]
+                                                  .views,
+                                              numberOfBooks:
+                                                  kinderGartenPosts[index]
+                                                      .numberOfBooks,
+                                              semester: kinderGartenPosts[index]
+                                                  .semester,
+                                              educationType:
+                                                  kinderGartenPosts[index]
+                                                      .educationType,
+                                              location: kinderGartenPosts[index]
+                                                  .location,
+                                              city:
+                                                  kinderGartenPosts[index].city,
+                                              createdAt:
+                                                  kinderGartenPosts[index]
+                                                      .createdAt,
+                                              postId: kinderGartenPosts[index]
+                                                  .postId,
+                                              user: kinderGartenPosts[index]
+                                                  .createdBy,
+                                              feedback: kinderGartenPosts[index]
+                                                  .feedback,
+                                            ),
                                           ),
                                         ),
                                         imageHeight: 160.h,
@@ -229,41 +242,40 @@ class HomeScreen extends StatelessWidget {
                                         onTap: () => Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (ctx) => CategoryDetailsScreen(
-                                                id: primaryPosts[index].id,
-                                                title:
-                                                    primaryPosts[index].title,
-                                                description: primaryPosts[index]
-                                                    .description,
-                                                images:
-                                                    primaryPosts[index].images,
-                                                price:
-                                                    primaryPosts[index].price,
-                                                grade:
-                                                    primaryPosts[index].grade,
-                                                bookEdition: primaryPosts[index]
-                                                    .bookEdition,
-                                                educationLevel:
-                                                    primaryPosts[index]
-                                                        .educationLevel,
-                                                views:
-                                                    primaryPosts[index].views,
-                                                numberOfBooks: primaryPosts[index]
-                                                    .numberOfBooks,
-                                                semester: primaryPosts[index]
-                                                    .semester,
-                                                educationType:
-                                                    primaryPosts[index]
-                                                        .educationType,
-                                                location: primaryPosts[index]
-                                                    .location,
-                                                city: primaryPosts[index].city,
-                                                createdAt: primaryPosts[index]
-                                                    .createdAt,
-                                                postId:
-                                                    primaryPosts[index].postId,
-                                                user: primaryPosts[index]
-                                                    .createdBy),
+                                            builder: (ctx) =>
+                                                CategoryDetailsScreen(
+                                              id: primaryPosts[index].id,
+                                              title: primaryPosts[index].title,
+                                              description: primaryPosts[index]
+                                                  .description,
+                                              images:
+                                                  primaryPosts[index].images,
+                                              price: primaryPosts[index].price,
+                                              grade: primaryPosts[index].grade,
+                                              bookEdition: primaryPosts[index]
+                                                  .bookEdition,
+                                              educationLevel:
+                                                  primaryPosts[index]
+                                                      .educationLevel,
+                                              views: primaryPosts[index].views,
+                                              numberOfBooks: primaryPosts[index]
+                                                  .numberOfBooks,
+                                              semester:
+                                                  primaryPosts[index].semester,
+                                              educationType: primaryPosts[index]
+                                                  .educationType,
+                                              location:
+                                                  primaryPosts[index].location,
+                                              city: primaryPosts[index].city,
+                                              createdAt:
+                                                  primaryPosts[index].createdAt,
+                                              postId:
+                                                  primaryPosts[index].postId,
+                                              user:
+                                                  primaryPosts[index].createdBy,
+                                              feedback:
+                                                  primaryPosts[index].feedback,
+                                            ),
                                           ),
                                         ),
                                         imageHeight: 160.h,
@@ -365,6 +377,8 @@ class HomeScreen extends StatelessWidget {
                                                   .postId,
                                               user: preparatoryPosts[index]
                                                   .createdBy,
+                                              feedback: preparatoryPosts[index]
+                                                  .feedback,
                                             ),
                                           ),
                                         ),
@@ -475,6 +489,9 @@ class HomeScreen extends StatelessWidget {
                                                         .city,
                                                     user: secondaryPosts[index]
                                                         .createdBy,
+                                                    feedback:
+                                                        secondaryPosts[index]
+                                                            .feedback,
                                                   )),
                                         ),
                                         imageHeight: 160.h,
@@ -580,6 +597,9 @@ class HomeScreen extends StatelessWidget {
                                                         .city,
                                                     user: generalPosts[index]
                                                         .createdBy,
+                                                    feedback:
+                                                        generalPosts[index]
+                                                            .feedback,
                                                   )),
                                         ),
                                         imageHeight: 160.h,

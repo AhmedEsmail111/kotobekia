@@ -9,10 +9,7 @@ import 'package:kotobekia/shared/component/divider_line.dart';
 import 'package:kotobekia/shared/component/security_guidelines.dart';
 import 'package:kotobekia/shared/component/users_chat.dart';
 import 'package:kotobekia/shared/constants/images/images_constant.dart';
-import 'package:kotobekia/shared/network/local/local.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
-
-import '../../shared/component/check_type_chat.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -94,24 +91,35 @@ class ChatScreen extends StatelessWidget {
                                     return InkWell(
                                       onTap: () {
                                         cubit.openUserConversation(
-                                            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzRlMDVkODVjZDBkYTczZmRhYmE5NSIsImZ1bGxOYW1lIjoibG9sbyIsImVtYWlsIjoibG9sQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiZ2VuZGVyIjoibWFsZSIsImJpcnRoRGF0ZSI6IjIwMDAtMDYtMTVUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTcwMjE1ODUxNX0.DZFqXXOWPD1KJEPXTHykAqPlmQ_hTQbjsRs2H6UyncA',
-                                            receiverId: cubit.otherUsers[index].sId!);
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                        return MessageScreen(index: index,
-                                            convId: cubit.conversationModel!.conversations![index].sId!,
-                                            name:cubit.otherUsers[index].fullName!, male:cubit.otherUsers[index].gender == 'male'
-                                                ? true
-                                                : false);
-                                        },));
+                                            token:
+                                                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzRlMDVkODVjZDBkYTczZmRhYmE5NSIsImZ1bGxOYW1lIjoibG9sbyIsImVtYWlsIjoibG9sQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiZ2VuZGVyIjoibWFsZSIsImJpcnRoRGF0ZSI6IjIwMDAtMDYtMTVUMDA6MDA6MDAuMDAwWiIsImlhdCI6MTcwMjE1ODUxNX0.DZFqXXOWPD1KJEPXTHykAqPlmQ_hTQbjsRs2H6UyncA',
+                                            receiverId:
+                                                cubit.otherUsers[index].sId!);
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return MessageScreen(
+                                                index: index,
+                                                convId: cubit.conversationModel!
+                                                    .conversations![index].sId!,
+                                                name: cubit.otherUsers[index]
+                                                    .fullName!,
+                                                male: cubit.otherUsers[index]
+                                                            .gender ==
+                                                        'male'
+                                                    ? true
+                                                    : false);
+                                          },
+                                        ));
                                       },
                                       child: BuildUsersChat(
                                         font: font,
-                                        image:
-                                            cubit.otherUsers[index].gender == 'male'
-                                                ? ImageConstant.userMaleImage
-                                                : ImageConstant.userFemaleImage,
+                                        image: cubit.otherUsers[index].gender ==
+                                                'male'
+                                            ? ImageConstant.userMaleImage
+                                            : ImageConstant.userFemaleImage,
                                         name: cubit.otherUsers[index].fullName!,
-                                        lastMessage: cubit.conversationModel!.conversations![index].latestMessage!.message!,
+                                        lastMessage: '',
                                         status: 'منذ يومان',
                                       ),
                                     );
@@ -126,11 +134,11 @@ class ChatScreen extends StatelessWidget {
                     ),
                   ),
                 )
-              :const Center(
-                child: CircularProgressIndicator(
+              : const Center(
+                  child: CircularProgressIndicator(
                     color: ColorConstant.primaryColor,
                   ),
-              ),
+                ),
         );
       },
       listener: (context, state) {},

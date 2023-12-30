@@ -10,4 +10,5 @@ class AppConstant {
   static const baseShareUrl = 'https://kotobekia.vercel.app';
   static const userId = 'userId';
   static const String socketURL = "http://localhost:3000";
+  static const userGender = 'gender';
 }
