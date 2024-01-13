@@ -57,9 +57,9 @@ class ModifyProfileScreen extends StatelessWidget {
                       ),
                       CircleAvatar(
                         radius: 40.w,
-                        backgroundImage: profileCubit.identityUserModel !=
-                                    null &&
-                                profileCubit.identityUserModel!.gender == 'male'
+                        backgroundImage: profileCubit.userDataModel != null &&
+                                profileCubit.userDataModel!.user.gender ==
+                                    'male'
                             ? const AssetImage(
                                 ImageConstant.userMaleImage,
                               )
@@ -75,10 +75,10 @@ class ModifyProfileScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             BuildDefaultTextField(
-                              initialFieldValue:
-                                  profileCubit.identityUserModel != null
-                                      ? profileCubit.identityUserModel!.fullName
-                                      : 'anonymous',
+                              initialFieldValue: profileCubit.userDataModel !=
+                                      null
+                                  ? profileCubit.userDataModel!.user.fullName
+                                  : 'anonymous',
                               inputType: TextInputType.text,
                               backGroundColor: ColorConstant.whiteColor,
                               context: context,
@@ -247,7 +247,7 @@ class ModifyProfileScreen extends StatelessWidget {
                                   inputType: TextInputType.number,
                                   withText: false,
                                   maxLenght: 4,
-                                  hintText: locale.one_year,
+                                  hintText: '2001',
                                   onValidate: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'فارغ';
@@ -319,13 +319,15 @@ class ModifyProfileScreen extends StatelessWidget {
                               onTap: () {
                                 if (formKey.currentState!.validate()) {
                                   formKey.currentState!.save();
-                                  final birthDate = '$day-$month-$year';
-                                  print(birthDate);
-                                  print(profileCubit.genderValue);
+                                  final dateTime = DateTime.now();
+                                  final formattedString =
+                                      '$year-$month-$day ${dateTime.hour}:${dateTime.minute}:${dateTime.second}';
+
+                                  print(formattedString);
                                   profileCubit.updateUser(
                                     name: enteredName,
                                     email: enteredEmail,
-                                    birthDate: birthDate,
+                                    birthDate: formattedString,
                                     gender:
                                         profileCubit.genderValue == gender.Male
                                             ? "male"

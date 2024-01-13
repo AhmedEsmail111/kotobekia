@@ -25,9 +25,8 @@ class ProfileCubit extends Cubit<ProfileStates> {
       if (identityUserModel != null) {
         await CacheHelper.saveData(
             key: AppConstant.userId, value: identityUserModel!.id);
-        await CacheHelper.saveData(
-            key: AppConstant.userGender, value: identityUserModel!.gender);
       }
+
       print(CacheHelper.getData(key: AppConstant.userId));
       emit(SuccessGetIdentityUserState(identityUserModel!));
     }
@@ -62,7 +61,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
   UserDataModel? userDataModel;
 
   void getUser() async {
-    if (hasAccount && CacheHelper.getData(key: AppConstant.userId) != null) {
+    if (hasAccount) {
       try {
         emit(GetUserDataLoadingState());
 
@@ -77,6 +76,8 @@ class ProfileCubit extends Cubit<ProfileStates> {
           print('got user data successfully');
 
           userDataModel = UserDataModel.fromJson(response.data);
+          await CacheHelper.saveData(
+              key: AppConstant.userGender, value: userDataModel!.user.gender);
           emit(GetUserDataSuccessState());
         } else {
           print('not 200 statuscode');
@@ -113,7 +114,8 @@ class ProfileCubit extends Cubit<ProfileStates> {
       emit(UpdateUserLoadingState());
       final token = CacheHelper.getData(key: AppConstant.token);
       final userId = CacheHelper.getData(key: AppConstant.userId);
-      final response = await DioHelper.putData(
+      print(token);
+      final response = await DioHelper.patchData(
         url: '${ApiConstant.updateUserMethodUrl}$userId',
         data: {
           "fullName": name,
@@ -124,6 +126,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
         token: token,
       );
       if (response.statusCode == 200) {
+        userDataModel = UserDataModel.fromJson(response.data);
         emit(UpdateUserSuccessState());
         print('updated user successfully');
       } else {

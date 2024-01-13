@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/shared/constants/app/app_constant.dart';
 import 'package:kotobekia/shared/network/local/local.dart';
 
@@ -72,9 +71,9 @@ class HelperFunctions {
     return token != null;
   }
 
-  static bool isFav(List<Post> posts, String id) {
+  static bool isFav(List<String> posts, String id) {
     for (final post in posts) {
-      if (post.id == id) {
+      if (post == id) {
         return true;
       }
     }

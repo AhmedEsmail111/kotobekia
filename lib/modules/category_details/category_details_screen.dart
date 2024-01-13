@@ -4,19 +4,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kotobekia/controller/category_details/category_details_cubit.dart';
 import 'package:kotobekia/controller/category_details/category_details_states.dart';
-import 'package:kotobekia/controller/favorites/favorites_cubit.dart';
-import 'package:kotobekia/controller/favorites/favorites_states.dart';
 import 'package:kotobekia/models/post_model/post_model.dart';
 import 'package:kotobekia/modules/category_details/contact_card.dart';
 import 'package:kotobekia/modules/category_details/details_card.dart';
 import 'package:kotobekia/modules/category_details/important_info_flag.dart';
 import 'package:kotobekia/shared/component/back_button.dart';
+import 'package:kotobekia/shared/component/fave_icon.dart';
 import 'package:kotobekia/shared/component/home/add_section.dart';
 import 'package:kotobekia/shared/constants/app/app_constant.dart';
-import 'package:kotobekia/shared/helper/functions.dart';
 import 'package:kotobekia/shared/network/local/local.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
-import 'package:solar_icons/solar_icons.dart';
 
 import 'interaction_card.dart';
 import 'row_details.dart';
@@ -163,53 +160,15 @@ class CategoryDetailsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      BlocBuilder<FavoritesCubit, FavoritesStates>(
-                        builder: (ctx, state) {
-                          final favCubit = FavoritesCubit.get(context);
-                          final favePostsModel = favCubit.favPostsModel;
-                          if (favePostsModel != null) {
-                            isFavorite =
-                                HelperFunctions.isFav(favePostsModel.posts, id);
-                          }
-                          return Positioned(
-                            right: 0,
-                            bottom: 0,
-                            width: 60.w,
-                            height: 50.h,
-                            child: InkWell(
-                              onTap: () {
-                                if (HelperFunctions.hasUserRegistered()) {
-                                  FavoritesCubit.get(ctx).handleLoveClick(
-                                    status: isFavorite ?? false,
-                                    postId: id,
-                                  );
-                                } else {
-                                  Navigator.pushNamed(context, 'getStart');
-                                }
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color(0xFFD7D7D8).withOpacity(0.5),
-                                ),
-                                margin: EdgeInsets.all(8.w),
-                                width: 42.w,
-                                height: 30.h,
-                                alignment: Alignment.center,
-                                child: Icon(
-                                  isFavorite != null && isFavorite!
-                                      ? SolarIconsBold.heart
-                                      : SolarIconsOutline.heart,
-                                  color: isFavorite != null && isFavorite!
-                                      ? ColorConstant.dangerColor
-                                      : const Color(0xFFD7D7D8),
-                                  size: 26.w,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        width: 60.w,
+                        height: 50.h,
+                        child: BuildFaveIcon(
+                          id: id,
+                          hasBackBackground: true,
+                        ),
                       ),
                     ],
                   ),

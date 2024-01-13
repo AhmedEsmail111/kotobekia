@@ -55,6 +55,19 @@ class DioHelper {
     return await dio!.put(url, data: data);
   }
 
+  static Future<Response> patchData(
+      {required url,
+      required Map<String, dynamic> data,
+      String lang = 'en',
+      String? token}) async {
+    dio!.options.headers = {
+      'Content-Type': 'application/json',
+      'lang': lang,
+      if (token != null) 'token': token,
+    };
+    return await dio!.patch(url, data: data);
+  }
+
   static Future<Response> sendNewPostData({
     required String title,
     required String description,

@@ -14,8 +14,8 @@ class FavoritesCubit extends Cubit<FavoritesStates> {
 
   static FavoritesCubit get(context) => BlocProvider.of(context);
 
-  // List<String> FavIds = [];
-  FavPostsModel? favPostsModel;
+  List<String> faveIds = [];
+  FavPostsModel? favePostsModel;
   void getFavPosts() async {
     if (await HelperFunctions.hasConnection() &&
         HelperFunctions.hasUserRegistered()) {
@@ -30,8 +30,11 @@ class FavoritesCubit extends Cubit<FavoritesStates> {
 
         if (response.statusCode == 200) {
           print('got fav posts successfully');
-          favPostsModel = FavPostsModel.fromJson(response.data);
-
+          favePostsModel = FavPostsModel.fromJson(response.data);
+          if (favePostsModel != null) {
+            faveIds = favePostsModel!.posts.map((post) => post.id).toList();
+          }
+          print(faveIds.first);
           emit(GetFavPostsSuccessState());
         } else {
           print('unsuccess');
@@ -113,25 +116,40 @@ class FavoritesCubit extends Cubit<FavoritesStates> {
   }
 
   void handleLoveClick({required bool status, required String postId}) async {
-    if (status == false) {
-      final isAddedSuccessfully = await addToFavorites(postId);
+    if (state is! AddToFavLoadingState && state is! RemoveFromFavLoadingState) {
+      if (status == false) {
+        final isAddedSuccessfully = await addToFavorites(postId);
 
-      if (isAddedSuccessfully) {
-        // buildToastMessage(
-        //   message: 'the post added to favorites',
-        //   gravity: ToastGravity.CENTER,
-        // );
-        getFavPosts();
+        if (!isAddedSuccessfully) {
+          faveIds.remove(postId);
+          buildToastMessage(
+            message: 'sorry a problem happened',
+            gravity: ToastGravity.CENTER,
+          );
+          getFavPosts();
+        }
+      } else {
+        final isRemovedSuccessfully = await removeFromFavorites(postId);
+        if (!isRemovedSuccessfully) {
+          faveIds.add(postId);
+          buildToastMessage(
+            message: 'sorry a problem happened',
+            gravity: ToastGravity.CENTER,
+          );
+          getFavPosts();
+        }
       }
-    } else {
-      final isRemovedSuccessfully = await removeFromFavorites(postId);
-      if (isRemovedSuccessfully) {
-        buildToastMessage(
-          message: 'the post was removed from favorites',
-          gravity: ToastGravity.CENTER,
-        );
-        getFavPosts();
+    }
+  }
+
+  void toggleFaveStatus(String postId, bool status) {
+    if (state is! AddToFavLoadingState && state is! RemoveFromFavLoadingState) {
+      if (status) {
+        faveIds.remove(postId);
+      } else {
+        faveIds.add(postId);
       }
+      emit(ToggleFaveStatusState());
     }
   }
 }

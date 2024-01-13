@@ -13,10 +13,11 @@ class ApiConstant {
   static const addNewPostUrlMethod = '/v1/posts';
   static const addToFavMethodUrl = '/v1/posts/add-to-favorite/';
   static const removeFromFavMethodUrl = '/v1/posts/remove-from-favorite/';
-  static const getFavPostsMethodUrl = '/v1/user/my-favorites';
+  static const getFavPostsMethodUrl = '/v1/user/favorites';
   static const getUserPostsMethodUrl = '/v1/user/my-posts';
   static const getSpecificUserMethodUrl = '/v1/user/specific/';
   static String getMessage(String id) => '/v1/messages/get/$id';
   static const reportMethodUrl = '/v1/reports/report';
   static const updateUserMethodUrl = '/v1/user/update/';
+  static const searchMethodUrl = '/v1/posts/search';
 }

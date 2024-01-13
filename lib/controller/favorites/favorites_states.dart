@@ -29,3 +29,5 @@ class GetFavPostsInternetFailureState extends FavoritesStates {
 
   GetFavPostsInternetFailureState();
 }
+
+class ToggleFaveStatusState extends FavoritesStates {}

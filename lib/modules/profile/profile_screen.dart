@@ -90,9 +90,9 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   if (profileCubit.hasAccount)
                     Text(
-                      profileCubit.identityUserModel != null
-                          ? profileCubit.identityUserModel!.fullName!
-                          : 'Anonymous',
+                      profileCubit.userDataModel != null
+                          ? profileCubit.userDataModel!.user.fullName
+                          : '',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontWeight: FontWeight.w400,
                           ),
@@ -102,9 +102,9 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   if (profileCubit.hasAccount)
                     Text(
-                      profileCubit.identityUserModel != null
-                          ? profileCubit.identityUserModel!.email!
-                          : 'anonymous@gmail.com',
+                      profileCubit.userDataModel != null
+                          ? profileCubit.userDataModel!.user.email
+                          : '',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.w400, fontSize: 12.sp),
                     ),

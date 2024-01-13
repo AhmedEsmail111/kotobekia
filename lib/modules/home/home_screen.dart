@@ -23,9 +23,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!;
-    // to have the id of the user available the moment you open the app
+    // to have the info of the user available the moment you open the app
+    ProfileCubit.get(context)
+        .setUser(CacheHelper.getData(key: AppConstant.token));
     ProfileCubit.get(context)
         .getIdentityUser(token: CacheHelper.getData(key: AppConstant.token));
+    ProfileCubit.get(context).getUser();
 
     if (HomeCubit.get(context).homePostsModel == null) {
       HomeCubit.get(context).getHomePosts(

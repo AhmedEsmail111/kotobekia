@@ -17,6 +17,7 @@ import 'package:kotobekia/controller/language/language_cubit.dart';
 import 'package:kotobekia/controller/language/language_states.dart';
 import 'package:kotobekia/controller/otp/otp_cubit.dart';
 import 'package:kotobekia/controller/profile/profile_cubit.dart';
+import 'package:kotobekia/controller/search/search_cubit.dart';
 import 'package:kotobekia/controller/user_ads/user_ads_cubit.dart';
 import 'package:kotobekia/l10n/l10n.dart';
 import 'package:kotobekia/layout/home_layout.dart';
@@ -109,7 +110,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (ctx) => FavoritesCubit()..getFavPosts(),
-        )
+        ),
+        BlocProvider(
+          create: (ctx) => SearchCubit(),
+        ),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),

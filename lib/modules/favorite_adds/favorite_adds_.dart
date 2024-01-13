@@ -16,7 +16,7 @@ class FavoriteAddsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!;
 
-    if (FavoritesCubit.get(context).favPostsModel == null) {
+    if (FavoritesCubit.get(context).favePostsModel == null) {
       FavoritesCubit.get(context).getFavPosts();
     }
 
@@ -40,11 +40,12 @@ class FavoriteAddsScreen extends StatelessWidget {
                     color: const Color(0xFFD9D9D9),
                     text: locale!.favorite_adds,
                   )),
-              state is GetFavPostsLoadingState && favCubit.favPostsModel == null
+              state is GetFavPostsLoadingState &&
+                      favCubit.favePostsModel == null
                   ? const BuildLoadingIndicator()
                   : BuildPostsGrid(
-                      data: favCubit.favPostsModel != null
-                          ? favCubit.favPostsModel!.posts
+                      data: favCubit.favePostsModel != null
+                          ? favCubit.favePostsModel!.posts
                           : [],
                     )
             ],
