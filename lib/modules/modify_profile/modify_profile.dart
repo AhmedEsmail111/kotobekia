@@ -323,7 +323,7 @@ class ModifyProfileScreen extends StatelessWidget {
                                   final formattedString =
                                       '$year-$month-$day ${dateTime.hour}:${dateTime.minute}:${dateTime.second}';
 
-                                  print(formattedString);
+                                  print(enteredName);
                                   profileCubit.updateUser(
                                     name: enteredName,
                                     email: enteredEmail,
@@ -333,6 +333,8 @@ class ModifyProfileScreen extends StatelessWidget {
                                             ? "male"
                                             : "female",
                                   );
+                                  print(profileCubit
+                                      .userDataModel!.user.fullName);
                                 }
                               },
                               text: locale.save_changes,

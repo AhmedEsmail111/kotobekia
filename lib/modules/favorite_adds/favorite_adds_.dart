@@ -16,9 +16,9 @@ class FavoriteAddsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!;
 
-    if (FavoritesCubit.get(context).favePostsModel == null) {
-      FavoritesCubit.get(context).getFavPosts();
-    }
+    // if (FavoritesCubit.get(context).favePostsModel == null) {
+    FavoritesCubit.get(context).getFavPosts();
+    // }
 
     return BlocConsumer<FavoritesCubit, FavoritesStates>(
       listener: (ctx, state) {

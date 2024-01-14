@@ -126,6 +126,7 @@ class FavoritesCubit extends Cubit<FavoritesStates> {
             message: 'sorry a problem happened',
             gravity: ToastGravity.CENTER,
           );
+        } else {
           getFavPosts();
         }
       } else {
@@ -136,6 +137,7 @@ class FavoritesCubit extends Cubit<FavoritesStates> {
             message: 'sorry a problem happened',
             gravity: ToastGravity.CENTER,
           );
+        } else {
           getFavPosts();
         }
       }

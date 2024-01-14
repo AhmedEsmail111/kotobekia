@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kotobekia/controller/category_details/category_details_states.dart';
+import 'package:kotobekia/shared/component/toast_message.dart';
 import 'package:kotobekia/shared/constants/api/api_constant.dart';
 import 'package:kotobekia/shared/constants/app/app_constant.dart';
 import 'package:kotobekia/shared/helper/functions.dart';
@@ -42,6 +44,12 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsStates> {
             token: CacheHelper.getData(key: AppConstant.token));
 
         if (response.statusCode == 200) {
+          buildToastMessage(
+            message:
+                "we'll process your report and keep you updated,thanks for helping make Kotoby safe",
+            gravity: ToastGravity.CENTER,
+            toast: Toast.LENGTH_LONG,
+          );
           print('sent report successfully');
           emit(ReportPostSuccessState());
         } else {

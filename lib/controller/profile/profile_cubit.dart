@@ -126,7 +126,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
         token: token,
       );
       if (response.statusCode == 200) {
-        userDataModel = UserDataModel.fromJson(response.data);
+        getUser();
         emit(UpdateUserSuccessState());
         print('updated user successfully');
       } else {

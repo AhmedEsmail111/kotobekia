@@ -3,11 +3,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kotobekia/shared/styles/colors.dart';
 
 void buildToastMessage(
-    {required String message, required ToastGravity gravity}) {
+    {required String message,
+    required ToastGravity gravity,
+    toast = Toast.LENGTH_SHORT}) {
   Fluttertoast.cancel();
   Fluttertoast.showToast(
       msg: message,
-      toastLength: Toast.LENGTH_SHORT,
+      toastLength: toast,
       gravity: gravity,
       timeInSecForIosWeb: 2,
       backgroundColor: ColorConstant.lightGreyColor,
